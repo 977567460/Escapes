@@ -22,19 +22,25 @@ public class AIBehaver : MonoBehaviour
         Debug.DrawLine(f1, f2, Color.red);
 
         Vector3 point = cube.position;
-
-        if (IsPointInCircularSector(point, transform.position))
-        {
-            Debug.Log("cube in this !!!");
+        if (!cube.GetComponent<PlayerInfo>().IsBunker){
+            if (IsPointInCircularSector(point, transform.position))
+            {
+                Debug.Log("cube in this !!!");
+            }
+            else
+            {
+                Debug.Log("cube not in this !!!");
+            }
         }
         else
         {
             Debug.Log("cube not in this !!!");
         }
+       
         DrawSector(this.transform, transform.position, Angle, distance);
     }
     bool IsPointInCircularSector(Vector3 targetpoint, Vector3 Orign)
-    {
+    {       
         targetpoint.y = 0;
         Orign.y = 0;
         Vector3 targetDir = targetpoint - Orign;
@@ -53,52 +59,33 @@ public class AIBehaver : MonoBehaviour
         else
         {
             return false;
-
         }
             
       
-    }
-
-
-   
-
+    }  
  
     public static void DrawSector(Transform t, Vector3 center, float angle, float radius)
     {
         LineRenderer lr = t.GetComponent<LineRenderer>();
         if (lr == null)
         {
-
             lr = t.gameObject.AddComponent<LineRenderer>();
-
         }
         lr.startWidth = 0.1f;
         lr.endWidth = 0.1f;
         lr.startColor = Color.black;
         lr.endColor = Color.black;
         int pointAmount = 100;//点的数目，值越大曲线越平滑  
-
         float eachAngle = angle / pointAmount;
-
         Vector3 forward = t.forward;
-
-
-
         lr.SetVertexCount(pointAmount);
-
         lr.SetPosition(0, center);
-
         lr.SetPosition(pointAmount - 1, center);
-
-
 
         for (int i = 1; i < pointAmount - 1; i++)
         {
-
             Vector3 pos = Quaternion.Euler(0f, -angle / 2 + eachAngle * (i - 1), 0f) * forward * radius + center;
-
             lr.SetPosition(i, pos);
-
         }
 
     }
