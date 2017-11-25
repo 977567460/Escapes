@@ -6,12 +6,14 @@ using System.Collections.Generic;
 public class GameDataManage :Singleton<GameDataManage> {
 
     public Dictionary<int, SceneData> DictScene;
+    public Dictionary<int, DBEntiny> DictDBEntiny;
     public override void Init()
     {
         base.Init();
         DictScene=new Dictionary<int, SceneData>();
         new ReadSceneData().Load(DictScene);
-       
+        DictDBEntiny = new Dictionary<int, DBEntiny>();
+        new ReadDBEntiny().Load(DictDBEntiny);
 
     }
     public SceneData GetDBScene(int id)
@@ -21,5 +23,11 @@ public class GameDataManage :Singleton<GameDataManage> {
         DictScene.TryGetValue(id, out db);
         return db;
     }
+    public DBEntiny GetDBEntiny(int id)
+    {
+        DBEntiny db = null;
 
+        DictDBEntiny.TryGetValue(id, out db);
+        return db;
+    }
 }
