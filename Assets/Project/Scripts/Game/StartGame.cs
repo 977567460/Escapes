@@ -37,6 +37,7 @@ public class StartGame : MonoSingleton<StartGame>
     {
         ZTCoroutinue.Instance.SetDontDestroyOnLoad(transform);
         CameraManage.Instance.SetDontDestroyOnLoad(transform);
+        InputManage.Instance.SetDontDestroyOnLoad(transform);
         UIManage.Instance.Init();
         GameDataManage.Instance.Init();
        

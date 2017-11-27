@@ -32,7 +32,6 @@ public class AIConeDetection : MonoBehaviour
     //public  float       m_fDistanceForRender        = 600.0f;
 
     
-    private Mesh[] m_mConeMesh = new Mesh[SectorCount];
     private Vector3[] m_vVertices;
     private Vector2[] m_vUV;
     private Vector3[] m_vNormals;
@@ -92,22 +91,14 @@ public class AIConeDetection : MonoBehaviour
         {
             m_fAngleOfViewlist[j] = m_fAngleOfView;
             m_goGameObjectIntoCone[j] = new ArrayList();
-            m_goVisibilityCone[j] = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            Component.Destroy(m_goVisibilityCone[j].GetComponent<BoxCollider>());
-            m_goVisibilityCone[j].name = this.name + "_VisConeMesh";
-            m_mConeMesh[j] = new Mesh();
-            m_goVisibilityCone[j].GetComponent<MeshFilter>().mesh = m_mConeMesh[j];
+            
+        
             m_iVertMax = m_iConeVisibilityPrecision * 2 + 2;
             m_iTrianglesMax = m_iConeVisibilityPrecision * 2;
             m_vVertices = new Vector3[m_iVertMax];
             m_iTriangles = new int[m_iTrianglesMax * 3];
             m_vNormals = new Vector3[m_iVertMax];
-            m_mConeMesh[j].vertices = m_vVertices;
-            m_mConeMesh[j].triangles = m_iTriangles;
-            m_mConeMesh[j].normals = m_vNormals;
-            m_vUV = new Vector2[m_mConeMesh[j].vertices.Length];
-            m_mConeMesh[j].uv = m_vUV;
-            m_goVisibilityCone[j].GetComponent<Renderer>().material = m_matVisibilityCone;
+       
             for (int i = 0; i < m_iVertMax; ++i)
             {
                 m_vNormals[i] = Vector3.up;
@@ -155,14 +146,7 @@ public class AIConeDetection : MonoBehaviour
         }
     }
 
-    public void DisableCone()
-    {
-        for (int i = 0; i < SectorCount; i++)
-        {
-            m_mConeMesh[i].Clear();
-        }
 
-    }
     bool FindObj()
     {
         FindObjList.Clear();
@@ -342,39 +326,10 @@ public class AIConeDetection : MonoBehaviour
                
                 index += 2;
             }
-           // SevtorVertexCount.Add(EnemyBeginPos);
-            
-           // DrawMesh();
-            if (m_bShowCone)
-            {
-                int localIndex = 0;
-                for (int j = 0; j < m_iTrianglesMax * 3; j = j + 6)
-                {
-                    m_iTriangles[j] = localIndex;
-                    m_iTriangles[j + 1] = localIndex + 3;
-                    m_iTriangles[j + 2] = localIndex + 1;
-
-                    m_iTriangles[j + 3] = localIndex + 2;
-                    m_iTriangles[j + 4] = localIndex + 3;
-                    m_iTriangles[j + 5] = localIndex;
-
-                    localIndex += 2;
-                }
-
-                m_mConeMesh[Sector].Clear();
-                m_mConeMesh[Sector].vertices = m_vVertices;
-                m_mConeMesh[Sector].triangles = m_iTriangles;
-                m_mConeMesh[Sector].normals = m_vNormals;
-                m_mConeMesh[Sector].RecalculateNormals();
-               // m_mConeMesh[Sector].Optimize();
-            }
-            else
-            {
-                m_mConeMesh[Sector].Clear();
-            }
+           
 
         }
-        DrawLine();
+       // DrawLine();
         DrawMesh();
     }
     void DrawLine()

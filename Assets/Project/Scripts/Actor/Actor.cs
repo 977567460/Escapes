@@ -12,6 +12,7 @@ public class Actor : ICharacter
       protected IStateMachine<Actor, FSMState> mMachine;
       public ZTAction mActorAction;
       protected Animator mActorAnimator;
+      protected ActorBehavior mBehavior;
      
       public Actor(int id, int guid)
           : base(id, guid)
@@ -22,6 +23,7 @@ public class Actor : ICharacter
       {
           InitAction();
           InitFSM();
+          InitBehavior();
       }
 
       protected void InitFSM()
@@ -52,7 +54,11 @@ public class Actor : ICharacter
               this.mActorAction = new ZTAction(mActorAnimator);
           }
       }
-
+      protected void InitBehavior()
+      {
+          this.mBehavior = Obj.GET<ActorBehavior>();
+          this.mBehavior.SetOwner(this);
+      }
       public virtual void OnWalk()
       {
 

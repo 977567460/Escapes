@@ -16,13 +16,13 @@ public class InputManage : MonoSingleton<InputManage>
     void Start()
     {
         SetButton();
-        ZTEvent.AddHandler(EventID.REQ_PLAYER_JUMP, OnJump);
-        ZTEvent.AddHandler(EventID.REQ_PLAYER_LEFT, OnLeft);
-        ZTEvent.AddHandler(EventID.REQ_PLAYER_BACKWARD, OnBack);
-        ZTEvent.AddHandler(EventID.REQ_PLAYER_FORWARD, OnForward);
-        ZTEvent.AddHandler(EventID.REQ_PLAYER_RIGHT, OnRight);
+    
     }
+    public override void SetDontDestroyOnLoad(Transform parent)
+    {
+        base.SetDontDestroyOnLoad(parent);
 
+    }
     void Update()
     {
         if (Input.GetKeyDown(jump))
@@ -55,25 +55,6 @@ public class InputManage : MonoSingleton<InputManage>
         right = KeyCode.D;
     }
 
-    void OnJump()
-    {
-        
-    }
-    void OnLeft()
-    {
-
-    }
-    void OnRight()
-    {
-
-    }
-    void OnBack()
-    {
-
-    }
-    void OnForward()
-    {
-
-    }
+    
 }
 
