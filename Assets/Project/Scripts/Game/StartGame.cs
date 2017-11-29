@@ -1,54 +1,65 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
 
 public class StartGame : MonoSingleton<StartGame>
 {
 
-   
+
     public string CurrSceneName;
-  
+
     public GameState CurrState;
-  
+
     public GameState NextState;
     private IStateMachine<StartGame, GameState> mStateMachine;
-
+    public Int32 CurMapID
+    {
+        get;
+        private set;
+    }
+    public ESceneType GetCurrSceneType()
+    {
+        SceneData db = GameDataManage.Instance.GetDBScene(StartGame.Instance.CurMapID);
+        return db == null ? ESceneType.Init : db.SceneType;
+    }
     void Awake()
     {
         DontDestroyOnLoad(gameObject);
     }
-	void Start ()
-	{
-        
-	    Init();
+    void Start()
+    {
+
+        Init();
         AddFSM();
-	    OpenGame();
-	}
-	
-	// Update is called once per frame
-	void Update () {
+        OpenGame();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
         if (this.mStateMachine != null)
         {
             this.mStateMachine.Step();
         }
-	}
+    }
 
     void Init()
     {
         ZTCoroutinue.Instance.SetDontDestroyOnLoad(transform);
         CameraManage.Instance.SetDontDestroyOnLoad(transform);
         InputManage.Instance.SetDontDestroyOnLoad(transform);
+        LevelManage.Instance.SetDontDestroyOnLoad(transform);
         UIManage.Instance.Init();
         GameDataManage.Instance.Init();
-       
     }
     public enum GameState
     {
-        Init,     
+        Init,
         Login,
         Loading,
         Battle,
-        
+
     }
     void AddFSM()
     {
@@ -56,10 +67,10 @@ public class StartGame : MonoSingleton<StartGame>
         this.mStateMachine.AddState(GameState.Init, new GameInitState());
         this.mStateMachine.AddState(GameState.Login, new GameLoginState());
         this.mStateMachine.AddState(GameState.Loading, new GameLoadingState());
-        this.mStateMachine.AddState(GameState.Battle, new GameBattleState());   
+        this.mStateMachine.AddState(GameState.Battle, new GameBattleState());
         this.mStateMachine.SetCurrState(this.mStateMachine.GetState(GameState.Init));
-       // this.mStateMachine.GetState(this.mStateMachine.GetCurrStateID()).Enter();
-       
+        // this.mStateMachine.GetState(this.mStateMachine.GetCurrStateID()).Enter();
+
     }
 
     public void OpenGame()
@@ -83,13 +94,14 @@ public class StartGame : MonoSingleton<StartGame>
                     this.NextState = GameState.Login;
                 }
                 break;
-          
+
             case ESceneType.Battle:
                 {
                     this.NextState = GameState.Battle;
                 }
                 break;
         }
+        CurMapID = db.Id;
         GLCommand ev = new GLCommand(sceneId);
         ChangeState(GameState.Loading, ev);
 

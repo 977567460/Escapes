@@ -12,5 +12,6 @@ public class Define
 {
     public const int LAYER_BARRER = 11;
     public const Single BARRIER_WIDTH = 14;
-    public const string BARRIER_PREFAB = "Model/Other/Barrier";
+    public const int DEPTH_CAM_MAIN = 0;
+    public const int SCENE_LAUNCHER = 10009;
 }

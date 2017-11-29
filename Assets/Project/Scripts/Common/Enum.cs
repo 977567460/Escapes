@@ -83,3 +83,9 @@ public enum FSMState : int
     FSM_MINE,                //采集状态
     FSM_INTERACTIVE,         //交互
 }
+public enum EActorType
+{
+    PLAYER,   //玩家
+    MONSTER,  //怪物
+
+}

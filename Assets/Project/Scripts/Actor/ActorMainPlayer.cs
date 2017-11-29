@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 
 
-public   class ActorMainPlayer:Actor
+public class ActorMainPlayer : ActorPlayer
 {
-    public ActorMainPlayer(int id, int guid)
-          : base(id, guid)
-      {        
-         
-      }
+    public ActorMainPlayer(int id, int guid, EActorType type, EBattleCamp camp)
+        : base(id, guid, type, camp)
+    {
+
+    }
     public override void Init()
     {
         base.Init();

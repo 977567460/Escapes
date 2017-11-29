@@ -3,8 +3,9 @@ using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
 
-public class GameLoadingState : GameBaseState {
-     public float mWaitTime = 0.1f;
+public class GameLoadingState : GameBaseState
+{
+    public float mWaitTime = 0.1f;
     public float mWaitTimer = 0f;
     public bool mLoading = false;
     public UILoading mLoadingWindow;
@@ -16,9 +17,9 @@ public class GameLoadingState : GameBaseState {
         GLCommand ev = Cmd as GLCommand;
         mLoadingSceneId = ev.SceneID;
         UIManage.Instance.Clear();
-        UIManage.Instance.OpenWindow(WindowID.UI_LOADING);         
-        mLoadingWindow = (UILoading) UIManage.Instance.GetWindow(WindowID.UI_LOADING);
-        
+        UIManage.Instance.OpenWindow(WindowID.UI_LOADING);
+        mLoadingWindow = (UILoading)UIManage.Instance.GetWindow(WindowID.UI_LOADING);
+
     }
 
     public override void Execute()
@@ -53,7 +54,7 @@ public class GameLoadingState : GameBaseState {
 
     public override void Exit()
     {
-         
+
         OnLoadingWasFadeOut();
         mWaitTimer = 0;
         mLoading = false;
@@ -62,9 +63,9 @@ public class GameLoadingState : GameBaseState {
     public void OnSceneWasLoaded()
     {
         SceneData db = GameDataManage.Instance.GetDBScene(mLoadingSceneId);
-       // AudioClip music = GameDataManage.Instance.Load<AudioClip>(db.SceneMusic);
+        // AudioClip music = GameDataManage.Instance.Load<AudioClip>(db.SceneMusic);
         //ZTAudio.Instance.PlayMusic(music);
-      //  ZTLevel.Instance.EnterWorld(mLoadingSceneId);
+        LevelManage.Instance.EnterWorld(mLoadingSceneId);
         StartGame.Instance.ChangeState(StartGame.Instance.NextState, Cmd);
     }
     public void OnLoadingWasFadeOut()
@@ -86,7 +87,7 @@ public class GameLoadingState : GameBaseState {
     }
     public AsyncOperation LoadLevelById(int id)
     {
-        SceneData db = GameDataManage.Instance.GetDBScene(id);      
+        SceneData db = GameDataManage.Instance.GetDBScene(id);
         if (string.IsNullOrEmpty(db.SceneName))
         {
             return null;

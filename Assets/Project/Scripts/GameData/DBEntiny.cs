@@ -16,6 +16,7 @@ public class DBEntiny : DBModule
 {
     public int Id;
     public int Level;
+    public EActorType Type; 
     public string Name = string.Empty;
     public string Ctrl = string.Empty;
     public string Model = string.Empty;
@@ -46,7 +47,7 @@ public class ReadDBEntiny : IReadConfig<int, DBEntiny>
     protected override void LoadData(Dictionary<int, DBEntiny> dict)
     {
 
-        FileStream stream = File.Open(Application.dataPath + "/Project/xlsx/GateLevel.xlsx", FileMode.Open, FileAccess.Read);
+        FileStream stream = File.Open(Application.dataPath + "/Project/xlsx/Entiny.xlsx", FileMode.Open, FileAccess.Read);
         IExcelDataReader excelReader = ExcelReaderFactory.CreateOpenXmlReader(stream);
 
         DataSet result = excelReader.AsDataSet();
@@ -58,13 +59,18 @@ public class ReadDBEntiny : IReadConfig<int, DBEntiny>
             DBEntiny db = new DBEntiny();
             db.Id = int.Parse(result.Tables[0].Rows[i][0].ToString());
             db.Name = result.Tables[0].Rows[i][1].ToString();
-            db.Ctrl = result.Tables[0].Rows[i][2].ToString();
-            db.AIFeature = result.Tables[0].Rows[i][3].ToString();
-           
-            //db.SceneType = (ESceneType)Enum(result.Tables[0].Rows[i][4].ToString());
-          
-            db.Desc = result.Tables[0].Rows[i][5].ToString();
-            db.Icon = result.Tables[0].Rows[i][6].ToString();
+            db.Title = result.Tables[0].Rows[i][2].ToString();
+            db.Level =int.Parse(result.Tables[0].Rows[i][3].ToString());
+            db.Type = (EActorType)int.Parse(result.Tables[0].Rows[i][4].ToString());
+            db.Icon = result.Tables[0].Rows[i][5].ToString();
+            db.WSpeed = Convert.ToSingle(result.Tables[0].Rows[i][6].ToString());
+            db.RSpeed = Convert.ToSingle(result.Tables[0].Rows[i][7].ToString());           
+            db.BornEffectID =int.Parse(result.Tables[0].Rows[i][8].ToString());
+            db.DeadEffectID = int.Parse(result.Tables[0].Rows[i][9].ToString());
+            db.Model = result.Tables[0].Rows[i][10].ToString();
+            db.Ctrl = result.Tables[0].Rows[i][11].ToString();
+            db.AIScript = result.Tables[0].Rows[i][12].ToString();
+            db.Desc = result.Tables[0].Rows[i][13].ToString();
             if (!dict.ContainsKey(db.Id))
             {
                 dict.Add(db.Id, db);
