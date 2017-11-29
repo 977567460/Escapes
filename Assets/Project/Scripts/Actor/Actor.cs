@@ -14,6 +14,7 @@ public class Actor : ICharacter
     protected Animator mActorAnimator;
     protected ActorBehavior mBehavior;
     protected XTransform mBornParam;
+    protected CharacterController mCharacter;
     public EActorType ActorType { get; private set; }
     public EBattleCamp Camp { get; set; }
     public Actor(int id, int guid, EActorType type, EBattleCamp camp)
@@ -22,6 +23,25 @@ public class Actor : ICharacter
         this.ActorType = type;
         this.Camp = camp;
     }
+    public void ApplyAnimator(bool enabled)
+    {
+        if (mActorAnimator != null)
+        {
+            mActorAnimator.enabled = enabled;
+        }
+    }
+    public FSMState FSM
+    {
+        get
+        {
+            if (this.mMachine == null)
+            {
+                return FSMState.FSM_BORN;
+            }
+            return (FSMState)this.mMachine.GetCurrStateID();
+        }
+    }
+
     public override void Init()
     {
         InitAction();
@@ -77,11 +97,11 @@ public class Actor : ICharacter
     }
     public virtual void OnDead()
     {
-        this.mActorAction.Play("Dead");
+        this.mActorAction.Play("Dead", GotoEmptyFSM, false);
     }
     public virtual void OnJump()
     {
-        this.mActorAction.Play("Jump");
+        this.mActorAction.Play("Jump", GotoEmptyFSM,false);
     }
     public virtual void OnBeginRide()
     {
@@ -101,7 +121,7 @@ public class Actor : ICharacter
         }
         this.CacheTransform = Obj.transform;
         this.mBornParam = data;
-
+        this.mCharacter = Obj.GetComponent<CharacterController>();
         this.Init();
     }
     public GameObject LoadObject(XTransform data)
@@ -119,6 +139,36 @@ public class Actor : ICharacter
             return go;
         }
         return null;
+    }
+    public void ChangeState(FSMState fsm, ICommand ev)
+    {
+        if (mMachine == null || CacheTransform == null)
+        {
+            return;
+        }
+        if (FSM == FSMState.FSM_DEAD && fsm != FSMState.FSM_REBORN)
+        {
+            return;
+        }
+        if (!mMachine.Contains(fsm))
+        {
+            return;
+        }
+        mMachine.GetState(fsm).SetCommand(ev);
+        mMachine.ChangeState(fsm);
+    }
+    public void GotoEmptyFSM()
+    {
+        ChangeState(FSMState.FSM_EMPTY, null);
+    }
+    public void SendStateMessage(FSMState fsm)
+    {
+        ChangeState(fsm, null);
+    }
+
+    public void SendStateMessage(FSMState fsm, ICommand ev)
+    {
+        ChangeState(fsm, ev);
     }
     public override void Destroy()
     {
@@ -158,7 +208,26 @@ public class Actor : ICharacter
 
     public override void Pause(bool pause)
     {
-        throw new NotImplementedException();
+        this.ApplyAnimator(!pause);
+        if (!pause)
+        {
+            SendStateMessage(FSMState.FSM_IDLE);
+        }
     }
+    public void ApplyCharacterCtrl(bool enabled)
+    {
+        if (mCharacter != null)
+        {
+            mCharacter.enabled = enabled;
+        }
+    }
+    //public virtual void OnForceToMove(MVCommand ev)
+    //{
+    
+    //    Vector2 delta = ev.Delta;
+    //    CacheTransform.LookAt(new Vector3(CacheTransform.position.x + delta.x, CacheTransform.position.y, CacheTransform.position.z + delta.y));
+    //    mCharacter.SimpleMove(mCharacter.transform.forward);
+    //    this.mActorAction.Play("run", null, true);
+    //}
 }
 

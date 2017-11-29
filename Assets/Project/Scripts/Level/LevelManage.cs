@@ -132,7 +132,7 @@ public class LevelManage : MonoSingleton<LevelManage>
     {
         Camera cam = CameraManage.Instance.MainCamera;
         object[] args = new object[] { player.transform };
-        CameraManage.Instance.SwitchCamera(cam);
+        CameraManage.Instance.SwitchCameraEffect(ECameraType.FOLLOW, cam, null, args);
         return cam;
     }
 }

@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
 
 public class ActorMainPlayer : ActorPlayer
 {
+    private float speed = 5;
     public ActorMainPlayer(int id, int guid, EActorType type, EBattleCamp camp)
         : base(id, guid, type, camp)
     {
@@ -22,23 +24,24 @@ public class ActorMainPlayer : ActorPlayer
     }
     void OnJump()
     {
-        this.mMachine.SetCurrState(this.mMachine.GetState(FSMState.FSM_JUMP));
+        this.SendStateMessage(FSMState.FSM_JUMP);
+      
     }
     void OnLeft()
     {
-        this.mMachine.SetCurrState(this.mMachine.GetState(FSMState.FSM_WALK));
+        this.SendStateMessage(FSMState.FSM_WALK);
     }
     void OnRight()
     {
-        this.mMachine.SetCurrState(this.mMachine.GetState(FSMState.FSM_WALK));
+        this.SendStateMessage(FSMState.FSM_WALK);
     }
     void OnBack()
     {
-        this.mMachine.SetCurrState(this.mMachine.GetState(FSMState.FSM_WALK));
+        this.SendStateMessage(FSMState.FSM_WALK);
     }
     void OnForward()
     {
-        this.mMachine.SetCurrState(this.mMachine.GetState(FSMState.FSM_WALK));
+        this.SendStateMessage(FSMState.FSM_WALK);      
     }
     public override void Destroy()
     {

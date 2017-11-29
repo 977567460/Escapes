@@ -3,7 +3,7 @@
     <A Type="MapBorn">
         <Camp>0</Camp>
         <TransParam Type="MapTransform">
-            <Position>(-17.33,0.53,0.10)</Position>
+            <Position>(70,0,-40)</Position>
             <EulerAngles>(0.00,0.00,0.00)</EulerAngles>
             <Scale>(1.00,1.00,1.00)</Scale>
         </TransParam>

@@ -24,7 +24,7 @@ public class ActorBaseFSM : IState<Actor, FSMState>
 
     protected virtual void Break()
     {
-       
+        Owner.SendStateMessage(FSMState.FSM_EMPTY);
     }
 
     protected void Update()

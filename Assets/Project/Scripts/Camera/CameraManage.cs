@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class CameraManage : MonoSingleton<CameraManage>
 {
@@ -37,9 +38,43 @@ public class CameraManage : MonoSingleton<CameraManage>
         MainCamera.transform.parent = transform;
     }
 
-    public void SwitchCamera(Camera cam)
+    public void SwitchCameraEffect(ECameraType type, Camera cam, CameraEvent callback, params object[] args)
     {
-        cam.gameObject.AddComponent<CameraFollow>();
+        if (cam == null) return;
+        List<CameraEffectBase> list = new List<CameraEffectBase>();
+        cam.GetComponents(list);
+        CameraEffectBase effect = null;
+        for (int i = 0; i < list.Count; i++)
+        {
+            if (list[i].Type == type)
+            {
+                effect = list[i];
+            }
+            else
+            {
+                if (list[i].enabled && list[i].Type != ECameraType.FOLLOW)
+                {
+                    list[i].SwitchState(ECameraState.LEAVE);
+                }
+            }
+        }
+        if (effect == null)
+        {
+            AddCameraEffect(ref effect, type, cam);
+        }
+        effect.Init(0, cam, callback, args);
+    }
+    public void AddCameraEffect(ref CameraEffectBase effect, ECameraType type, Camera cam)
+    {
+        switch (type)
+        {
+            case ECameraType.FOLLOW:
+                effect = cam.gameObject.AddComponent<CameraFollow>();
+                break;
+            case ECameraType.SHAKE:
+                effect = cam.gameObject.AddComponent<CameraShake>();
+                break;
+        }
     }
     public void RevertMainCamera()
     {

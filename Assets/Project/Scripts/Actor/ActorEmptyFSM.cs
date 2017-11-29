@@ -9,6 +9,7 @@ public class ActorEmptyFSM : ActorBaseFSM
     public override void Enter()
     {
         base.Enter();
+        Owner.SendStateMessage(FSMState.FSM_IDLE);
     }
 }
 

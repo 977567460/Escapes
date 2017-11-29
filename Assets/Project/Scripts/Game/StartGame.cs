@@ -43,6 +43,10 @@ public class StartGame : MonoSingleton<StartGame>
             this.mStateMachine.Step();
         }
     }
+    void FixedUpdate()
+    {
+        ZTAction.Update();
+    }
 
     void Init()
     {
@@ -50,6 +54,7 @@ public class StartGame : MonoSingleton<StartGame>
         CameraManage.Instance.SetDontDestroyOnLoad(transform);
         InputManage.Instance.SetDontDestroyOnLoad(transform);
         LevelManage.Instance.SetDontDestroyOnLoad(transform);
+        ZTPool.Instance.SetDontDestroyOnLoad(transform);
         UIManage.Instance.Init();
         GameDataManage.Instance.Init();
     }
