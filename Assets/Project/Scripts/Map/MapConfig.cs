@@ -13,6 +13,7 @@ namespace Cfg.Map
         public MapBorn A;
         public MapBorn B;
         public MapBorn C;
+        public List<MapMonster> Monsters = new List<MapMonster>();
         public override void Read(XmlNode os)
         {
             foreach (XmlNode current in LoadXML.GetChilds(os))
@@ -34,8 +35,14 @@ namespace Cfg.Map
                         this.C = new MapBorn();
                         this.C.Read(current);
                         break;
-
-
+                    case "MonsterGroups":
+                        LoadXML.GetChilds(current).ForEach(delegate(XmlNode pNode)
+                        {
+                            MapMonster data = new MapMonster();
+                            data.Read(pNode);
+                            this.Monsters.Add(data);
+                        });
+                        break;
                 }
             }
         }
@@ -46,6 +53,7 @@ namespace Cfg.Map
             LoadXML.Write(os, "A", A);
             LoadXML.Write(os, "B", B);
             LoadXML.Write(os, "C", C);
+            LoadXML.Write(os, "MonsterGroups", Monsters);
         }
     }
 }

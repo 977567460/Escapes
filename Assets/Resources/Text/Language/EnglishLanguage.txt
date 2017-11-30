@@ -1,0 +1,2 @@
+﻿talk001,Setting
+talk002,Menu

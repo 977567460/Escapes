@@ -44,7 +44,7 @@ public class InputManage : MonoSingleton<InputManage>
         if (Input.GetKeyDown(right))
         {
             ZTEvent.FireEvent(EventID.REQ_PLAYER_RIGHT);
-        }
+        }     
     }
     void SetButton()
     {

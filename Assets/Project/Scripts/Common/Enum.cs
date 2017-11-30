@@ -89,3 +89,10 @@ public enum EActorType
     MONSTER,  //怪物
 
 }
+
+
+public enum Language
+{
+    Chinese,
+    English
+}

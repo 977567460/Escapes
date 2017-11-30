@@ -25,6 +25,7 @@ public class LevelManage : MonoSingleton<LevelManage>
 
         AddHolder<HolderBorn>(EMapHolder.Born);
         AddHolder<HolderRole>(EMapHolder.Role);
+        AddHolder<MonsterGroup>(EMapHolder.MonsterGroup);
         foreach (KeyValuePair<EMapHolder, LevelElement> current in mHolders)
         {
             Transform trans = current.Value.transform;
@@ -55,7 +56,11 @@ public class LevelManage : MonoSingleton<LevelManage>
             return;
         }
         AddMainPlayer(id, XTransform.Create(Config.A.TransParam.Position, Config.A.TransParam.EulerAngles));
-
+        for (int i = 0; i < Config.Monsters.Count; i++)
+        {
+            MapMonster data = Config.Monsters[i];
+            AddActor(data.Id, EActorType.MONSTER, EBattleCamp.B, data.Position, data.Euler, data.Scale);
+        }
 
     }
 

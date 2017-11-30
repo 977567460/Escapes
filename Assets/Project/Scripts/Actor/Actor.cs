@@ -221,13 +221,6 @@ public class Actor : ICharacter
             mCharacter.enabled = enabled;
         }
     }
-    //public virtual void OnForceToMove(MVCommand ev)
-    //{
-    
-    //    Vector2 delta = ev.Delta;
-    //    CacheTransform.LookAt(new Vector3(CacheTransform.position.x + delta.x, CacheTransform.position.y, CacheTransform.position.z + delta.y));
-    //    mCharacter.SimpleMove(mCharacter.transform.forward);
-    //    this.mActorAction.Play("run", null, true);
-    //}
+
 }
 

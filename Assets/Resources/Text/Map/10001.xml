@@ -3,46 +3,51 @@
     <A Type="MapBorn">
         <Camp>0</Camp>
         <TransParam Type="MapTransform">
-            <Position>(70,0,-40)</Position>
+            <Position>(90,0,217)</Position>
             <EulerAngles>(0.00,0.00,0.00)</EulerAngles>
             <Scale>(1.00,1.00,1.00)</Scale>
         </TransParam>
     </A>  
     <MonsterGroups>
         <Item Type="MapMonster">
-            <TransParam Type="MapTransform">
-            <Position>(-17.33,0.53,0.10)</Position>
+            <Id>90001</Id>
+            <Position>(70,0,217)</Position>
             <EulerAngles>(0.00,0.00,0.00)</EulerAngles>
             <Scale>(1.00,1.00,1.00)</Scale>
-            </TransParam>
+            <Talks>
+            </Talks>			
         </Item>
         <Item Type="MapMonster">
-            <TransParam Type="MapTransform">
-            <Position>(-17.33,0.53,0.10)</Position>
+            <Id>90002</Id>
+            <Position>(80,0,217)</Position>
             <EulerAngles>(0.00,0.00,0.00)</EulerAngles>
             <Scale>(1.00,1.00,1.00)</Scale>
-            </TransParam>
+			 <Talks>
+            </Talks>
         </Item>
         <Item Type="MapMonster">
-             <TransParam Type="MapTransform">
-            <Position>(-17.33,0.53,0.10)</Position>
+            <Id>90003</Id>
+            <Position>(60,0,217)</Position>
             <EulerAngles>(0.00,0.00,0.00)</EulerAngles>
-            <Scale>(1.00,1.00,1.00)</Scale>
-            </TransParam>
+            <Scale>(1.00,1.00,1.00)</Scale>    
+            <Talks>
+            </Talks>			
         </Item>
         <Item Type="MapMonster">
-            <TransParam Type="MapTransform">
-            <Position>(-17.33,0.53,0.10)</Position>
+            <Id>90004</Id>
+            <Position>(50,0,217)</Position>
             <EulerAngles>(0.00,0.00,0.00)</EulerAngles>
-            <Scale>(1.00,1.00,1.00)</Scale>
-            </TransParam>
+            <Scale>(1.00,1.00,1.00)</Scale>  
+             <Talks>
+            </Talks>			
         </Item>
         <Item Type="MapMonster">
-            <TransParam Type="MapTransform">
-            <Position>(-17.33,0.53,0.10)</Position>
+            <Id>90005</Id>
+            <Position>(40,0,217)</Position>
             <EulerAngles>(0.00,0.00,0.00)</EulerAngles>
             <Scale>(1.00,1.00,1.00)</Scale>
-            </TransParam>
+			 <Talks>
+            </Talks>
         </Item>
     </MonsterGroups>
 </Root>
