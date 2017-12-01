@@ -16,41 +16,27 @@ public class ActorMainPlayer : ActorPlayer
     public override void Init()
     {
         base.Init();
-        ZTEvent.AddHandler(EventID.REQ_PLAYER_JUMP, OnJump);
-        ZTEvent.AddHandler(EventID.REQ_PLAYER_LEFT, OnLeft);
-        ZTEvent.AddHandler(EventID.REQ_PLAYER_BACKWARD, OnBack);
-        ZTEvent.AddHandler(EventID.REQ_PLAYER_FORWARD, OnForward);
-        ZTEvent.AddHandler(EventID.REQ_PLAYER_RIGHT, OnRight);
+        ZTEvent.AddHandler(EventID.REQ_PLAYER_JUMP, OnMainPlayerJump);
+        ZTEvent.AddHandler<float,float>(EventID.REQ_PLAYER_Walk, OnMainPlayerWalk);
+   
     }
-    void OnJump()
+    void OnMainPlayerJump()
     {
         this.SendStateMessage(FSMState.FSM_JUMP);
       
     }
-    void OnLeft()
+    void OnMainPlayerWalk(float arg1, float arg2)
     {
-        this.SendStateMessage(FSMState.FSM_WALK);
+        Vector2 delta = new Vector2(arg1, arg2);
+        this.SendStateMessage(FSMState.FSM_WALK, new MVCommand(delta));
     }
-    void OnRight()
-    {
-        this.SendStateMessage(FSMState.FSM_WALK);
-    }
-    void OnBack()
-    {
-        this.SendStateMessage(FSMState.FSM_WALK);
-    }
-    void OnForward()
-    {
-        this.SendStateMessage(FSMState.FSM_WALK);      
-    }
+
     public override void Destroy()
     {
         base.Destroy();
-        ZTEvent.RemoveHandler(EventID.REQ_PLAYER_JUMP, OnJump);
-        ZTEvent.RemoveHandler(EventID.REQ_PLAYER_LEFT, OnLeft);
-        ZTEvent.RemoveHandler(EventID.REQ_PLAYER_BACKWARD, OnBack);
-        ZTEvent.RemoveHandler(EventID.REQ_PLAYER_FORWARD, OnForward);
-        ZTEvent.RemoveHandler(EventID.REQ_PLAYER_RIGHT, OnRight);
+        ZTEvent.RemoveHandler(EventID.REQ_PLAYER_JUMP, OnMainPlayerJump);
+        ZTEvent.RemoveHandler<float,float>(EventID.REQ_PLAYER_Walk, OnMainPlayerWalk);
+    
     }
 }
 

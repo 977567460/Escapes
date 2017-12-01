@@ -8,14 +8,10 @@ using UnityEngine;
 public class InputManage : MonoSingleton<InputManage>
 {
     public KeyCode jump { get; set; }
-    public KeyCode forward { get; set; }
-    public KeyCode backward { get; set; }
-    public KeyCode left { get; set; }
-    public KeyCode right { get; set; }
    
     void Start()
     {
-        SetButton();
+        jump = KeyCode.Space;
     
     }
     public override void SetDontDestroyOnLoad(Transform parent)
@@ -25,35 +21,23 @@ public class InputManage : MonoSingleton<InputManage>
     }
     void Update()
     {
+         float x = Input.GetAxis("Horizontal");
+         float y = Input.GetAxis("Vertical");
+
         if (Input.GetKeyDown(jump))
         {
             ZTEvent.FireEvent(EventID.REQ_PLAYER_JUMP);
         }
-        if (Input.GetKeyDown(forward))
+        if (x != 0 || y != 0)
         {
-            ZTEvent.FireEvent(EventID.REQ_PLAYER_FORWARD);
+            ZTEvent.FireEvent(EventID.REQ_PLAYER_Walk,x,y);
         }
-        if (Input.GetKeyDown(backward))
+        else
         {
-           ZTEvent.FireEvent(EventID.REQ_PLAYER_BACKWARD);
-        }
-        if (Input.GetKeyDown(left))
-        {
-            ZTEvent.FireEvent(EventID.REQ_PLAYER_LEFT);
-        }
-        if (Input.GetKeyDown(right))
-        {
-            ZTEvent.FireEvent(EventID.REQ_PLAYER_RIGHT);
-        }     
+            ZTEvent.FireEvent(EventID.REQ_PLAYER_Idle);
+        }  
     }
-    void SetButton()
-    {
-        jump = KeyCode.Space;
-        forward = KeyCode.W;
-        backward = KeyCode.S;
-        left = KeyCode.A;
-        right = KeyCode.D;
-    }
+ 
 
     
 }

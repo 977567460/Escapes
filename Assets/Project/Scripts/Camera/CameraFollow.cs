@@ -9,7 +9,7 @@ public class CameraFollow :CameraEffectBase
     }
 
     public float distance=-12;
-    public float height = 6;
+    public float height = 15;
     public float angle = 90;
     public Transform Follow;
 

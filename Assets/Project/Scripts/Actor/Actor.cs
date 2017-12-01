@@ -15,6 +15,7 @@ public class Actor : ICharacter
     protected ActorBehavior mBehavior;
     protected XTransform mBornParam;
     protected CharacterController mCharacter;
+    private float Movespeed = 5;
     public EActorType ActorType { get; private set; }
     public EBattleCamp Camp { get; set; }
     public Actor(int id, int guid, EActorType type, EBattleCamp camp)
@@ -221,6 +222,12 @@ public class Actor : ICharacter
             mCharacter.enabled = enabled;
         }
     }
-
+    public virtual void OnForceToMove(MVCommand ev)
+    {     
+        Vector2 delta = ev.Delta;
+        CacheTransform.LookAt(new Vector3(CacheTransform.position.x + delta.x, CacheTransform.position.y, CacheTransform.position.z + delta.y));
+        mCharacter.SimpleMove(mCharacter.transform.forward*Movespeed);
+        this.mActorAction.Play("Walk", null, true);
+    }
 }
 
