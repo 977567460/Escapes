@@ -9,13 +9,13 @@ using System.Collections.Generic;
 using System;
 public class Actor : ICharacter
 {
+    protected ActorAttr mCurrAttr = new ActorAttr();
     protected IStateMachine<Actor, FSMState> mMachine;
     public ZTAction mActorAction;
     protected Animator mActorAnimator;
     protected ActorBehavior mBehavior;
     protected XTransform mBornParam;
     protected CharacterController mCharacter;
-    private float Movespeed = 5;
     public EActorType ActorType { get; private set; }
     public EBattleCamp Camp { get; set; }
     public Actor(int id, int guid, EActorType type, EBattleCamp camp)
@@ -48,6 +48,7 @@ public class Actor : ICharacter
         InitAction();
         InitFSM();
         InitBehavior();
+        InitAttr();
     }
 
     protected void InitFSM()
@@ -82,6 +83,14 @@ public class Actor : ICharacter
     {
         this.mBehavior = Obj.GET<ActorBehavior>();
         this.mBehavior.SetOwner(this);
+    }
+    public void InitAttr(bool init = false)
+    {
+        Dictionary<EProperty, int> propertys = null;
+        DBEntiny db = GameDataManage.Instance.GetDBEntiny(Id);            
+        propertys = db.Propertys;
+        mCurrAttr.CopyFrom(propertys);
+        mCurrAttr.Update(EAttr.Speed, (int)db.RSpeed);
     }
     public virtual void OnWalk()
     {
@@ -226,8 +235,31 @@ public class Actor : ICharacter
     {     
         Vector2 delta = ev.Delta;
         CacheTransform.LookAt(new Vector3(CacheTransform.position.x + delta.x, CacheTransform.position.y, CacheTransform.position.z + delta.y));
-        mCharacter.SimpleMove(mCharacter.transform.forward*Movespeed);
+        mCharacter.SimpleMove(mCharacter.transform.forward*mCurrAttr.Speed);
         this.mActorAction.Play("Walk", null, true);
+    }
+    public void UpdateAttr(EAttr attr, int value)
+    {
+        mCurrAttr.Update(attr, value);
+    }
+    public void BeDamage(Actor attacker, int damage, bool critial = false)
+    {
+        if (this.mCurrAttr.HP > damage)
+        {
+            UpdateAttr(EAttr.HP, this.mCurrAttr.HP - damage);
+        }
+        else
+        {
+            UpdateAttr(EAttr.HP, 0);
+        }    
+    }
+    public ActorAttr GetCurrAttr()
+    {
+        return mCurrAttr;
+    }
+    public int GetAttr(EAttr attr)
+    {
+        return this.mCurrAttr.GetAttr(attr);
     }
 }
 

@@ -12,8 +12,8 @@ public class ActorBehavior : MonoBehaviour
     public FSMState FSM;
     [SerializeField]
     public EBattleCamp Camp;
-    //[SerializeField]
-    //public ActorAttr Attrs;
+    [SerializeField]
+    public ActorAttr Attrs;
 
     public virtual void SetOwner(Actor owner)
     {

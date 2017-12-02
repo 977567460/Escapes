@@ -35,8 +35,9 @@ public class DBEntiny : DBModule
     public string Voice = string.Empty;
     public string AIFeature = string.Empty;
     public string AIScript = string.Empty;
-
-
+    public int MaxHp;
+    public int Attack;
+    public Dictionary<EProperty, int> Propertys = new Dictionary<EProperty, int>();
     public override int GetTypeId()
     {
         return Id;
@@ -71,11 +72,16 @@ public class ReadDBEntiny : IReadConfig<int, DBEntiny>
             db.Ctrl = result.Tables[0].Rows[i][11].ToString();
             db.AIScript = result.Tables[0].Rows[i][12].ToString();
             db.Desc = result.Tables[0].Rows[i][13].ToString();
+            db.MaxHp =int.Parse( result.Tables[0].Rows[i][14].ToString());
+            db.Attack = int.Parse(result.Tables[0].Rows[i][15].ToString());
             if (!dict.ContainsKey(db.Id))
             {
                 dict.Add(db.Id, db);
             }
+            db.Propertys.Add(EProperty.ATK, db.Attack);
+            db.Propertys.Add(EProperty.LHP, db.MaxHp);      
         }
+       
     }
 }
 

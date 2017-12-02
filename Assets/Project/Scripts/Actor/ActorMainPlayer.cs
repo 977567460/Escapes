@@ -18,6 +18,7 @@ public class ActorMainPlayer : ActorPlayer
         base.Init();
         ZTEvent.AddHandler(EventID.REQ_PLAYER_JUMP, OnMainPlayerJump);
         ZTEvent.AddHandler<float,float>(EventID.REQ_PLAYER_Walk, OnMainPlayerWalk);
+        ZTEvent.AddHandler(EventID.REQ_PLAYER_Idle, OnMainPlayerIdle);
    
     }
     void OnMainPlayerJump()
@@ -30,7 +31,10 @@ public class ActorMainPlayer : ActorPlayer
         Vector2 delta = new Vector2(arg1, arg2);
         this.SendStateMessage(FSMState.FSM_WALK, new MVCommand(delta));
     }
-
+    void OnMainPlayerIdle()
+    {
+        this.SendStateMessage(FSMState.FSM_IDLE);
+    }
     public override void Destroy()
     {
         base.Destroy();
