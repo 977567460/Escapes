@@ -16,6 +16,7 @@ public class InsEntiny : Editor
         Actor pActor = pBehavior.Owner as Actor;
         pBehavior.FSM = pActor.FSM;
         pBehavior.Camp = pActor.Camp;
+        pBehavior.AIState = pActor.GetActorAI().AIState;
         pBehavior.Attrs = pActor.GetCurrAttr();
     }
 }

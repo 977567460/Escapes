@@ -11,6 +11,8 @@ public class ActorBehavior : MonoBehaviour
     [SerializeField]
     public FSMState FSM;
     [SerializeField]
+    public EAIState AIState;
+    [SerializeField]
     public EBattleCamp Camp;
     [SerializeField]
     public ActorAttr Attrs;

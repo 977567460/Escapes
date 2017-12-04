@@ -421,3 +421,55 @@ public class RBCommand:ICommand
 
 
 
+/// <summary>
+/// 寻路
+/// </summary>
+public class RTCommand : ICommand
+{
+    public Vector3 DestPosition
+    {
+        get
+        {
+            switch (Pursue)
+            {
+                case EPursueType.Actor:
+                    return TargetActor.CacheTransform.position;
+                case EPursueType.Position:
+                    return TargetPos;
+                case EPursueType.Transform:
+                    return Target.position;
+            }
+            return Vector3.zero;
+        }
+    }
+
+    public EPursueType Pursue;
+    public Vector3 TargetPos;
+    public Transform Target = null;
+    public Actor TargetActor = null;
+    public Callback Callback;
+
+    public RTCommand(Vector3 destPosition, Callback callback = null)
+    {
+        this.TargetPos = destPosition;
+        this.Command = ECommand.TYPE_RUNTO;
+        this.Pursue = EPursueType.Position;
+        this.Callback = callback;
+    }
+
+    public RTCommand(Transform target, Callback callback = null)
+    {
+        this.Target = target;
+        this.Command = ECommand.TYPE_RUNTO;
+        this.Pursue = EPursueType.Transform;
+        this.Callback = callback;
+    }
+
+    public RTCommand(Actor actor, Callback callback = null)
+    {
+        this.TargetActor = actor;
+        this.Command = ECommand.TYPE_RUNTO;
+        this.Pursue = EPursueType.Actor;
+        this.Callback = callback;
+    }
+}

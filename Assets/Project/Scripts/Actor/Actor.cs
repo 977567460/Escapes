@@ -10,12 +10,16 @@ using System;
 public class Actor : ICharacter
 {
     protected ActorAttr mCurrAttr = new ActorAttr();
+    protected List<Actor> mEnemys = new List<Actor>();
     protected IStateMachine<Actor, FSMState> mMachine;
     public ZTAction mActorAction;
     protected Animator mActorAnimator;
     protected ActorBehavior mBehavior;
     protected XTransform mBornParam;
     protected CharacterController mCharacter;
+    protected Actor mTarget;       //当前目标
+    protected ActorAI mActorAI;
+    protected Actor mHost;         //主人
     public EActorType ActorType { get; private set; }
     public EBattleCamp Camp { get; set; }
     public Actor(int id, int guid, EActorType type, EBattleCamp camp)
@@ -49,6 +53,7 @@ public class Actor : ICharacter
         InitFSM();
         InitBehavior();
         InitAttr();
+        InitAI();
     }
 
     protected void InitFSM()
@@ -62,6 +67,11 @@ public class Actor : ICharacter
         this.mMachine.AddState(FSMState.FSM_JUMP, new ActorJumpFSM());
         this.mMachine.SetCurrState(this.mMachine.GetState(FSMState.FSM_IDLE));
         this.mMachine.GetState(this.mMachine.GetCurrStateID()).Enter();
+    }
+    protected void InitAI()
+    {
+        mActorAI = new ActorAI(this);
+        mActorAI.Start();
     }
     public void InitAction()
     {
@@ -91,6 +101,15 @@ public class Actor : ICharacter
         propertys = db.Propertys;
         mCurrAttr.CopyFrom(propertys);
         mCurrAttr.Update(EAttr.Speed, (int)db.RSpeed);
+    }
+    public float Height
+    {
+        get { return mCharacter.height * CacheTransform.localScale.x; }
+    }
+
+    public float Radius
+    {
+        get { return mCharacter.radius * CacheTransform.localScale.x; }
     }
     public virtual void OnWalk()
     {
@@ -183,7 +202,8 @@ public class Actor : ICharacter
     public override void Destroy()
     {
         mActorAction.Clear();
-        mMachine.Clear();  
+        mMachine.Clear();
+        mActorAI.Clear();
     }
 
     public override void Clear()
@@ -198,22 +218,24 @@ public class Actor : ICharacter
             return;
         }
 
-        mMachine.Step();  
+        mMachine.Step();
+     
+        mActorAI.Step();
     }
 
     public override void ChangeModel(int modelID)
     {
-        throw new NotImplementedException();
+        
     }
 
     public override bool IsDead()
     {
-        throw new NotImplementedException();
+        return FSM == FSMState.FSM_DEAD;
     }
 
     public override bool IsDestroy()
     {
-        throw new NotImplementedException();
+        return CacheTransform == null;
     }
 
     public override void Pause(bool pause)
@@ -260,6 +282,109 @@ public class Actor : ICharacter
     public int GetAttr(EAttr attr)
     {
         return this.mCurrAttr.GetAttr(attr);
+    }
+    public XTransform GetBornParam()
+    {
+        return mBornParam;
+    }
+    public Actor GetTarget()
+    {
+        return mTarget;
+    }
+    public Vector3 Pos
+    {
+        get { return CacheTransform.position; }
+    }
+    public ActorAI GetActorAI()
+    {
+        return mActorAI;
+    }
+    public ETargetCamp GetTargetCamp(Actor actor)
+    {
+        if (actor.Camp == EBattleCamp.D)
+        {
+            return ETargetCamp.None;
+        }
+        if (actor.Camp == Camp)
+        {
+            return ETargetCamp.Ally;
+        }
+        if (actor.Camp != EBattleCamp.C && Camp != EBattleCamp.C)
+        {
+            return ETargetCamp.Enemy;
+        }
+        return ETargetCamp.Neutral;
+    }
+    public void FindActorsByTargetCamp(ETargetCamp actorCamp, ref List<Actor> list, bool ignoreStealth = false)
+    {
+        for (int i = 0; i < LevelData.AllActors.Count; i++)
+        {
+            Actor actor = LevelData.AllActors[i];
+            if (GetTargetCamp(actor) == actorCamp && actor.IsDead() == false)
+            {
+                if (ignoreStealth == false)
+                {
+                    list.Add(actor);
+                }
+                else
+                {                   
+                    list.Add(actor);
+                    
+                }
+            }
+        }
+    }
+    public List<Actor> GetAllEnemy()
+    {
+        mEnemys.Clear();
+        FindActorsByTargetCamp(ETargetCamp.Enemy, ref mEnemys, true);
+        return mEnemys;
+    }
+    public Actor GetNearestEnemy(float radius = 10000)
+    {
+        List<Actor> actors = GetAllEnemy();
+        Actor nearest = null;
+        float min = radius;
+        for (int i = 0; i < actors.Count; i++)
+        {
+            float dist = GTTools.GetHorizontalDistance(actors[i].CacheTransform.position, this.CacheTransform.position);
+            if (dist < min)
+            {
+                min = dist;
+                nearest = actors[i];
+            }
+        }
+        return nearest;
+    }
+    public void SetTarget(Actor actor)
+    {
+        if (actor == null)
+        {
+            this.mTarget = null;
+            return;
+        }
+        if (mTarget == actor)
+        {
+            return;
+        }
+        this.mTarget = actor;
+        CacheTransform.LookAt(this.mTarget.CacheTransform);
+    }
+    public Actor GetHost()
+    {
+        return mHost;
+    }
+    public void OnArrive()
+    {
+        GotoEmptyFSM();
+        //if (mHost != null && mHost.GetActorEffect(EActorEffect.Is_Ride))
+        //{
+        //    mHost.OnArrive();
+        //}
+    }
+    public void SetHost(Actor actor)
+    {
+        mHost = actor;
     }
 }
 

@@ -74,7 +74,13 @@ public enum EActorType
 
 }
 
-
+public enum ETargetCamp
+{
+    None,
+    Ally,
+    Enemy,
+    Neutral,
+}
 public enum Language
 {
     Chinese,
@@ -93,4 +99,35 @@ public enum EAttr
     Atk = 3,   //攻击力
     Speed = 4,   //速度
 
+}
+public enum EAIState
+{
+    AI_NONE,  //无
+    AI_IDLE,  //闲逛
+    AI_FIGHT, //战斗
+    AI_PATROL,//巡逻
+    AI_DEAD,  //死亡
+    AI_BACK,  //回家
+    AI_CHASE, //追击
+    AI_FLEE,  //避开
+    AI_ESCAPE,//逃跑
+    AI_BORN,  //出生
+    AI_PLOT,  //剧情
+    AI_GLOBAL,//全局
+}
+public enum EAIMode
+{
+    Auto,      //自动
+    Hand,      //手动
+}
+public enum EActorEffect
+{
+    IS_AutoToMove,
+    IS_Task,
+    IS_Story,
+    IS_Stealth,
+    Is_Silent,
+    Is_Divine,
+    Is_Super,
+    Is_Ride,
 }

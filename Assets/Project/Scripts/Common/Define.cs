@@ -14,4 +14,5 @@ public class Define
     public const Single BARRIER_WIDTH = 14;
     public const int DEPTH_CAM_MAIN = 0;
     public const int SCENE_LAUNCHER = 10009;
+    public const Single MIN_INTERVAL_FINDENEMY = 0.5f;
 }

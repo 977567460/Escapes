@@ -9,12 +9,13 @@ public abstract class ICharacter : IEntiny
     public Transform CacheTransform { get; set; }
     public int GUID { get; set; }
     public int Id { get; set; }
-
+    public ICommandReceiver Receiver { get; set; }
 
     public ICharacter(int id, int guid)
     {
         this.Id = id;
         this.GUID = guid;
+        this.Receiver = new ICommandReceiver();
     }
     public abstract void Load(XTransform param);
     public abstract void Init();
@@ -26,6 +27,9 @@ public abstract class ICharacter : IEntiny
     public abstract bool IsDead();
     public abstract bool IsDestroy();
     public abstract void Pause(bool pause);
-
+    public ECommandReply Command<T>(T cmd) where T : ICommand
+    {
+        return Receiver.Command(cmd);
+    }
 
 }
