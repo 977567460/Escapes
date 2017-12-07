@@ -17,6 +17,10 @@ public class InsEntiny : Editor
         pBehavior.FSM = pActor.FSM;
         pBehavior.Camp = pActor.Camp;
         pBehavior.AIState = pActor.GetActorAI().AIState;
+        if (pActor.GetTarget() != null)
+        {
+            pBehavior.Target = pActor.GetTarget().Behavior;
+        }  
         pBehavior.Attrs = pActor.GetCurrAttr();
     }
 }

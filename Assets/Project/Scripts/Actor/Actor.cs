@@ -20,6 +20,7 @@ public class Actor : ICharacter
     protected Actor mTarget;       //当前目标
     protected ActorAI mActorAI;
     protected Actor mHost;         //主人
+    public ActorPathFinding mActorPathFinding;
     public EActorType ActorType { get; private set; }
     public EBattleCamp Camp { get; set; }
     public Actor(int id, int guid, EActorType type, EBattleCamp camp)
@@ -49,11 +50,14 @@ public class Actor : ICharacter
 
     public override void Init()
     {
+        mActorPathFinding = new ActorPathFinding(this);
         InitAction();
-        InitFSM();
+        InitFSM();        
         InitBehavior();
         InitAttr();
         InitAI();
+
+        this.AddCommands();        
     }
 
     protected void InitFSM()
@@ -111,6 +115,23 @@ public class Actor : ICharacter
     {
         get { return mCharacter.radius * CacheTransform.localScale.x; }
     }
+    private void AddCommands()
+    {    
+        this.Receiver.AddCommand<RTCommand>(ECommand.TYPE_RUNTO, CheckRunTo);
+        
+    }
+    protected virtual ECommandReply CheckRunTo(RTCommand cmd)
+    {   
+        this.GetActorAI().AIMode = EAIMode.Auto;
+        SendStateMessage(FSMState.FSM_RUN, cmd);
+        return ECommandReply.Y; ;
+    }
+    public virtual void OnPursue(RTCommand ev)
+    {
+        this.mActorPathFinding.SetOnFinished(ev.Callback);
+        MoveTo(ev.DestPosition);
+        this.mActorAction.Play("Run", null, true);
+    }
     public virtual void OnWalk()
     {
 
@@ -118,6 +139,7 @@ public class Actor : ICharacter
     }
     public virtual void OnIdle()
     {
+        StopPathFinding();
         this.mActorAction.Play("Idle", null, true);
     }
     public virtual void OnRun()
@@ -126,10 +148,12 @@ public class Actor : ICharacter
     }
     public virtual void OnDead()
     {
+        StopPathFinding();
         this.mActorAction.Play("Dead", GotoEmptyFSM, false);
     }
     public virtual void OnJump()
     {
+        StopPathFinding();
         this.mActorAction.Play("Jump", GotoEmptyFSM,false);
     }
     public virtual void OnBeginRide()
@@ -219,7 +243,7 @@ public class Actor : ICharacter
         }
 
         mMachine.Step();
-     
+        mActorPathFinding.Step();
         mActorAI.Step();
     }
 
@@ -254,7 +278,8 @@ public class Actor : ICharacter
         }
     }
     public virtual void OnForceToMove(MVCommand ev)
-    {     
+    {
+        StopPathFinding();
         Vector2 delta = ev.Delta;
         CacheTransform.LookAt(new Vector3(CacheTransform.position.x + delta.x, CacheTransform.position.y, CacheTransform.position.z + delta.y));
         mCharacter.SimpleMove(mCharacter.transform.forward*mCurrAttr.Speed);
@@ -376,15 +401,24 @@ public class Actor : ICharacter
     }
     public void OnArrive()
     {
-        GotoEmptyFSM();
-        //if (mHost != null && mHost.GetActorEffect(EActorEffect.Is_Ride))
-        //{
-        //    mHost.OnArrive();
-        //}
+        GotoEmptyFSM();      
     }
     public void SetHost(Actor actor)
     {
         mHost = actor;
+    }
+    public virtual void MoveTo(Vector3 destPosition)
+    {
+        mActorPathFinding.SetDestPosition(destPosition);
+    }
+
+    public virtual void StopPathFinding()
+    {
+        mActorPathFinding.StopPathFinding();
+    }
+    public ActorBehavior Behavior
+    {
+        get { return mBehavior; }
     }
 }
 

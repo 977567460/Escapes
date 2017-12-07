@@ -11,7 +11,7 @@ public class ActorPathFinding : IGame
     private GameObject mGameObject;
     private Vector3 mDestPosition;
     private Callback mOnFinished;
-
+    private AIConeDetection AiConeDetection;
     public bool CheckReached()
     {
         if (!mNavMeshAgent.enabled)
@@ -27,11 +27,16 @@ public class ActorPathFinding : IGame
         mGameObject = mOwner.Obj;
         this.mNavMeshAgent = mGameObject.GET<UnityEngine.AI.NavMeshAgent>();
         this.mNavMeshPath = new UnityEngine.AI.NavMeshPath();
+        if (owner.ActorType == EActorType.MONSTER)
+        {
+            this.AiConeDetection = mGameObject.transform.Find("AIDetection").gameObject.GET<AIConeDetection>();                               
+        }             
         mNavMeshAgent.enabled = false;
         mNavMeshAgent.radius = mOwner.Radius;
         mNavMeshAgent.height = mOwner.Height;
         mNavMeshAgent.acceleration = 360;
         mNavMeshAgent.angularSpeed = 360;
+      
         mNavMeshAgent.obstacleAvoidanceType = UnityEngine.AI.ObstacleAvoidanceType.HighQualityObstacleAvoidance;
     }
 
@@ -46,8 +51,14 @@ public class ActorPathFinding : IGame
         SetAgentActive(true);
         this.mNavMeshAgent.speed = mOwner.GetAttr(EAttr.Speed);
         mNavMeshAgent.SetDestination(mDestPosition);
+        if (AiConeDetection!=null)
+        AiConeDetection.player = mOwner.GetTarget().Obj;
+               
     }
-
+    public void SetStopDis(float dis)
+    {
+        mNavMeshAgent.stoppingDistance = dis;
+    }
     public void Step()
     {
         if (mNavMeshAgent.enabled == false)

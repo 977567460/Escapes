@@ -5,7 +5,8 @@ public class AIBackState : AIBaseState
 {
     public override void Enter()
     {
-        Owner.Command(new RTCommand(Owner.GetBornParam().Position, OnBackFinished));
+        Owner.mActorPathFinding.SetStopDis(0);
+        Owner.Command(new RTCommand(Owner.GetBornParam().Position, OnBackFinished));       
     }
 
     public override void Execute()

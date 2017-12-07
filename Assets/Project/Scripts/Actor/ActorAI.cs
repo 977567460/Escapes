@@ -11,13 +11,13 @@ public class ActorAI : IGame
 
     public float WARDIST
     {
-        get { return 30; }
+        get { return 10; }
     }
 
     public float ATKDIST
     {
        // get { return Owner.GetActorSkill().GetMinCastDistance(); }
-        get { return 10; }
+        get { return 2; }
     }
 
     public float FOLLOWDIST

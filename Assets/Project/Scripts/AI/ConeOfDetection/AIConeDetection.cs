@@ -18,7 +18,7 @@ public class AIConeDetection : MonoBehaviour
     public float m_fAngleOfView = 90.0f;
     private float[] m_fAngleOfViewlist = new float[SectorCount];
     public float m_vStartDistanceCone = 2.0f;
-    public Material m_matVisibilityCone = null;
+    private Material m_matVisibilityCone = null;
     public bool m_bHasStartDistance = true;
     public int m_LayerMaskToIgnoreBegin = 0;
     public int m_LayerMaskToIgnoreEnd = 0;
@@ -28,7 +28,7 @@ public class AIConeDetection : MonoBehaviour
 
     /* Render Properties */
     public bool m_bShowCone = true;
-    public int m_iConeVisibilityPrecision = 3;
+    public int m_iConeVisibilityPrecision = 60;
     //public  float       m_fDistanceForRender        = 600.0f;
 
     
@@ -51,7 +51,7 @@ public class AIConeDetection : MonoBehaviour
     private ArrayList[] m_goGameObjectIntoCone = new ArrayList[SectorCount];
     private List<GameObject> FindObjList = new List<GameObject>();
     private GameObject GroundMesh;
-    public Material GroundMat;
+    private Material GroundMat;
     Vector3[] OutVertices;
     Vector3[] InnerVertices;
     public float StartAngle = -30;
@@ -73,6 +73,8 @@ public class AIConeDetection : MonoBehaviour
 
     void Start()
     {
+        GroundMat = new Material(Shader.Find("Mobile/Particles/Additive"));
+        m_matVisibilityCone = GroundMat;
         m_LayerMaskToIgnore = ~(m_LayerMaskToIgnoreBegin << m_LayerMaskToIgnoreEnd);
         InitAIConeDetection();
     }
@@ -85,8 +87,10 @@ public class AIConeDetection : MonoBehaviour
     private void InitAIConeDetection()
     {
         GroundMesh = GameObject.CreatePrimitive(PrimitiveType.Cube);
-        GroundMesh.name = "xx00";
+        GroundMesh.name = this.name+"Mesh";
         GroundMesh.GetComponent<Renderer>().material = GroundMat;
+        if (GroundMesh.GetComponent<BoxCollider>()!=null)
+        Destroy(GroundMesh.GetComponent<BoxCollider>());
         for (int j = 0; j < SectorCount; j++)
         {
             m_fAngleOfViewlist[j] = m_fAngleOfView;
@@ -127,7 +131,7 @@ public class AIConeDetection : MonoBehaviour
         {
             if (!IsEnter)
             {
-                player.GetComponent<MeshRenderer>().material.color = Color.red;
+              //  player.GetComponent<MeshRenderer>().material.color = Color.red;
                 IsEnter = true;
                 Debug.Log("进");
             }
@@ -138,7 +142,7 @@ public class AIConeDetection : MonoBehaviour
         {
             if (IsEnter)
             {
-                player.GetComponent<MeshRenderer>().material.color = Color.green;
+              //  player.GetComponent<MeshRenderer>().material.color = Color.green;
                 IsEnter = false;
                 Debug.Log("出");
             }

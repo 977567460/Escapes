@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
 
 public class ActorRunFSM : ActorBaseFSM
@@ -9,7 +10,12 @@ public class ActorRunFSM : ActorBaseFSM
     public override void Enter()
     {
         base.Enter();
-        Owner.OnRun();
+        if (Cmd is RTCommand)
+        {
+            RTCommand ev = Cmd as RTCommand;
+            Owner.OnPursue(ev);
+        }
+       
     }
 }
 

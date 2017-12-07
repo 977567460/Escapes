@@ -10,6 +10,11 @@ public class AIChaseState : AIBaseState
 
     public override void Execute()
     {
+        if (Owner.GetTarget() != null)
+        {
+            Owner.Command(new RTCommand(Owner.GetTarget()));
+            Owner.mActorPathFinding.SetStopDis(2);
+        }
         switch (Owner.ActorType)
         {
             case EActorType.MONSTER:
@@ -21,7 +26,7 @@ public class AIChaseState : AIBaseState
                     float dist = GTTools.GetHorizontalDistance(Owner.Pos, Owner.GetTarget().Pos);
                     if (dist > AI.WARDIST)
                     {
-                        AI.ChangeAIState(EAIState.AI_BACK);
+                        AI.ChangeAIState(EAIState.AI_BACK);                        
                     }
                     else if(dist<AI.ATKDIST)
                     {
@@ -47,10 +52,7 @@ public class AIChaseState : AIBaseState
                 }
                 break;
         }
-        if (Owner.GetTarget() != null)
-        {
-            Owner.Command(new RTCommand(Owner.GetTarget()));
-        }
+        
 
     }
 
