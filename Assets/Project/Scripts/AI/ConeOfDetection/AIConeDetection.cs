@@ -60,7 +60,7 @@ public class AIConeDetection : MonoBehaviour
     private float StartRadians;
     private float IntervalRadians;
     private float EndRadians;
-    private bool IsEnter = false;
+    public bool IsEnter = false;
     public ArrayList[] GameObjectIntoCone
     {
         get { return m_goGameObjectIntoCone; }

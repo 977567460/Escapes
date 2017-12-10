@@ -21,13 +21,17 @@ public class Actor : ICharacter
     protected ActorAI mActorAI;
     protected Actor mHost;         //主人
     public ActorPathFinding mActorPathFinding;
+    public List<Vector3> PatrolGroups;
     public EActorType ActorType { get; private set; }
     public EBattleCamp Camp { get; set; }
-    public Actor(int id, int guid, EActorType type, EBattleCamp camp)
+    public EMonsterType MonsterType { get; private set; }
+    public Actor(int id, int guid, EActorType type, EBattleCamp camp, List<Vector3> PatrolGroups)
         : base(id, guid)
     {
         this.ActorType = type;
         this.Camp = camp;
+        this.PatrolGroups = PatrolGroups;
+        this.MonsterType = GameDataManage.Instance.GetDBEntiny(Id).MonsterType;
     }
     public void ApplyAnimator(bool enabled)
     {
@@ -134,7 +138,6 @@ public class Actor : ICharacter
     }
     public virtual void OnWalk()
     {
-
         this.mActorAction.Play("Walk", null, true);
     }
     public virtual void OnIdle()
@@ -155,6 +158,11 @@ public class Actor : ICharacter
     {
         StopPathFinding();
         this.mActorAction.Play("Jump", GotoEmptyFSM,false);
+    }
+    public virtual void OnGun()
+    {
+        StopPathFinding();
+        this.mActorAction.Play("Gun", GotoEmptyFSM, false);
     }
     public virtual void OnBeginRide()
     {
@@ -393,7 +401,7 @@ public class Actor : ICharacter
             return;
         }
         this.mTarget = actor;
-        CacheTransform.LookAt(this.mTarget.CacheTransform);
+      //  CacheTransform.LookAt(this.mTarget.CacheTransform);
     }
     public Actor GetHost()
     {

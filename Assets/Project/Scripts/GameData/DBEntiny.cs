@@ -37,6 +37,7 @@ public class DBEntiny : DBModule
     public string AIScript = string.Empty;
     public int MaxHp;
     public int Attack;
+    public EMonsterType MonsterType;
     public Dictionary<EProperty, int> Propertys = new Dictionary<EProperty, int>();
     public override int GetTypeId()
     {
@@ -74,6 +75,7 @@ public class ReadDBEntiny : IReadConfig<int, DBEntiny>
             db.Desc = result.Tables[0].Rows[i][13].ToString();
             db.MaxHp =int.Parse( result.Tables[0].Rows[i][14].ToString());
             db.Attack = int.Parse(result.Tables[0].Rows[i][15].ToString());
+            db.MonsterType = (EMonsterType)int.Parse(result.Tables[0].Rows[i][16].ToString());
             if (!dict.ContainsKey(db.Id))
             {
                 dict.Add(db.Id, db);

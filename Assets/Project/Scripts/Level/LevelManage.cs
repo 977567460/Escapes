@@ -59,19 +59,19 @@ public class LevelManage : MonoSingleton<LevelManage>
         for (int i = 0; i < Config.Monsters.Count; i++)
         {
             MapMonster data = Config.Monsters[i];
-            AddActor(data.Id, EActorType.MONSTER, EBattleCamp.B, data.Position, data.Euler, data.Scale);
+            AddActor(data.Id, EActorType.MONSTER, EBattleCamp.B, data.Position, data.Euler, data.Scale,data.PatrolGroups);
         }
 
     }
 
     public ActorMainPlayer AddMainPlayer(int id, XTransform param)
     {
-        ActorMainPlayer pActor = (ActorMainPlayer)AddActor(id, EActorType.PLAYER, EBattleCamp.A, param, true);
+        ActorMainPlayer pActor = (ActorMainPlayer)AddActor(id, EActorType.PLAYER, EBattleCamp.A, param,null, true);
         LevelData.MainPlayer = pActor;
         this.SetFollowCamera(LevelData.MainPlayer.Obj);
         return pActor;
     }
-    public Actor AddActor(int id, EActorType type, EBattleCamp camp, XTransform param, bool isMainPlayer = false)
+    public Actor AddActor(int id, EActorType type, EBattleCamp camp, XTransform param, List<Vector3> PatrolGroups,bool isMainPlayer = false)
     {
         int guid = GetGUID();
         Actor pActor = null;
@@ -81,17 +81,17 @@ public class LevelManage : MonoSingleton<LevelManage>
                 {
                     if (isMainPlayer)
                     {
-                        pActor = new ActorMainPlayer(id, guid, EActorType.PLAYER, camp);
+                        pActor = new ActorMainPlayer(id, guid, EActorType.PLAYER, camp,null);
                     }
                     else
                     {
-                        pActor = new ActorPlayer(id, guid, EActorType.PLAYER, camp);
+                        pActor = new ActorPlayer(id, guid, EActorType.PLAYER, camp,null);
                     }
                 }
                 break;
             case EActorType.MONSTER:
 
-                pActor = new Actor(id, guid, type, camp);
+                pActor = new Actor(id, guid, type, camp, PatrolGroups);
                 break;
 
         }
@@ -124,14 +124,14 @@ public class LevelManage : MonoSingleton<LevelManage>
         mHolders.TryGetValue(type, out holder);
         return holder;
     }
-    public Actor AddActor(int id, EActorType type, EBattleCamp camp, Vector3 pos, Vector3 angle)
+    public Actor AddActor(int id, EActorType type, EBattleCamp camp, Vector3 pos, Vector3 angle, List<Vector3> PatrolGroups)
     {
-        return AddActor(id, type, camp, XTransform.Create(pos, angle));
+        return AddActor(id, type, camp, XTransform.Create(pos, angle), PatrolGroups);
     }
 
-    public Actor AddActor(int id, EActorType type, EBattleCamp camp, Vector3 pos, Vector3 angle, Vector3 scale)
+    public Actor AddActor(int id, EActorType type, EBattleCamp camp, Vector3 pos, Vector3 angle, Vector3 scale, List<Vector3> PatrolGroups)
     {
-        return AddActor(id, type, camp, XTransform.Create(pos, angle, scale));
+        return AddActor(id, type, camp, XTransform.Create(pos, angle, scale), PatrolGroups);
     }
     public Camera SetFollowCamera(GameObject player)
     {

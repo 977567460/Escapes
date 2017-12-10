@@ -1,11 +1,18 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class AIPatrolState : AIBaseState
 {
+    private List<Vector3> PatrolGroups = new List<Vector3>();
+    private float ThinkingTime = 2f;
+    private float Timerr=0;
+    private bool Iswalking = false;
+    private Vector3 PreTarget =Vector3.zero;
     public override void Enter()
     {
-
+        PatrolGroups = Owner.PatrolGroups;
+     
     }
 
     public override void Execute()
@@ -16,13 +23,14 @@ public class AIPatrolState : AIBaseState
             case EActorType.MONSTER:
                 {
                     if (pTarget != null)
-                    {
+                    {                       
                         float dist = GTTools.GetHorizontalDistance(Owner.Pos, pTarget.Pos);
-                        if (dist < AI.WARDIST)
+                        if (Owner.mActorPathFinding.AiConeDetection.IsEnter)
                         {
                             AI.ChangeAIState(EAIState.AI_CHASE);
                         }
                     }
+                    Patrol();
                 }
                 break;
             case EActorType.PLAYER:
@@ -35,6 +43,7 @@ public class AIPatrolState : AIBaseState
                             AI.ChangeAIState(EAIState.AI_CHASE);
                         }
                     }
+                    Patrol();
                 }
                 break;
         }
@@ -44,4 +53,23 @@ public class AIPatrolState : AIBaseState
     {
 
     }
+    void Patrol()
+    {
+        if(!Iswalking)
+        Timerr += Time.deltaTime;
+        if (Timerr >= ThinkingTime)
+        {       
+            Vector3 target = PatrolGroups[Random.Range(0, PatrolGroups.Count)];
+            if (PreTarget == target) return;
+            Iswalking = true;
+            Timerr = 0;
+            Owner.mActorPathFinding.SetDestPosition(target);
+            Owner.mActorPathFinding.SetOnFinished(()=>{
+                Iswalking = false;
+            });
+            Owner.SendStateMessage(FSMState.FSM_WALK);
+            PreTarget = target;
+        }      
+    }
+  
 }

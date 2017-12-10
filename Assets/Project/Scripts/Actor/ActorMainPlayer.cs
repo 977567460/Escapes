@@ -8,8 +8,8 @@ using UnityEngine;
 public class ActorMainPlayer : ActorPlayer
 {
     private float speed = 5;
-    public ActorMainPlayer(int id, int guid, EActorType type, EBattleCamp camp)
-        : base(id, guid, type, camp)
+    public ActorMainPlayer(int id, int guid, EActorType type, EBattleCamp camp, List<Vector3> PatrolGroups)
+        : base(id, guid, type, camp, PatrolGroups)
     {
 
     }

@@ -36,6 +36,8 @@ public class AIGlobalState :AIBaseState
         {
             Actor enemy = Owner.GetNearestEnemy(AI.WARDIST);
             this.Owner.SetTarget(enemy);
+            if (Owner.mActorPathFinding != null && enemy != null)
+                Owner.mActorPathFinding.AiConeDetection.player = enemy.Obj;
             AI.FindEnemyTimer = 0;
         }
         else

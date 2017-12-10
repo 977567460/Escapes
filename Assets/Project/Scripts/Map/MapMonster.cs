@@ -13,6 +13,7 @@ namespace Cfg.Map
         public Vector3 Euler;
         public Vector3 Scale = Vector3.one;
         public List<string> Talks = new List<string>();
+        public List<Vector3> PatrolGroups = new List<Vector3>();
 
         public override void Read(XmlNode os)
         {
@@ -41,7 +42,17 @@ namespace Cfg.Map
                                 this.Talks.Add(s);
                             }
                         });
-                        break;                 
+                        break;
+                    case "PatrolGroups":
+                        LoadXML.GetChilds(current).ForEach(delegate(XmlNode pNode)
+                        {
+                            Vector3 s = ReadVector3(pNode);
+                            if (s!=null)
+                            {
+                                this.PatrolGroups.Add(s);
+                            }
+                        });
+                        break;   
                 }
             }
         }

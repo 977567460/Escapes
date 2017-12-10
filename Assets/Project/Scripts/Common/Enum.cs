@@ -73,7 +73,14 @@ public enum EActorType
     MONSTER,  //怪物
 
 }
+public enum EMonsterType
+{
+    PLAYER,   //玩家
+    People,  //群众
+    Patroler,//巡逻人员
+    Sniper//狙击手
 
+}
 public enum ETargetCamp
 {
     None,

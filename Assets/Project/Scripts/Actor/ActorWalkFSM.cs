@@ -9,9 +9,12 @@ public class ActorWalkFSM : ActorBaseFSM
     public override void Enter()
     {
         base.Enter();
+       
         MVCommand ev = Cmd as MVCommand;
-        Owner.OnForceToMove(ev);
-
+        if (ev != null)
+            Owner.OnForceToMove(ev);
+        else
+            Owner.OnWalk();
     }
 }
 

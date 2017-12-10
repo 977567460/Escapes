@@ -11,7 +11,7 @@ public class ActorPathFinding : IGame
     private GameObject mGameObject;
     private Vector3 mDestPosition;
     private Callback mOnFinished;
-    private AIConeDetection AiConeDetection;
+    public AIConeDetection AiConeDetection;
     public bool CheckReached()
     {
         if (!mNavMeshAgent.enabled)
@@ -35,8 +35,7 @@ public class ActorPathFinding : IGame
         mNavMeshAgent.radius = mOwner.Radius;
         mNavMeshAgent.height = mOwner.Height;
         mNavMeshAgent.acceleration = 360;
-        mNavMeshAgent.angularSpeed = 360;
-      
+        mNavMeshAgent.angularSpeed = 360;      
         mNavMeshAgent.obstacleAvoidanceType = UnityEngine.AI.ObstacleAvoidanceType.HighQualityObstacleAvoidance;
     }
 
@@ -50,9 +49,7 @@ public class ActorPathFinding : IGame
         mDestPosition = dest;
         SetAgentActive(true);
         this.mNavMeshAgent.speed = mOwner.GetAttr(EAttr.Speed);
-        mNavMeshAgent.SetDestination(mDestPosition);
-        if (AiConeDetection!=null)
-        AiConeDetection.player = mOwner.GetTarget().Obj;
+        mNavMeshAgent.SetDestination(mDestPosition);   
                
     }
     public void SetStopDis(float dis)
