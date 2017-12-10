@@ -38,6 +38,10 @@ public class DBEntiny : DBModule
     public int MaxHp;
     public int Attack;
     public EMonsterType MonsterType;
+    public int ViewLength;
+    public int StartAngle;
+    public int EndAngle;
+    public int WaitPatrolTime;
     public Dictionary<EProperty, int> Propertys = new Dictionary<EProperty, int>();
     public override int GetTypeId()
     {
@@ -76,6 +80,10 @@ public class ReadDBEntiny : IReadConfig<int, DBEntiny>
             db.MaxHp =int.Parse( result.Tables[0].Rows[i][14].ToString());
             db.Attack = int.Parse(result.Tables[0].Rows[i][15].ToString());
             db.MonsterType = (EMonsterType)int.Parse(result.Tables[0].Rows[i][16].ToString());
+            db.ViewLength = int.Parse(result.Tables[0].Rows[i][17].ToString());
+            db.StartAngle = int.Parse(result.Tables[0].Rows[i][18].ToString());
+            db.EndAngle = int.Parse(result.Tables[0].Rows[i][19].ToString());
+            db.WaitPatrolTime = int.Parse(result.Tables[0].Rows[i][20].ToString());
             if (!dict.ContainsKey(db.Id))
             {
                 dict.Add(db.Id, db);

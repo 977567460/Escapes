@@ -10,7 +10,10 @@ public class ActorAttr
     public int MaxHP;
     public int Atk;
     public int Speed;
-
+    public int ViewLength;
+    public int StartAngle;
+    public int EndAngle;
+    public int WaitPatrolTime;
     public int GetAttr(EAttr property)
     {
         switch (property)
@@ -23,6 +26,14 @@ public class ActorAttr
                 return MaxHP;
             case EAttr.Speed:
                 return Speed;
+            case EAttr.ViewLength:
+                return ViewLength;
+            case EAttr.StartAngle:
+                return StartAngle;
+            case EAttr.EndAngle:
+                return EndAngle;
+            case EAttr.WaitPatrolTime:
+                return WaitPatrolTime;
             default:
                 return 0;
         }
@@ -52,11 +63,22 @@ public class ActorAttr
             case EAttr.Speed:
                 Speed = value;
                 break;
+            case EAttr.StartAngle:
+                StartAngle = value;
+                break;
+            case EAttr.EndAngle:
+                EndAngle = value;
+                break;
+            case EAttr.ViewLength:
+                ViewLength = value;
+                break;
+            case EAttr.WaitPatrolTime:
+                WaitPatrolTime = value;
+                break;
             default:
                 break;
         }
     }
-
     public static ActorAttr operator +(ActorAttr a, ActorAttr b)
     {
         ActorAttr c = new ActorAttr();

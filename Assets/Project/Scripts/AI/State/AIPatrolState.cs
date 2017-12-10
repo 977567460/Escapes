@@ -5,13 +5,14 @@ using System.Collections.Generic;
 public class AIPatrolState : AIBaseState
 {
     private List<Vector3> PatrolGroups = new List<Vector3>();
-    private float ThinkingTime = 2f;
+    private float ThinkingTime;
     private float Timerr=0;
     private bool Iswalking = false;
     private Vector3 PreTarget =Vector3.zero;
     public override void Enter()
     {
         PatrolGroups = Owner.PatrolGroups;
+        ThinkingTime = Owner.GetAttr(EAttr.WaitPatrolTime);
      
     }
 

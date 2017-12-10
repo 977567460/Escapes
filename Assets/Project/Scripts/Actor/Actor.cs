@@ -54,11 +54,12 @@ public class Actor : ICharacter
 
     public override void Init()
     {
+        InitAttr();
         mActorPathFinding = new ActorPathFinding(this);
         InitAction();
         InitFSM();        
         InitBehavior();
-        InitAttr();
+        
         InitAI();
 
         this.AddCommands();        
@@ -73,6 +74,7 @@ public class Actor : ICharacter
         this.mMachine.AddState(FSMState.FSM_WALK, new ActorWalkFSM());
         this.mMachine.AddState(FSMState.FSM_DEAD, new ActorDeadFSM());
         this.mMachine.AddState(FSMState.FSM_JUMP, new ActorJumpFSM());
+        this.mMachine.AddState(FSMState.FSM_GUN, new ActorFireFsm());
         this.mMachine.SetCurrState(this.mMachine.GetState(FSMState.FSM_IDLE));
         this.mMachine.GetState(this.mMachine.GetCurrStateID()).Enter();
     }
@@ -109,6 +111,10 @@ public class Actor : ICharacter
         propertys = db.Propertys;
         mCurrAttr.CopyFrom(propertys);
         mCurrAttr.Update(EAttr.Speed, (int)db.RSpeed);
+        mCurrAttr.Update(EAttr.StartAngle, (int)db.StartAngle);
+        mCurrAttr.Update(EAttr.EndAngle, (int)db.EndAngle);
+        mCurrAttr.Update(EAttr.ViewLength, (int)db.ViewLength);
+        mCurrAttr.Update(EAttr.WaitPatrolTime, (int)db.WaitPatrolTime);
     }
     public float Height
     {
@@ -162,7 +168,8 @@ public class Actor : ICharacter
     public virtual void OnGun()
     {
         StopPathFinding();
-        this.mActorAction.Play("Gun", GotoEmptyFSM, false);
+        CacheTransform.LookAt(this.mTarget.CacheTransform);
+        this.mActorAction.Play("Gun", GotoEmptyFSM, true);
     }
     public virtual void OnBeginRide()
     {

@@ -15,7 +15,7 @@ public class AIConeDetection : MonoBehaviour
     /* Fov Properties */
     public bool m_bIs2D = false;
     public float m_fConeLenght = 5.0f;
-    public float m_fAngleOfView = 90.0f;
+    public float m_fAngleOfView = 45f;
     private float[] m_fAngleOfViewlist = new float[SectorCount];
     public float m_vStartDistanceCone = 2.0f;
     private Material m_matVisibilityCone = null;
@@ -54,7 +54,7 @@ public class AIConeDetection : MonoBehaviour
     private Material GroundMat;
     Vector3[] OutVertices;
     Vector3[] InnerVertices;
-    public float StartAngle = -30;
+    public float StartAngle = -10;
     private float IntervalAngle;
     public float EndAngle = -80;
     private float StartRadians;

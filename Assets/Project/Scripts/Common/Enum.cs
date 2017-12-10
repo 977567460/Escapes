@@ -33,7 +33,7 @@ public enum FSMState : int
     FSM_SKILL,               //攻击
     FSM_DEAD,                //死亡
     FSM_REBORN,              //重生
-
+    FSM_GUN,
     //FSM_WOUND,               //受击
     //FSM_BEATBACK,            //击退
     //FSM_BEATDOWN,            //击倒
@@ -105,7 +105,10 @@ public enum EAttr
     HP = 2,   //生命值
     Atk = 3,   //攻击力
     Speed = 4,   //速度
-
+    StartAngle = 5,//开始角度
+    EndAngle = 6,//结束角度
+    ViewLength = 7,//视野长度
+    WaitPatrolTime=8,//等待时间
 }
 public enum EAIState
 {
