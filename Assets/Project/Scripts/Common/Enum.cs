@@ -33,7 +33,7 @@ public enum FSMState : int
     FSM_SKILL,               //攻击
     FSM_DEAD,                //死亡
     FSM_REBORN,              //重生
-    FSM_GUN,
+    FSM_Attack,
     //FSM_WOUND,               //受击
     //FSM_BEATBACK,            //击退
     //FSM_BEATDOWN,            //击倒

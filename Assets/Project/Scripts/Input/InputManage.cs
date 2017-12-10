@@ -8,10 +8,12 @@ using UnityEngine;
 public class InputManage : MonoSingleton<InputManage>
 {
     public KeyCode jump { get; set; }
+    public KeyCode attack { get; set; }
    
     void Start()
     {
         jump = KeyCode.Space;
+        attack = KeyCode.E;
     
     }
     public override void SetDontDestroyOnLoad(Transform parent)
@@ -27,6 +29,10 @@ public class InputManage : MonoSingleton<InputManage>
         if (Input.GetKeyDown(jump))
         {
             ZTEvent.FireEvent(EventID.REQ_PLAYER_JUMP);
+        }
+        if (Input.GetKeyDown(attack))
+        {
+            ZTEvent.FireEvent(EventID.REQ_PLAYER_Attack);
         }
         if (x != 0 || y != 0)
         {

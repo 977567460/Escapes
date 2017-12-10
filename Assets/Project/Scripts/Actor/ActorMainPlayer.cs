@@ -19,12 +19,16 @@ public class ActorMainPlayer : ActorPlayer
         ZTEvent.AddHandler(EventID.REQ_PLAYER_JUMP, OnMainPlayerJump);
         ZTEvent.AddHandler<float,float>(EventID.REQ_PLAYER_Walk, OnMainPlayerWalk);
         ZTEvent.AddHandler(EventID.REQ_PLAYER_Idle, OnMainPlayerIdle);
-   
+        ZTEvent.AddHandler(EventID.REQ_PLAYER_Attack, OnMainPlayerAttack);
     }
     void OnMainPlayerJump()
     {
         this.SendStateMessage(FSMState.FSM_JUMP);
       
+    }
+    void OnMainPlayerAttack()
+    {
+        this.SendStateMessage(FSMState.FSM_Attack);
     }
     void OnMainPlayerWalk(float arg1, float arg2)
     {
@@ -40,7 +44,8 @@ public class ActorMainPlayer : ActorPlayer
         base.Destroy();
         ZTEvent.RemoveHandler(EventID.REQ_PLAYER_JUMP, OnMainPlayerJump);
         ZTEvent.RemoveHandler<float,float>(EventID.REQ_PLAYER_Walk, OnMainPlayerWalk);
-    
+        ZTEvent.RemoveHandler(EventID.REQ_PLAYER_Idle, OnMainPlayerIdle);
+        ZTEvent.RemoveHandler(EventID.REQ_PLAYER_Attack, OnMainPlayerAttack);
     }
 }
 

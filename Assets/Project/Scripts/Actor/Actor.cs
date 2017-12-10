@@ -74,7 +74,7 @@ public class Actor : ICharacter
         this.mMachine.AddState(FSMState.FSM_WALK, new ActorWalkFSM());
         this.mMachine.AddState(FSMState.FSM_DEAD, new ActorDeadFSM());
         this.mMachine.AddState(FSMState.FSM_JUMP, new ActorJumpFSM());
-        this.mMachine.AddState(FSMState.FSM_GUN, new ActorFireFsm());
+        this.mMachine.AddState(FSMState.FSM_Attack, new ActorAttackFsm());
         this.mMachine.SetCurrState(this.mMachine.GetState(FSMState.FSM_IDLE));
         this.mMachine.GetState(this.mMachine.GetCurrStateID()).Enter();
     }
@@ -165,11 +165,18 @@ public class Actor : ICharacter
         StopPathFinding();
         this.mActorAction.Play("Jump", GotoEmptyFSM,false);
     }
-    public virtual void OnGun()
-    {
-        StopPathFinding();
-        CacheTransform.LookAt(this.mTarget.CacheTransform);
-        this.mActorAction.Play("Gun", GotoEmptyFSM, true);
+    public virtual void OnAttack()
+    {             
+        if(this.ActorType==EActorType.MONSTER){
+            StopPathFinding();
+            CacheTransform.LookAt(this.mTarget.CacheTransform);
+            this.mActorAction.Play("Gun", GotoEmptyFSM, true);
+        }
+        else
+        {
+            this.mActorAction.Play("Knife", GotoEmptyFSM, false);
+        }
+            
     }
     public virtual void OnBeginRide()
     {

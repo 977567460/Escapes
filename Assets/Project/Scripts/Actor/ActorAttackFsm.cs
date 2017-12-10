@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 
 
-  public  class ActorFireFsm:ActorBaseFSM
+  public  class ActorAttackFsm:ActorBaseFSM
     {
         public override void Enter()
         {
             base.Enter();
-            Owner.OnGun();
+            Owner.OnAttack();
         }
     }
 

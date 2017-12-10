@@ -50,7 +50,7 @@ public class AIFightState : AIBaseState
         {
             return;
         }
-        Owner.SendStateMessage(FSMState.FSM_GUN);
+        Owner.SendStateMessage(FSMState.FSM_Attack);
         //SkillTree skill = Owner.GetActorSkill().FindNextSkillByDist(dist);
         //if (skill != null)
         //{
