@@ -70,4 +70,19 @@
             </Talks>
         </Item>
     </MonsterGroups>
+
+	<PlayerGroups>
+		<Item Type="MapPlayer">
+			<Id>1</Id>
+			<Position>(90,0,207)</Position>
+			<EulerAngles>(0.00,0.00,0.00)</EulerAngles>
+			<Scale>(1.00,1.00,1.00)</Scale>
+		</Item>
+		<Item Type="MapPlayer">
+			<Id>2</Id>
+			<Position>(90,0,247)</Position>
+			<EulerAngles>(0.00,0.00,0.00)</EulerAngles>
+			<Scale>(1.00,1.00,1.00)</Scale>			
+		</Item>		
+	</PlayerGroups>
 </Root>

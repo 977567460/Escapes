@@ -14,6 +14,7 @@ public class LevelManage : MonoSingleton<LevelManage>
     public MapConfig Config;
     private static int GUIDStart = 100001;
     private Dictionary<EMapHolder, LevelElement> mHolders = new Dictionary<EMapHolder, LevelElement>();
+    public ActorMainPlayer pMainActor = null;
 
     public int GetGUID()
     {
@@ -55,21 +56,44 @@ public class LevelManage : MonoSingleton<LevelManage>
         {
             return;
         }
-        AddMainPlayer(id, XTransform.Create(Config.A.TransParam.Position, Config.A.TransParam.EulerAngles));
+        for (int i = 0; i < Config.Players.Count; i++)
+        {
+           MapPlayer data = Config.Players[i];          
+           ActorMainPlayer actorMainPlayer= AddMainPlayer(data.Id, XTransform.Create(data.Position, data.Euler));
+           LevelData.MainPlayerlist.Add(actorMainPlayer);                      
+        }
         for (int i = 0; i < Config.Monsters.Count; i++)
         {
             MapMonster data = Config.Monsters[i];
             AddActor(data.Id, EActorType.MONSTER, EBattleCamp.B, data.Position, data.Euler, data.Scale,data.PatrolGroups);
         }
 
+        LevelManage.Instance.SetMainPlayer(1);
     }
 
     public ActorMainPlayer AddMainPlayer(int id, XTransform param)
-    {
-        ActorMainPlayer pActor = (ActorMainPlayer)AddActor(id, EActorType.PLAYER, EBattleCamp.A, param,null, true);
-        LevelData.MainPlayer = pActor;
+    {      
+        pMainActor = (ActorMainPlayer)AddActor(id, EActorType.PLAYER, EBattleCamp.A, param, null, true);
+        LevelData.MainPlayer = pMainActor;
         this.SetFollowCamera(LevelData.MainPlayer.Obj);
-        return pActor;
+        return pMainActor;
+    }
+    public void SetMainPlayer(int id)
+    {
+        Debug.Log(id);
+        for (int i = 0; i < LevelData.MainPlayerlist.Count; i++)
+        {
+            if (LevelData.MainPlayerlist[i].Id == id)
+            {
+                LevelData.MainPlayer = LevelData.MainPlayerlist[i];
+                LevelData.MainPlayer.addMainPlayer();
+            }
+            else
+            {
+                LevelData.MainPlayerlist[i].RemoveMainPlayer();
+            }
+        }
+        this.SetFollowCamera(LevelData.MainPlayer.Obj);
     }
     public Actor AddActor(int id, EActorType type, EBattleCamp camp, XTransform param, List<Vector3> PatrolGroups,bool isMainPlayer = false)
     {

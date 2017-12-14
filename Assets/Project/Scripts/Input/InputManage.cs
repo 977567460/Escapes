@@ -9,11 +9,12 @@ public class InputManage : MonoSingleton<InputManage>
 {
     public KeyCode jump { get; set; }
     public KeyCode attack { get; set; }
-   
+    public KeyCode changemainplayer { get; set; }
     void Start()
     {
         jump = KeyCode.Space;
         attack = KeyCode.E;
+        changemainplayer=KeyCode.Q;
     
     }
     public override void SetDontDestroyOnLoad(Transform parent)
@@ -33,6 +34,10 @@ public class InputManage : MonoSingleton<InputManage>
         if (Input.GetKeyDown(attack))
         {
             ZTEvent.FireEvent(EventID.REQ_PLAYER_Attack);
+        }
+        if (Input.GetKeyDown(changemainplayer))
+        {
+            ZTEvent.FireEvent(EventID.REQ_PLAYER_Change);
         }
         if (x != 0 || y != 0)
         {

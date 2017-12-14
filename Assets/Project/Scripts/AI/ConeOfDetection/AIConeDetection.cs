@@ -133,9 +133,8 @@ public class AIConeDetection : MonoBehaviour
         {
             if (!IsEnter)
             {
-              //  player.GetComponent<MeshRenderer>().material.color = Color.red;
                 IsEnter = true;
-                Debug.Log("进");
+              //  Debug.Log("进");
             }
 
 
@@ -144,9 +143,8 @@ public class AIConeDetection : MonoBehaviour
         {
             if (IsEnter)
             {
-              //  player.GetComponent<MeshRenderer>().material.color = Color.green;
                 IsEnter = false;
-                Debug.Log("出");
+               // Debug.Log("出");
             }
 
         }

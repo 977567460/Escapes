@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using ParagonAI;
 
 public class AIFightState : AIBaseState
 {
@@ -56,9 +57,14 @@ public class AIFightState : AIBaseState
         Timerr += Time.deltaTime;
         if (Timerr >= SkillCD)
         {
-            GameObject Bullet = ZTPool.Instance.GetGo("Model/Weapons/bullet");           
-            Bullet.transform.position = Owner.BulletOrigin.position;
-            Bullet.transform.eulerAngles = Owner.BulletOrigin.eulerAngles;
+            GameObject Bullet = ZTPool.Instance.GetGo("Model/Weapons/bullet");
+            BulletScript bulletScript= Bullet.GET<BulletScript>();
+            bulletScript.damage = Owner.GetAttr(EAttr.Atk);
+            if (Owner.mActorPart.AttackTransform != null)
+            {
+                Bullet.transform.position = Owner.mActorPart.AttackTransform.position;
+                Bullet.transform.eulerAngles = Owner.mActorPart.AttackTransform.eulerAngles;
+            }          
             Timerr = 0;
         }
        

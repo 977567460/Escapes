@@ -11,23 +11,23 @@ namespace ParagonAI
     public class BulletScript : MonoBehaviour
     {
 
-        public float speed = 1000;
+        public float speed = 50;
         public LayerMask layerMask;
-        public float maxLifeTime = 3;
+        public float maxLifeTime = 4;
 
         //Bullet Stuff
-        public float damage = 16;
+        public int damage = 16;
 
         //use for shotguns
-        public float bulletForce = 100;
+        public float bulletForce = 4;
 
         //Hit Effects
         public GameObject hitEffect;
         public float hitEffectDestroyTime = 1;
         public string hitEffectTag = "HitBox";
         public GameObject missEffect;
-        public float missEffectDestroyTime = 1;
-        public float timeToDestroyAfterHitting = 0.5f;
+        public float missEffectDestroyTime = 6;
+        public float timeToDestroyAfterHitting = 0.2f;
         private RaycastHit hit;
         private Transform myTransform;
 
@@ -35,13 +35,16 @@ namespace ParagonAI
         private Quaternion targetRotation;
 
         private Transform target = null;
-        public float homingTrackingSpeed = 3;
+        public float homingTrackingSpeed = 5;
 
-        public float minDistToDetonate = 0.5f;
+        public float minDistToDetonate = 2f;
         private float minDistToDetonateSqr;
-
+        private Actor TargetActor;
         void Awake()
         {
+            layerMask = LayerMask.GetMask("Default");
+            hitEffect = ZTPool.Instance.GetGo("Model/Weapons/Explosion Missile 2");
+            missEffect = hitEffect;
             myTransform = transform;
             Move();
             StartCoroutine(SetTimeToDestroy());
@@ -66,7 +69,12 @@ namespace ParagonAI
         {
             //Reduce the enemy's health
             //Does NOT travel up the heirarchy.  
-            hit.collider.SendMessage("Damage", damage, SendMessageOptions.DontRequireReceiver);
+            if (hit.collider.gameObject.GetComponent<ActorBehavior>() != null)
+            {
+                TargetActor = hit.collider.gameObject.GetComponent<ActorBehavior>().Owner;
+                TargetActor.BeDamage(damage);
+            }
+            //hit.collider.SendMessage("BeDamage", damage, SendMessageOptions.DontRequireReceiver);
 
             //Produce the appropriate special effect
             if (hit.transform.tag == hitEffectTag && hitEffect)
@@ -83,8 +91,8 @@ namespace ParagonAI
             yield return null;
 
             //Wait a fram to apply forces as we need to make sure the thing is dead
-            if (hit.rigidbody)
-                hit.rigidbody.AddForceAtPosition(myTransform.forward * bulletForce, hit.point, ForceMode.Impulse);
+            //if (hit.rigidbody)
+            //    hit.rigidbody.AddForceAtPosition(myTransform.forward * bulletForce, hit.point, ForceMode.Impulse);
 
             //Linger around for a while to let the trail renderer dissipate (if the bullet has one.)
             Destroy(gameObject, timeToDestroyAfterHitting);

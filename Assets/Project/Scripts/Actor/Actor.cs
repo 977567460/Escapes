@@ -11,6 +11,7 @@ public class Actor : ICharacter
 {
     protected ActorAttr mCurrAttr = new ActorAttr();
     protected List<Actor> mEnemys = new List<Actor>();
+    protected List<Actor> mPlayers = new List<Actor>();
     protected IStateMachine<Actor, FSMState> mMachine;
     public ZTAction mActorAction;
     protected Animator mActorAnimator;
@@ -19,13 +20,12 @@ public class Actor : ICharacter
     protected CharacterController mCharacter;
     protected Actor mTarget;       //当前目标
     protected ActorAI mActorAI;
-    protected Actor mHost;         //主人
     public ActorPathFinding mActorPathFinding;
     public List<Vector3> PatrolGroups;
     public EActorType ActorType { get; private set; }
     public EBattleCamp Camp { get; set; }
     public EMonsterType MonsterType { get; private set; }
-    public Transform BulletOrigin { get; private set; }
+    public ActorPart mActorPart;
     public Actor(int id, int guid, EActorType type, EBattleCamp camp, List<Vector3> PatrolGroups)
         : base(id, guid)
     {
@@ -99,6 +99,7 @@ public class Actor : ICharacter
             mActorAnimator.cullingMode = AnimatorCullingMode.CullUpdateTransforms;
             this.mActorAction = new ZTAction(mActorAnimator);
         }
+       
     }
     protected void InitBehavior()
     {
@@ -115,7 +116,8 @@ public class Actor : ICharacter
         mCurrAttr.Update(EAttr.StartAngle, (int)db.StartAngle);
         mCurrAttr.Update(EAttr.EndAngle, (int)db.EndAngle);
         mCurrAttr.Update(EAttr.ViewLength, (int)db.ViewLength);
-        mCurrAttr.Update(EAttr.WaitPatrolTime, (int)db.WaitPatrolTime);
+        mCurrAttr.Update(EAttr.WaitPatrolTime, (int)db.WaitPatrolTime);      
+       
     }
     public float Height
     {
@@ -159,7 +161,10 @@ public class Actor : ICharacter
     public virtual void OnDead()
     {
         StopPathFinding();
-        this.mActorAction.Play("Dead", GotoEmptyFSM, false);
+        this.mActorAction.Play("Dead", null, false);
+        this.Clear();
+        this.ApplyCharacterCtrl(false);
+        this.mActorAI.Clear();
     }
     public virtual void OnJump()
     {
@@ -197,9 +202,7 @@ public class Actor : ICharacter
         }
         this.CacheTransform = Obj.transform;
         this.mBornParam = data;
-        if(ActorType==EActorType.MONSTER){
-        this.BulletOrigin = this.Obj.transform.Find("Hips_jnt/Spine_jnt/Spine_jnt 1/Chest_jnt/Shoulder_Right_jnt/Arm_Right_jnt/Forearm_Right_jnt/Hand_Right_jnt/SA_Wep_AssaultRifle01/Bullet");
-        }        
+        this.mActorPart=new ActorPart(this);        
         this.mCharacter = Obj.GetComponent<CharacterController>();
         this.Init();
     }
@@ -258,7 +261,7 @@ public class Actor : ICharacter
 
     public override void Clear()
     {
-        throw new NotImplementedException();
+        
     }
 
     public override void Step()
@@ -324,7 +327,28 @@ public class Actor : ICharacter
         else
         {
             UpdateAttr(EAttr.HP, 0);
-        }    
+        }
+        if (this.mCurrAttr.HP <= 0)
+        {
+
+            SendStateMessage(FSMState.FSM_DEAD);
+        }
+    }
+    public void BeDamage(int damage)
+    {
+        if (this.mCurrAttr.HP > damage)
+        {
+            UpdateAttr(EAttr.HP, this.mCurrAttr.HP - damage);
+        }
+        else
+        {
+            UpdateAttr(EAttr.HP, 0);
+        }
+        if (this.mCurrAttr.HP <= 0)
+        {
+            if (FSM != FSMState.FSM_DEAD)
+            SendStateMessage(FSMState.FSM_DEAD);
+        }
     }
     public ActorAttr GetCurrAttr()
     {
@@ -370,7 +394,7 @@ public class Actor : ICharacter
     {
         for (int i = 0; i < LevelData.AllActors.Count; i++)
         {
-            Actor actor = LevelData.AllActors[i];
+            Actor actor = LevelData.AllActors[i];           
             if (GetTargetCamp(actor) == actorCamp && actor.IsDead() == false)
             {
                 if (ignoreStealth == false)
@@ -391,9 +415,22 @@ public class Actor : ICharacter
         FindActorsByTargetCamp(ETargetCamp.Enemy, ref mEnemys, true);
         return mEnemys;
     }
+    public List<Actor> GetAllPlayer()
+    {      
+        mPlayers.Clear();
+        for (int i = 0; i < LevelData.AllActors.Count; i++)
+        {
+            if (LevelData.AllActors[i].ActorType == EActorType.PLAYER)
+            {               
+                mPlayers.Add(LevelData.AllActors[i]);
+            }
+               
+        }       
+        return mPlayers;
+    }
     public Actor GetNearestEnemy(float radius = 10000)
     {
-        List<Actor> actors = GetAllEnemy();
+        List<Actor> actors = GetAllEnemy();       
         Actor nearest = null;
         float min = radius;
         for (int i = 0; i < actors.Count; i++)
@@ -420,19 +457,12 @@ public class Actor : ICharacter
         }
         this.mTarget = actor;
       //  CacheTransform.LookAt(this.mTarget.CacheTransform);
-    }
-    public Actor GetHost()
-    {
-        return mHost;
-    }
+    } 
     public void OnArrive()
     {
         GotoEmptyFSM();      
     }
-    public void SetHost(Actor actor)
-    {
-        mHost = actor;
-    }
+  
     public virtual void MoveTo(Vector3 destPosition)
     {
         mActorPathFinding.SetDestPosition(destPosition);
@@ -446,5 +476,6 @@ public class Actor : ICharacter
     {
         get { return mBehavior; }
     }
+   
 }
 

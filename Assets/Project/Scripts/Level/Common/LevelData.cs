@@ -17,7 +17,7 @@ public class LevelData
     public static float StrTime;
     public static float EndTime;
     public static bool Win;
-
+    public static List<ActorMainPlayer> MainPlayerlist=new List<ActorMainPlayer>();
     public static ActorMainPlayer MainPlayer = null;
     public static ActorPlayer EnemPlayer = null;
 

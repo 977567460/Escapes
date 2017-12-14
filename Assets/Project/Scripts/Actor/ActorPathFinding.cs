@@ -29,7 +29,7 @@ public class ActorPathFinding : IGame
         this.mNavMeshPath = new UnityEngine.AI.NavMeshPath();
         if (owner.ActorType == EActorType.MONSTER)
         {
-            this.AiConeDetection = mGameObject.transform.Find("AIDetection").gameObject.GET<AIConeDetection>();
+            this.AiConeDetection = mOwner.mActorPart.AIConeDetection.gameObject.GET<AIConeDetection>();
             AiConeDetection.StartAngle = owner.GetAttr(EAttr.StartAngle);
             AiConeDetection.EndAngle = owner.GetAttr(EAttr.EndAngle);
             AiConeDetection.m_fConeLenght = owner.GetAttr(EAttr.ViewLength);     

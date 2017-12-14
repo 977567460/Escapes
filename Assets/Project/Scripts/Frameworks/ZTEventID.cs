@@ -3,8 +3,9 @@ using System.Collections;
 
 public enum EventID : ushort
 {
-    REQ_PLAYER_JUMP,          //请求玩家跳跃
-    REQ_PLAYER_Walk,
-     REQ_PLAYER_Idle,
-     REQ_PLAYER_Attack
+    REQ_PLAYER_JUMP,  //请求玩家跳跃
+    REQ_PLAYER_Walk,  //请求玩家行走
+    REQ_PLAYER_Idle,  //请求玩家站立
+    REQ_PLAYER_Attack,  //请求玩家攻击
+    REQ_PLAYER_Change  //请求玩家切换角色
 }
