@@ -25,13 +25,14 @@ public class Actor : ICharacter
     public EActorType ActorType { get; private set; }
     public EBattleCamp Camp { get; set; }
     public EMonsterType MonsterType { get; private set; }
+    public Transform BulletOrigin { get; private set; }
     public Actor(int id, int guid, EActorType type, EBattleCamp camp, List<Vector3> PatrolGroups)
         : base(id, guid)
     {
         this.ActorType = type;
         this.Camp = camp;
         this.PatrolGroups = PatrolGroups;
-        this.MonsterType = GameDataManage.Instance.GetDBEntiny(Id).MonsterType;
+        this.MonsterType = GameDataManage.Instance.GetDBEntiny(Id).MonsterType;       
     }
     public void ApplyAnimator(bool enabled)
     {
@@ -196,6 +197,9 @@ public class Actor : ICharacter
         }
         this.CacheTransform = Obj.transform;
         this.mBornParam = data;
+        if(ActorType==EActorType.MONSTER){
+        this.BulletOrigin = this.Obj.transform.Find("Hips_jnt/Spine_jnt/Spine_jnt 1/Chest_jnt/Shoulder_Right_jnt/Arm_Right_jnt/Forearm_Right_jnt/Hand_Right_jnt/SA_Wep_AssaultRifle01/Bullet");
+        }        
         this.mCharacter = Obj.GetComponent<CharacterController>();
         this.Init();
     }

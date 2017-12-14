@@ -73,7 +73,9 @@ public class AIConeDetection : MonoBehaviour
 
     void Start()
     {
-        GroundMat = new Material(Shader.Find("Mobile/Particles/Additive"));
+        GroundMat = new Material(Shader.Find("Mobile/Particles/VertexLit Blended"));
+
+        GroundMat.SetColor("_EmissiveColor", new Color(0, 1, 0, 0.5f));
         m_matVisibilityCone = GroundMat;
         m_LayerMaskToIgnore = ~(m_LayerMaskToIgnoreBegin << m_LayerMaskToIgnoreEnd);
         InitAIConeDetection();

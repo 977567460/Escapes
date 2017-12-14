@@ -3,6 +3,8 @@ using System.Collections;
 
 public class AIFightState : AIBaseState
 {
+    private float SkillCD = 0.5f;
+    private float Timerr = 0;
     public override void Enter()
     {
 
@@ -51,15 +53,15 @@ public class AIFightState : AIBaseState
             return;
         }
         Owner.SendStateMessage(FSMState.FSM_Attack);
-        //SkillTree skill = Owner.GetActorSkill().FindNextSkillByDist(dist);
-        //if (skill != null)
-        //{
-        //    Owner.Command(new USCommand(skill.Pos));
-        //}
-        //else
-        //{
-        //    Owner.Command(new IDCommand());
-        //}
+        Timerr += Time.deltaTime;
+        if (Timerr >= SkillCD)
+        {
+            GameObject Bullet = ZTPool.Instance.GetGo("Model/Weapons/bullet");           
+            Bullet.transform.position = Owner.BulletOrigin.position;
+            Bullet.transform.eulerAngles = Owner.BulletOrigin.eulerAngles;
+            Timerr = 0;
+        }
+       
     }
 
     public override void Exit()
