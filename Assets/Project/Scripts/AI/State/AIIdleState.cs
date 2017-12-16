@@ -18,7 +18,7 @@ public class AIIdleState : AIBaseState
                     if (pTarget != null)
                     {
                         float dist = GTTools.GetHorizontalDistance(Owner.Pos, pTarget.Pos);
-                        if (Owner.mActorPathFinding.AiConeDetection.IsEnter)
+                        if (Owner.AiConeDetection.IsEnter)
                         {
                            
                             AI.ChangeAIState(EAIState.AI_CHASE);

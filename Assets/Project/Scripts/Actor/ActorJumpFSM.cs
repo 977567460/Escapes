@@ -10,6 +10,13 @@ public class ActorJumpFSM : ActorBaseFSM
     {
         base.Enter();
         Owner.OnJump();
+        Owner.ApplyRootMotion(false);
+    }
+
+    public override void Exit()
+    {
+        base.Exit();
+        Owner.ApplyRootMotion(true);
     }
 }
 

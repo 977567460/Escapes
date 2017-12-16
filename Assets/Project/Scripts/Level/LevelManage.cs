@@ -68,7 +68,7 @@ public class LevelManage : MonoSingleton<LevelManage>
             AddActor(data.Id, EActorType.MONSTER, EBattleCamp.B, data.Position, data.Euler, data.Scale,data.PatrolGroups);
         }
 
-        LevelManage.Instance.SetMainPlayer(1);
+        LevelManage.Instance.SetMainPlayer(1);       
     }
 
     public ActorMainPlayer AddMainPlayer(int id, XTransform param)
@@ -80,7 +80,6 @@ public class LevelManage : MonoSingleton<LevelManage>
     }
     public void SetMainPlayer(int id)
     {
-        Debug.Log(id);
         for (int i = 0; i < LevelData.MainPlayerlist.Count; i++)
         {
             if (LevelData.MainPlayerlist[i].Id == id)

@@ -28,17 +28,17 @@ public  class ActorPart:IGame
 
     public void Start()
     {
-        throw new NotImplementedException();
+        
     }
 
     public void Step()
     {
-        throw new NotImplementedException();
+      
     }
 
     public void Clear()
     {
-        throw new NotImplementedException();
+      
     }
     }
 

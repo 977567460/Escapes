@@ -39,6 +39,14 @@ public class InputManage : MonoSingleton<InputManage>
         {
             ZTEvent.FireEvent(EventID.REQ_PLAYER_Change);
         }
+        if (Input.GetAxis("Mouse ScrollWheel") < 0)
+        {
+            CameraManage.Instance.SetFollowDis(1);
+        }
+        if (Input.GetAxis("Mouse ScrollWheel") > 0)
+        {
+            CameraManage.Instance.SetFollowDis(-1);
+        }
         if (x != 0 || y != 0)
         {
             ZTEvent.FireEvent(EventID.REQ_PLAYER_Walk,x,y);

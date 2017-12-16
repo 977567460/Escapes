@@ -11,7 +11,6 @@ public class Actor : ICharacter
 {
     protected ActorAttr mCurrAttr = new ActorAttr();
     protected List<Actor> mEnemys = new List<Actor>();
-    protected List<Actor> mPlayers = new List<Actor>();
     protected IStateMachine<Actor, FSMState> mMachine;
     public ZTAction mActorAction;
     protected Animator mActorAnimator;
@@ -25,7 +24,8 @@ public class Actor : ICharacter
     public EActorType ActorType { get; private set; }
     public EBattleCamp Camp { get; set; }
     public EMonsterType MonsterType { get; private set; }
-    public ActorPart mActorPart;
+    public ActorPart mActorPart{ get; private set; }
+    public AIConeDetection AiConeDetection;
     public Actor(int id, int guid, EActorType type, EBattleCamp camp, List<Vector3> PatrolGroups)
         : base(id, guid)
     {
@@ -138,6 +138,13 @@ public class Actor : ICharacter
         this.GetActorAI().AIMode = EAIMode.Auto;
         SendStateMessage(FSMState.FSM_RUN, cmd);
         return ECommandReply.Y; ;
+    }
+    public void ApplyRootMotion(bool enabled)
+    {
+        if (mActorAnimator != null)
+        {
+            mActorAnimator.applyRootMotion = enabled;
+        }
     }
     public virtual void OnPursue(RTCommand ev)
     {
@@ -415,21 +422,12 @@ public class Actor : ICharacter
         FindActorsByTargetCamp(ETargetCamp.Enemy, ref mEnemys, true);
         return mEnemys;
     }
-    public List<Actor> GetAllPlayer()
-    {      
-        mPlayers.Clear();
-        for (int i = 0; i < LevelData.AllActors.Count; i++)
-        {
-            if (LevelData.AllActors[i].ActorType == EActorType.PLAYER)
-            {               
-                mPlayers.Add(LevelData.AllActors[i]);
-            }
-               
-        }       
-        return mPlayers;
-    }
     public Actor GetNearestEnemy(float radius = 10000)
     {
+        if (AiConeDetection.TargetPlayer != null)
+        {
+            return AiConeDetection.TargetPlayer;
+        }
         List<Actor> actors = GetAllEnemy();       
         Actor nearest = null;
         float min = radius;
@@ -476,6 +474,14 @@ public class Actor : ICharacter
     {
         get { return mBehavior; }
     }
-   
+    public  void TalkOther()
+    {
+        List<Actor> Moster = LevelData.GetActorsByActorType(EActorType.MONSTER);
+        for (int i = 0; i < Moster.Count; i++)
+        {
+            if (Moster[i].GetTarget() == null) return;
+            Moster[i].GetActorAI().ChangeAIState(EAIState.AI_CHASE);
+        }
+    }
 }
 

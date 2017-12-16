@@ -16,7 +16,7 @@ public class AIGlobalState :AIBaseState
             AI.ChangeAIState(EAIState.AI_DEAD);
             return;
         }
-        if (AI.AIMode == EAIMode.Auto && Owner.GetTarget() == null)
+        if (AI.AIMode == EAIMode.Auto)
         {
             IntervalFindEnemy();
         }
@@ -35,9 +35,7 @@ public class AIGlobalState :AIBaseState
         if (AI.FindEnemyTimer >= Define.MIN_INTERVAL_FINDENEMY)
         {
             Actor enemy = Owner.GetNearestEnemy(AI.WARDIST);
-            this.Owner.SetTarget(enemy);
-            if (Owner.mActorPathFinding != null && enemy != null)
-                Owner.mActorPathFinding.AiConeDetection.player = enemy.Obj;
+            this.Owner.SetTarget(enemy);           
             AI.FindEnemyTimer = 0;
         }
         else

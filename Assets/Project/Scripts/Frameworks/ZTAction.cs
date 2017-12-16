@@ -16,9 +16,9 @@ public class ZTAction : IGame
     private Dictionary<string, AnimationClip> mAnimClips = new Dictionary<string, AnimationClip>();
     private static HashSet<string> mNoFadeList = new HashSet<string>
     {
-        "idle",
-        "run",
-        "walk"
+        "_Idle",
+        "_Run",
+        "_Walk"
     };
 
     struct CAnimator

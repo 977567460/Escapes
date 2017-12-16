@@ -11,7 +11,7 @@ public class ActorPathFinding : IGame
     private GameObject mGameObject;
     private Vector3 mDestPosition;
     private Callback mOnFinished;
-    public AIConeDetection AiConeDetection;
+    
     public bool CheckReached()
     {
         if (!mNavMeshAgent.enabled)
@@ -29,10 +29,10 @@ public class ActorPathFinding : IGame
         this.mNavMeshPath = new UnityEngine.AI.NavMeshPath();
         if (owner.ActorType == EActorType.MONSTER)
         {
-            this.AiConeDetection = mOwner.mActorPart.AIConeDetection.gameObject.GET<AIConeDetection>();
-            AiConeDetection.StartAngle = owner.GetAttr(EAttr.StartAngle);
-            AiConeDetection.EndAngle = owner.GetAttr(EAttr.EndAngle);
-            AiConeDetection.m_fConeLenght = owner.GetAttr(EAttr.ViewLength);     
+            mOwner.AiConeDetection = mOwner.mActorPart.AIConeDetection.gameObject.GET<AIConeDetection>();
+            mOwner.AiConeDetection.StartAngle = owner.GetAttr(EAttr.StartAngle);
+            mOwner.AiConeDetection.EndAngle = owner.GetAttr(EAttr.EndAngle);
+            mOwner.AiConeDetection.m_fConeLenght = owner.GetAttr(EAttr.ViewLength);     
         }             
         mNavMeshAgent.enabled = false;
         mNavMeshAgent.radius = mOwner.Radius;

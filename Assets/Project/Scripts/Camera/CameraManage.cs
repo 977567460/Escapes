@@ -62,7 +62,7 @@ public class CameraManage : MonoSingleton<CameraManage>
         {
             AddCameraEffect(ref effect, type, cam);
         }
-        effect.Init(0, cam, callback, args);
+        effect.Init(0, cam, callback, args);      
     }
     public void AddCameraEffect(ref CameraEffectBase effect, ECameraType type, Camera cam)
     {
@@ -104,4 +104,14 @@ public class CameraManage : MonoSingleton<CameraManage>
         go.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, 0, 0);
         go.GetComponent<RectTransform>().sizeDelta = new Vector2(0, 0);
     }
+
+    public void SetFollowDis(float Height)
+    {
+        if (MainCamera.GetComponent<CameraFollow>() != null)
+        {
+            if (MainCamera.GetComponent<CameraFollow>().height >= 30 && Height>0) return;
+            if (MainCamera.GetComponent<CameraFollow>().height <= 10 && Height < 0) return;
+            MainCamera.GetComponent<CameraFollow>().height += Height;
+        }
+    }  
 }

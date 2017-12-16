@@ -7,6 +7,9 @@ using UnityEngine;
 
 public class ActorMainPlayer : ActorPlayer
 {
+    private float JumpCD;
+    private float AttackCD;
+    private float Timmer=0;
     public ActorMainPlayer(int id, int guid, EActorType type, EBattleCamp camp, List<Vector3> PatrolGroups)
         : base(id, guid, type, camp, PatrolGroups)
     {
@@ -15,20 +18,21 @@ public class ActorMainPlayer : ActorPlayer
     public override void Init()
     {
         base.Init();
-        //ZTEvent.AddHandler(EventID.REQ_PLAYER_JUMP, OnMainPlayerJump);
-        //ZTEvent.AddHandler<float,float>(EventID.REQ_PLAYER_Walk, OnMainPlayerWalk);
-        //ZTEvent.AddHandler(EventID.REQ_PLAYER_Idle, OnMainPlayerIdle);
-        //ZTEvent.AddHandler(EventID.REQ_PLAYER_Attack, OnMainPlayerAttack);
-        //ZTEvent.AddHandler(EventID.REQ_PLAYER_Change, SetMainPlayer);       
+        JumpCD = mActorAction.GetAnimLength("Jump");
+        AttackCD = mActorAction.GetAnimLength("Knife");
     }
     void OnMainPlayerJump()
     {
+        if (Timmer > 0) return;
         this.SendStateMessage(FSMState.FSM_JUMP);
+        Timmer = JumpCD;
       
     }
     void OnMainPlayerAttack()
     {
+        if(Timmer>0) return;
         this.SendStateMessage(FSMState.FSM_Attack);
+        Timmer = AttackCD;
     }
     void OnMainPlayerWalk(float arg1, float arg2)
     {
@@ -80,6 +84,18 @@ public class ActorMainPlayer : ActorPlayer
         base.OnDead();
     }
 
-   
+    public override void Step()
+    {
+        base.Step();
+        if (Timmer > 0)
+        {
+            Timmer -= Time.deltaTime;
+        }
+        else
+        {
+            Timmer = 0;
+        }
+      
+    }
 }
 

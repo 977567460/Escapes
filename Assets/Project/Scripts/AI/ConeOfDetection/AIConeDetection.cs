@@ -11,7 +11,8 @@ using System.Collections.Generic;
 
 public class AIConeDetection : MonoBehaviour
 {
-    public GameObject player;
+    public List<ActorMainPlayer> players;
+    public ActorMainPlayer TargetPlayer; 
     /* Fov Properties */
     public bool m_bIs2D = false;
     public float m_fConeLenght = 5.0f;
@@ -74,7 +75,7 @@ public class AIConeDetection : MonoBehaviour
     void Start()
     {
         GroundMat = new Material(Shader.Find("Mobile/Particles/VertexLit Blended"));
-
+        players = LevelData.MainPlayerlist;
         GroundMat.SetColor("_EmissiveColor", new Color(0, 1, 0, 0.5f));
         m_matVisibilityCone = GroundMat;
         m_LayerMaskToIgnore = ~(m_LayerMaskToIgnoreBegin << m_LayerMaskToIgnoreEnd);
@@ -134,7 +135,6 @@ public class AIConeDetection : MonoBehaviour
             if (!IsEnter)
             {
                 IsEnter = true;
-              //  Debug.Log("进");
             }
 
 
@@ -144,7 +144,6 @@ public class AIConeDetection : MonoBehaviour
             if (IsEnter)
             {
                 IsEnter = false;
-               // Debug.Log("出");
             }
 
         }
@@ -162,14 +161,16 @@ public class AIConeDetection : MonoBehaviour
             }
 
         }
-        if (FindObjList.Contains(player))
+        for (int i = 0; i < players.Count; i++)
         {
-            return true;
+            if (FindObjList.Contains(players[i].Obj))
+            {
+                TargetPlayer = players[i];
+                return true;
+            }                                  
         }
-        else
-        {
-            return false;
-        }
+        TargetPlayer = null;
+        return false;
     }
     private RaycastHit m_rcInfo;
     private Ray m_rayDir = new Ray();

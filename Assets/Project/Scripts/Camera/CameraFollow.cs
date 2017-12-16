@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class CameraFollow :CameraEffectBase
 {
@@ -9,10 +10,10 @@ public class CameraFollow :CameraEffectBase
     }
 
     public float distance=-12;
-    public float height = 15;
+    public float height = 30;
     public float angle = 90;
     public Transform Follow;
-
+    private GameObject  lastobj;
     public override void OnUpdate()
     {
         if (Follow == null)
@@ -22,6 +23,7 @@ public class CameraFollow :CameraEffectBase
         Vector3 pos = Follow.position + new Vector3(0, height, distance);
         transform.position = Vector3.Lerp(transform.position, pos, Time.deltaTime * 5);
         transform.LookAt(Follow);
+        SetObjDisable(Follow.position);
     }
 
     public override void Init(int id, Camera cam, CameraEvent callback, params object[] args)
@@ -31,5 +33,11 @@ public class CameraFollow :CameraEffectBase
         Vector3 pos = Follow.position + Vector3.up * height + Follow.forward * distance;
         transform.position = pos;
         transform.LookAt(Follow); 
+    }
+    public void SetObjDisable(Vector3 Target)
+    {
+        
+
+    
     }
 }

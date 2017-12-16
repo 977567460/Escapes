@@ -1,11 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class AIChaseState : AIBaseState
 {
     public override void Enter()
     {
-
+        Owner.TalkOther();
     }
 
     public override void Execute()
@@ -14,6 +15,7 @@ public class AIChaseState : AIBaseState
         {
             Owner.Command(new RTCommand(Owner.GetTarget()));
             Owner.mActorPathFinding.SetStopDis(2);
+            
         }
         switch (Owner.ActorType)
         {
@@ -32,7 +34,7 @@ public class AIChaseState : AIBaseState
                     {
                         AI.ChangeAIState(EAIState.AI_FIGHT);
                         return;
-                    }
+                    }                
                 }
                 break;          
             case EActorType.PLAYER:
@@ -60,4 +62,5 @@ public class AIChaseState : AIBaseState
     {
 
     }
+ 
 }

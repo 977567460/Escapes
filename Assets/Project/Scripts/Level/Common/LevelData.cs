@@ -19,7 +19,6 @@ public class LevelData
     public static bool Win;
     public static List<ActorMainPlayer> MainPlayerlist=new List<ActorMainPlayer>();
     public static ActorMainPlayer MainPlayer = null;
-    public static ActorPlayer EnemPlayer = null;
 
     public static List<Actor> GetActorsByActorType(EActorType pType)
     {

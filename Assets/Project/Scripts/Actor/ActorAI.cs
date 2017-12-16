@@ -11,7 +11,7 @@ public class ActorAI : IGame
 
     public float WARDIST
     {
-        get { return 10; }
+        get { return 25; }
     }
 
     public float ATKDIST
