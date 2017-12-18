@@ -11,60 +11,60 @@
     <MonsterGroups>
         <Item Type="MapMonster">
             <Id>90001</Id>
-            <Position>(70,0,217)</Position>
+            <Position>(130,0,-80)</Position>
             <EulerAngles>(0.00,0.00,0.00)</EulerAngles>
             <Scale>(1.00,1.00,1.00)</Scale>
             <PatrolGroups>
-              <Patrol>(70,0,200)</Patrol>
-              <Patrol>(70,0,240)</Patrol>             
+              <Patrol>(130,0,-70)</Patrol>
+              <Patrol>(130,0,-90)</Patrol>             
             </PatrolGroups>
             <Talks>
             </Talks>			
         </Item>
         <Item Type="MapMonster">
             <Id>90002</Id>
-            <Position>(80,0,217)</Position>
+            <Position>(80,0,-80)</Position>
             <EulerAngles>(0.00,0.00,0.00)</EulerAngles>
             <Scale>(1.00,1.00,1.00)</Scale>
             <PatrolGroups>
-              <Patrol>(80,0,200)</Patrol>
-              <Patrol>(80,0,240)</Patrol>
+              <Patrol>(80,0,-70)</Patrol>
+              <Patrol>(80,0,-90)</Patrol>
             </PatrolGroups>
 			 <Talks>
             </Talks>
         </Item>
         <Item Type="MapMonster">
             <Id>90003</Id>
-            <Position>(60,0,217)</Position>
+            <Position>(120,0,-80)</Position>
             <EulerAngles>(0.00,0.00,0.00)</EulerAngles>
             <Scale>(1.00,1.00,1.00)</Scale>
             <PatrolGroups>
-              <Patrol>(60,0,200)</Patrol>
-              <Patrol>(60,0,240)</Patrol>
+              <Patrol>(120,0,-70)</Patrol>
+              <Patrol>(120,0,-90)</Patrol>
             </PatrolGroups>
             <Talks>
             </Talks>			
         </Item>
         <Item Type="MapMonster">
             <Id>90004</Id>
-            <Position>(50,0,217)</Position>
+            <Position>(110,0,-80)</Position>
             <EulerAngles>(0.00,0.00,0.00)</EulerAngles>
             <Scale>(1.00,1.00,1.00)</Scale>
             <PatrolGroups>
-              <Patrol>(50,0,200)</Patrol>
-              <Patrol>(50,0,240)</Patrol>
+              <Patrol>(110,0,-70)</Patrol>
+              <Patrol>(110,0,-90)</Patrol>
             </PatrolGroups>
              <Talks>
             </Talks>			
         </Item>
         <Item Type="MapMonster">
             <Id>90005</Id>
-            <Position>(40,0,217)</Position>
+            <Position>(100,0,-80)</Position>
             <EulerAngles>(0.00,0.00,0.00)</EulerAngles>
             <Scale>(1.00,1.00,1.00)</Scale>
             <PatrolGroups>
-              <Patrol>(40,0,200)</Patrol>
-              <Patrol>(40,0,240)</Patrol>
+              <Patrol>(100,0,-70)</Patrol>
+              <Patrol>(100,0,-90)</Patrol>
             </PatrolGroups>
 			 <Talks>
             </Talks>
@@ -74,13 +74,13 @@
 	<PlayerGroups>
 		<Item Type="MapPlayer">
 			<Id>1</Id>
-			<Position>(90,0,207)</Position>
+			<Position>(60,0,-80)</Position>
 			<EulerAngles>(0.00,0.00,0.00)</EulerAngles>
 			<Scale>(1.00,1.00,1.00)</Scale>
 		</Item>
 		<Item Type="MapPlayer">
 			<Id>2</Id>
-			<Position>(90,0,247)</Position>
+			<Position>(60,0,-85)</Position>
 			<EulerAngles>(0.00,0.00,0.00)</EulerAngles>
 			<Scale>(1.00,1.00,1.00)</Scale>			
 		</Item>		

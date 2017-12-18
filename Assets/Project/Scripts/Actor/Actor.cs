@@ -157,7 +157,7 @@ public class Actor : ICharacter
         this.mActorAction.Play("Walk", null, true);
     }
     public virtual void OnIdle()
-    {
+    {        
         StopPathFinding();
         this.mActorAction.Play("Idle", null, true);
     }
@@ -179,7 +179,7 @@ public class Actor : ICharacter
         this.mActorAction.Play("Jump", GotoEmptyFSM,false);
     }
     public virtual void OnAttack()
-    {             
+    {     
         if(this.ActorType==EActorType.MONSTER){
             StopPathFinding();
             CacheTransform.LookAt(this.mTarget.CacheTransform);
@@ -187,7 +187,7 @@ public class Actor : ICharacter
         }
         else
         {
-            this.mActorAction.Play("Knife", GotoEmptyFSM, false);
+            this.mActorAction.Play("Knife2", GotoEmptyFSM, false);
         }
             
     }
@@ -287,7 +287,18 @@ public class Actor : ICharacter
     {
         
     }
-
+    public virtual bool CannotControlSelf()
+    {
+        switch (FSM)
+        {
+            case FSMState.FSM_Attack:
+            case FSMState.FSM_DEAD:
+            case FSMState.FSM_JUMP:
+                return true;
+            default:
+                return false;
+        }
+    }
     public override bool IsDead()
     {
         return FSM == FSMState.FSM_DEAD;
@@ -322,8 +333,9 @@ public class Actor : ICharacter
         this.mActorAction.Play("Walk", null, true);
     }
     public void UpdateAttr(EAttr attr, int value)
-    {
+    {      
         mCurrAttr.Update(attr, value);
+        ZTEvent.FireEvent(EventID.REQ_PLAYER_Attr);
     }
     public void BeDamage(Actor attacker, int damage, bool critial = false)
     {
@@ -482,6 +494,11 @@ public class Actor : ICharacter
             if (Moster[i].GetTarget() == null) return;
             Moster[i].GetActorAI().ChangeAIState(EAIState.AI_CHASE);
         }
+    }
+    public void Talk()
+    {
+        BaseWindow baseWindow = UIManage.Instance.OpenWindow(WindowID.UI_TALK);
+        // baseWindow.CacheTransform.position = mTarget.mActorPart.TalkTransform.position;
     }
 }
 

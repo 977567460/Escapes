@@ -10,11 +10,13 @@ public class InputManage : MonoSingleton<InputManage>
     public KeyCode jump { get; set; }
     public KeyCode attack { get; set; }
     public KeyCode changemainplayer { get; set; }
+    public KeyCode dragenemy { get; set; }
     void Start()
     {
         jump = KeyCode.Space;
         attack = KeyCode.E;
         changemainplayer=KeyCode.Q;
+        dragenemy = KeyCode.R;
     
     }
     public override void SetDontDestroyOnLoad(Transform parent)
@@ -38,6 +40,10 @@ public class InputManage : MonoSingleton<InputManage>
         if (Input.GetKeyDown(changemainplayer))
         {
             ZTEvent.FireEvent(EventID.REQ_PLAYER_Change);
+        }
+        if (Input.GetKey(dragenemy))
+        {
+            ZTEvent.FireEvent(EventID.REQ_PLAYER_DragEnemy);
         }
         if (Input.GetAxis("Mouse ScrollWheel") < 0)
         {

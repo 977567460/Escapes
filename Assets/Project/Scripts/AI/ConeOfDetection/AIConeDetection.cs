@@ -12,7 +12,7 @@ using System.Collections.Generic;
 public class AIConeDetection : MonoBehaviour
 {
     public List<ActorMainPlayer> players;
-    public ActorMainPlayer TargetPlayer; 
+    public ActorMainPlayer TargetPlayer;
     /* Fov Properties */
     public bool m_bIs2D = false;
     public float m_fConeLenght = 5.0f;
@@ -32,7 +32,7 @@ public class AIConeDetection : MonoBehaviour
     public int m_iConeVisibilityPrecision = 60;
     //public  float       m_fDistanceForRender        = 600.0f;
 
-    
+
     private Vector3[] m_vVertices;
     private Vector2[] m_vUV;
     private Vector3[] m_vNormals;
@@ -74,9 +74,10 @@ public class AIConeDetection : MonoBehaviour
 
     void Start()
     {
-        GroundMat = new Material(Shader.Find("Mobile/Particles/VertexLit Blended"));
+        // GroundMat = new Material(Shader.Find("Mobile/Particles/VertexLit Blended"));
+        GroundMat = new Material(Shader.Find("Legacy Shaders/Transparent/Cutout/Soft Edge Unlit"));
         players = LevelData.MainPlayerlist;
-        GroundMat.SetColor("_EmissiveColor", new Color(0, 1, 0, 0.5f));
+        GroundMat.SetColor("_Color", new Color(0, 1, 0, 0.3f));
         m_matVisibilityCone = GroundMat;
         m_LayerMaskToIgnore = ~(m_LayerMaskToIgnoreBegin << m_LayerMaskToIgnoreEnd);
         InitAIConeDetection();
@@ -90,22 +91,22 @@ public class AIConeDetection : MonoBehaviour
     private void InitAIConeDetection()
     {
         GroundMesh = GameObject.CreatePrimitive(PrimitiveType.Cube);
-        GroundMesh.name = this.name+"Mesh";
+        GroundMesh.name = this.name + "Mesh";
         GroundMesh.GetComponent<Renderer>().material = GroundMat;
-        if (GroundMesh.GetComponent<BoxCollider>()!=null)
-        Destroy(GroundMesh.GetComponent<BoxCollider>());
+        if (GroundMesh.GetComponent<BoxCollider>() != null)
+            Destroy(GroundMesh.GetComponent<BoxCollider>());
         for (int j = 0; j < SectorCount; j++)
         {
             m_fAngleOfViewlist[j] = m_fAngleOfView;
             m_goGameObjectIntoCone[j] = new ArrayList();
-            
-        
+
+
             m_iVertMax = m_iConeVisibilityPrecision * 2 + 2;
             m_iTrianglesMax = m_iConeVisibilityPrecision * 2;
             m_vVertices = new Vector3[m_iVertMax];
             m_iTriangles = new int[m_iTrianglesMax * 3];
             m_vNormals = new Vector3[m_iVertMax];
-       
+
             for (int i = 0; i < m_iVertMax; ++i)
             {
                 m_vNormals[i] = Vector3.up;
@@ -117,9 +118,9 @@ public class AIConeDetection : MonoBehaviour
             m_fSpan[j] *= 2.0f;
             m_fAngleOfViewlist[j] *= 0.5f;
         }
-        
-        InnerVertices=new Vector3[m_iVertMax/2];
-        OutVertices = new Vector3[m_iVertMax/2];
+
+        InnerVertices = new Vector3[m_iVertMax / 2];
+        OutVertices = new Vector3[m_iVertMax / 2];
         IntervalAngle = (EndAngle - StartAngle) / SectorCount;
         StartRadians = StartAngle * Mathf.Deg2Rad;
         EndRadians = EndAngle * Mathf.Deg2Rad;
@@ -167,15 +168,15 @@ public class AIConeDetection : MonoBehaviour
             {
                 TargetPlayer = players[i];
                 return true;
-            }                                  
+            }
         }
         TargetPlayer = null;
         return false;
     }
     private RaycastHit m_rcInfo;
     private Ray m_rayDir = new Ray();
-   // Vector3 EnemyBeginPos;
- 
+    // Vector3 EnemyBeginPos;
+
     private void DrawVisibilityCone2()
     {
         SevtorVertexCount.Clear();
@@ -193,7 +194,7 @@ public class AIConeDetection : MonoBehaviour
             int My_index = 0;
             int My_index2 = 0;
             // EnemyBeginPos = new Vector3(transform.position.x, 0, transform.position.z);
-           // SevtorVertexCount.Add(EnemyBeginPos);
+            // SevtorVertexCount.Add(EnemyBeginPos);
             for (int i = 0; i < m_iConeVisibilityPrecision + 1; ++i)
             {
 
@@ -301,40 +302,41 @@ public class AIConeDetection : MonoBehaviour
 
                 Color color;
                 Vector3 tempvertex;
-             
+
                 if (bFoundWall)
                 {
-                    color = Color.red;                            
+                    color = Color.red;
                 }
                 else
                 {
-                    color = Color.yellow;                                   
+                    color = Color.yellow;
                 }
 
                 tempvertex = this.transform.position + DrawVectorCurrent.normalized * FixedLenght;
                 tempvertex = new Vector3(tempvertex.x, 0.01f, tempvertex.z);
                 if (Sector == 0)
                 {
-                  //  SevtorVertexCount.Add(tempvertex);
+                    //  SevtorVertexCount.Add(tempvertex);
                     OutVertices[My_index] = tempvertex;
-                   
+
                     My_index += 1;
-                    
+
                 }
-                if( Sector == SectorCount - 1){
-                  //  SevtorVertexCount.Add(tempvertex);
+                if (Sector == SectorCount - 1)
+                {
+                    //  SevtorVertexCount.Add(tempvertex);
                     InnerVertices[My_index2] = tempvertex;
                     My_index2 += 1;
-                   
+
                 }
-                
-               
+
+
                 index += 2;
             }
-           
+
 
         }
-       // DrawLine();
+        // DrawLine();
         DrawMesh();
     }
     void DrawLine()
@@ -342,14 +344,14 @@ public class AIConeDetection : MonoBehaviour
 
         for (int i = 0; i < InnerVertices.Length; i++)
         {
-            SevtorVertexCount.Add(InnerVertices[i]);                    
-        }     
-        for (int i = OutVertices.Length-1; i >= 0; i--)
+            SevtorVertexCount.Add(InnerVertices[i]);
+        }
+        for (int i = OutVertices.Length - 1; i >= 0; i--)
         {
             SevtorVertexCount.Add(OutVertices[i]);
-            
+
         }
-       SevtorVertexCount.Add(InnerVertices[0]);
+        SevtorVertexCount.Add(InnerVertices[0]);
         LineRenderer line = this.GetComponent<LineRenderer>();
         line.SetColors(Color.red, Color.red);
         //设置宽度  
@@ -357,21 +359,21 @@ public class AIConeDetection : MonoBehaviour
         line.SetVertexCount(SevtorVertexCount.Count);
         // line.SetPosition(0, tempAiTran);
         //连续绘制线段  
-       
+
         for (int j = 0; j < SevtorVertexCount.Count; j++)
         {
             line.SetPosition(j, SevtorVertexCount[j]);
 
-        }           
+        }
     }
     void DrawMesh()
     {
-      //  GroundMesh.transform.position = this.transform.position;
-       // GroundMesh.transform.eulerAngles = this.transform.eulerAngles;
+        //  GroundMesh.transform.position = this.transform.position;
+        // GroundMesh.transform.eulerAngles = this.transform.eulerAngles;
 
-        GroundMesh.GetComponent<MeshFilter>().mesh = CreateMesh(m_fConeLenght, 2,(180-m_fAngleOfView)/2, m_fAngleOfView, m_iConeVisibilityPrecision/2);
+        GroundMesh.GetComponent<MeshFilter>().mesh = CreateMesh(m_fConeLenght, 2, (180 - m_fAngleOfView) / 2, m_fAngleOfView, m_iConeVisibilityPrecision / 2);
     }
-    Mesh CreateMesh(float radius, float innerradius,float startangle, float angledegree, int segments)
+    Mesh CreateMesh(float radius, float innerradius, float startangle, float angledegree, int segments)
     {
         //vertices(顶点):
         int vertices_count = segments * 2 + 2;              //因为vertices(顶点)的个数与triangles（索引三角形顶点数）必须匹配
@@ -381,7 +383,7 @@ public class AIConeDetection : MonoBehaviour
         float angleCur = angleRad + StartangleRad;
         float angledelta = angleRad / segments;
         for (int i = 0; i < vertices_count; i += 2)
-        {          
+        {
             vertices[i] = OutVertices[i];
             vertices[i + 1] = InnerVertices[i];
             angleCur -= angledelta;
@@ -406,7 +408,7 @@ public class AIConeDetection : MonoBehaviour
         {
             uvs[i] = new Vector2(vertices[i].x / radius / 2 + 0.5f, vertices[i].z / radius / 2 + 0.5f);
         }
-     
+
         //负载属性与mesh
         Mesh mesh = new Mesh();
         mesh.vertices = vertices;

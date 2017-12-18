@@ -10,7 +10,7 @@ public enum WindowID
     UI_NOTICE,
     UI_CREATEROLE,
     UI_HOME,
-
+    UI_TALK,
     UI_MESSAGE,
     UI_SURETOBUY,
     UI_HEROINFO,

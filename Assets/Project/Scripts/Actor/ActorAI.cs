@@ -17,7 +17,7 @@ public class ActorAI : IGame
     public float ATKDIST
     {
        // get { return Owner.GetActorSkill().GetMinCastDistance(); }
-        get { return 5; }
+        get { return 10; }
     }
 
     public float FOLLOWDIST
