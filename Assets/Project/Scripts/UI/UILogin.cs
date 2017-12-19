@@ -8,36 +8,40 @@ using UnityEngine.UI;
 
 public class UILogin : BaseWindow
 {
-  private Dictionary<string,GameObject> dic=new Dictionary<string, GameObject>(); 
-    private Stack<GameObject> history=new Stack<GameObject>();
+    private Dictionary<string, GameObject> dic = new Dictionary<string, GameObject>();
+    private Stack<GameObject> history = new Stack<GameObject>();
     private GameObject[] allPanels;
     private GameObject[] allUINavigateBtn;
     public GameObject CurrentPanel;
     private Button[] LevelSelectBtn;
-    
+    private GameObject ScrollPanel;
+    private Toggle[] toggleArray;
     public UILogin()
     {
-      
+
         mResPath = "UI/Login/UILogin";
         Type = WindowType.WINDOW;
-  
+
     }
     protected override void InitWidget()
     {
         CurrentPanel = transform.Find("P_Main").gameObject;
-        LevelSelectBtn =
-            transform.Find("P_Player/BGFram/ScrollPanel/GridContent").GetComponentsInChildren<Button>();
-      
+        LevelSelectBtn = transform.Find("P_Player/BGFram/ScrollPanel/GridContent").GetComponentsInChildren<Button>();
+        ScrollPanel = transform.Find("P_Player/BGFram/ScrollPanel").gameObject;
+        toggleArray = transform.Find("P_Player/BGFram/ToggleGroup").GetComponentsInChildren<Toggle>();
+
+        LevelButtonScrollRect levelButtonScrollRect = ScrollPanel.GET<LevelButtonScrollRect>();
+        levelButtonScrollRect.toggleArray = toggleArray;
     }
 
     public void SelectLevel(GameObject go)
     {
         int LevelNum = Int32.Parse(go.transform.GetComponentInChildren<Text>().text);
         string ScenesName = "Level" + LevelNum;
-       
-        StartGame.Instance.LoadScene(10001);
+        LevelData.SceneID = LevelNum;
+        StartGame.Instance.LoadScene(10000 + LevelNum);
         UIManage.Instance.CloseWindow(WindowID.UI_LOGIN);
-       // Application.LoadLevel(ScenesName);
+        // Application.LoadLevel(ScenesName);
     }
     public void ShowPanel(string panelName)
     {
@@ -50,11 +54,11 @@ public class UILogin : BaseWindow
                 newPanel = dic[panelName];
             }
         }
-        else if(history.Count>0)
+        else if (history.Count > 0)
         {
             newPanel = history.Pop();
         }
-        if (newPanel!=null&&CurrentPanel!=null)
+        if (newPanel != null && CurrentPanel != null)
         {
             CurrentPanel.SetActive(false);
             CurrentPanel = newPanel;
@@ -74,19 +78,19 @@ public class UILogin : BaseWindow
         }
     }
 
-   
+
     protected override void OnAddHandler()
     {
-       
+
     }
 
     protected override void OnRemoveHandler()
     {
-       
+
     }
 
     protected override void OnEnable()
-    {     
+    {
         allPanels = GameObject.FindGameObjectsWithTag("UIFunPanel");
         allUINavigateBtn = GameObject.FindGameObjectsWithTag("UINavigateBtn");
         foreach (var item in allPanels)
@@ -103,8 +107,8 @@ public class UILogin : BaseWindow
 
     protected override void OnDisable()
     {
-        
+
     }
 
-   
+
 }

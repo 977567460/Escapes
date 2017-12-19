@@ -1,0 +1,34 @@
+﻿<Root Type="RoleConfig">
+    <SceneGroups>
+        <Item Type="SceneItem">
+            <Id>10001</Id>
+            <Star>0</Star>
+            <IsOpen>0</IsOpen>
+			<PassTime>0</PassTime>
+        </Item>
+        <Item Type="SceneItem">
+            <Id>10002</Id>
+			<Star>0</Star>
+			<IsOpen>0</IsOpen>
+			<PassTime>0</PassTime>
+        </Item>
+        <Item Type="SceneItem">
+            <Id>10003</Id>
+			<Star>0</Star>
+			<IsOpen>0</IsOpen>
+			<PassTime>0</PassTime>
+        </Item>
+        <Item Type="SceneItem">
+            <Id>10004</Id>
+			<Star>0</Star>
+			<IsOpen>0</IsOpen>
+			<PassTime>0</PassTime>
+        </Item>
+        <Item Type="SceneItem">
+            <Id>10005</Id>
+			<Star>0</Star>
+			<IsOpen>0</IsOpen>
+			<PassTime>0</PassTime>
+        </Item>
+    </SceneGroups>
+</Root>

@@ -6,5 +6,6 @@ public class GameBattleState :GameBaseState {
     {
         base.Enter();
         UIManage.Instance.OpenWindow(WindowID.UI_HOME);
+        UIManage.Instance.OpenWindow(WindowID.UI_INTRODUCE);
     }
 }

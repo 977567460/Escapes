@@ -60,6 +60,7 @@ public class AIFightState : AIBaseState
             GameObject Bullet = ZTPool.Instance.GetGo("Model/Weapons/bullet");
             BulletScript bulletScript= Bullet.GET<BulletScript>();
             bulletScript.damage = Owner.GetAttr(EAttr.Atk);
+            bulletScript.AttackActor = this.Owner;
             if (Owner.mActorPart.AttackTransform != null)
             {
                 Bullet.transform.position = Owner.mActorPart.AttackTransform.position;

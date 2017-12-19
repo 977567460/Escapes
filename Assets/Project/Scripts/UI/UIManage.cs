@@ -22,7 +22,7 @@ public enum WindowID
     UI_CHIPINFO,
     UI_FASHIONINFO,
     UI_RUNEINFO,
-
+    UI_INTRODUCE,
     UI_ROLEEQUIP,
     UI_ROLEGEM,
     UI_ROLEFASHION,
@@ -98,7 +98,7 @@ public class UIManage : Singleton<UIManage>, IGame
         RegisterWindow(WindowID.UI_LOGIN, new UILogin());
         RegisterWindow(WindowID.UI_LOADING, new UILoading());
         RegisterWindow(WindowID.UI_HOME, new UIHome());
-
+        RegisterWindow(WindowID.UI_INTRODUCE, new UIIntroduce());
        
     }
     public Dictionary<WindowID, BaseWindow> mAllWindows = new Dictionary<WindowID, BaseWindow>();

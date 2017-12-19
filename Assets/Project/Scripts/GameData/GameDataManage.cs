@@ -8,7 +8,9 @@ public class GameDataManage : Singleton<GameDataManage>
 
     public Dictionary<int, SceneData> DictScene;
     public Dictionary<int, DBEntiny> DictDBEntiny;
+    public Dictionary<int, LevelItem> LevelDatas;
     private int mCurRoleID = 1;
+    private LevelConfig Config;
     public int CurRoleID
     {
         get { return mCurRoleID; }
@@ -21,6 +23,8 @@ public class GameDataManage : Singleton<GameDataManage>
         new ReadSceneData().Load(DictScene);
         DictDBEntiny = new Dictionary<int, DBEntiny>();
         new ReadDBEntiny().Load(DictDBEntiny);
+        LevelDatas = new Dictionary<int, LevelItem>();
+        InitXmlScene();
 
     }
     public SceneData GetDBScene(int id)
@@ -36,5 +40,19 @@ public class GameDataManage : Singleton<GameDataManage>
 
         DictDBEntiny.TryGetValue(id, out db);
         return db;
+    }
+    public LevelItem GetLevelItemData(int id)
+    {
+        LevelItem db = null;
+        LevelDatas.TryGetValue(id, out db);
+        return db;
+    }
+
+    void InitXmlScene()
+    {
+        string fsPath = ("Text/Role/role");
+        Config = new LevelConfig();
+        Config.Load(fsPath);
+        LevelDatas = Config.LevelItemDic;
     }
 }

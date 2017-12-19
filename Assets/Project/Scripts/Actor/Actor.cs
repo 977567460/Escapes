@@ -7,6 +7,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System;
+using UnityEngine.UI;
 public class Actor : ICharacter
 {
     protected ActorAttr mCurrAttr = new ActorAttr();
@@ -21,6 +22,7 @@ public class Actor : ICharacter
     protected ActorAI mActorAI;
     public ActorPathFinding mActorPathFinding;
     public List<Vector3> PatrolGroups;
+    private Actor murderer;//凶手
     public EActorType ActorType { get; private set; }
     public EBattleCamp Camp { get; set; }
     public EMonsterType MonsterType { get; private set; }
@@ -349,6 +351,11 @@ public class Actor : ICharacter
         }
         if (this.mCurrAttr.HP <= 0)
         {
+            if (ActorType == EActorType.PLAYER)
+            {
+                murderer = attacker;
+                Talk("55555555555555");
+            }
 
             SendStateMessage(FSMState.FSM_DEAD);
         }
@@ -495,10 +502,20 @@ public class Actor : ICharacter
             Moster[i].GetActorAI().ChangeAIState(EAIState.AI_CHASE);
         }
     }
-    public void Talk()
-    {
-        BaseWindow baseWindow = UIManage.Instance.OpenWindow(WindowID.UI_TALK);
-        // baseWindow.CacheTransform.position = mTarget.mActorPart.TalkTransform.position;
+    public void Talk(string talkvalue)
+    {      
+        GameObject talk = ZTPool.Instance.GetGo("UI/Game/Talk");
+        Transform _Canvas = GameObject.Find("Canvas").transform;
+        talk.transform.SetParent(_Canvas);
+        talk.transform.localPosition = Vector3.zero;
+        talk.transform.localEulerAngles = Vector3.zero;
+        TalkSet talkSet = talk.GET<TalkSet>();
+        Debug.Log(murderer.Obj.name);
+        Debug.Log(murderer.mActorPart.TalkTransform.position);
+        talkSet.murderer = murderer;
+        talkSet.TalkText = talkSet.transform.GetComponent<Text>();
+        talkSet.SetText(talkvalue);
+
     }
 }
 

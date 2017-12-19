@@ -40,6 +40,7 @@ namespace ParagonAI
         public float minDistToDetonate = 2f;
         private float minDistToDetonateSqr;
         private Actor TargetActor;
+        public Actor AttackActor;
         void Awake()
         {
             layerMask = LayerMask.GetMask("Default");
@@ -72,15 +73,15 @@ namespace ParagonAI
             if (hit.collider.gameObject.GetComponent<ActorBehavior>() != null)
             {
                 TargetActor = hit.collider.gameObject.GetComponent<ActorBehavior>().Owner;
-                TargetActor.BeDamage(damage);
+                TargetActor.BeDamage(AttackActor, damage);
             }
             //hit.collider.SendMessage("BeDamage", damage, SendMessageOptions.DontRequireReceiver);
 
             //Produce the appropriate special effect
             if (hit.transform.tag == hitEffectTag && hitEffect)
             {
-                    GameObject currentHitEffect = (GameObject)(Instantiate(hitEffect, hit.point, myTransform.rotation));
-                    GameObject.Destroy(currentHitEffect, hitEffectDestroyTime);
+                GameObject currentHitEffect = (GameObject)(Instantiate(hitEffect, hit.point, myTransform.rotation));
+                GameObject.Destroy(currentHitEffect, hitEffectDestroyTime);
             }
             else if (missEffect)
             {
@@ -130,7 +131,7 @@ namespace ParagonAI
                 //Smoothly rotate to face the target over several frames.  The slower the rotation, the easier it is to dodg.
                 transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, homingTrackingSpeed * Time.deltaTime);
 
-                Debug.DrawRay(transform.position, (target.position - transform.position).normalized * minDistToDetonate,Color.red);
+                Debug.DrawRay(transform.position, (target.position - transform.position).normalized * minDistToDetonate, Color.red);
                 //Projectile will "detonate" upon getting close enough to the target..
                 if (Vector3.SqrMagnitude(target.position - transform.position) < minDistToDetonateSqr)
                 {
@@ -151,7 +152,7 @@ namespace ParagonAI
         public void SetAsHoming(Transform t)
         {
             target = t;
-            SetDistToDetonate(minDistToDetonate);  
+            SetDistToDetonate(minDistToDetonate);
         }
     }
 }
