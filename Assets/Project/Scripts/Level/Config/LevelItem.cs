@@ -30,7 +30,7 @@ public class LevelItem:LoadXML
                     this.star = ReadInt(current);
                     break;
                 case "IsOpen":
-                    this.star = ReadInt(current);
+                    this.isopen = ReadBool(current);
                     break;
                 case "PassTime":
                     this.passtime = ReadFloat(current);

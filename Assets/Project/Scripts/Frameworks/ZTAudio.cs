@@ -82,7 +82,14 @@ public class ZTAudio : MonoSingleton<ZTAudio>
         MusicAudioSource.loop = true;
         MusicAudioSource.Play();
     }
-
+    public void SetMusicValue(float SoundSize)
+    {
+        MusicAudioSource.volume = SoundSize;
+    }
+    public void SetSoundValue(float SoundSize)
+    {
+        SoundAudioSource.volume = SoundSize;
+    }
     public void PlaySound(AudioClip clip)
     {
         if (SoundActive == false)

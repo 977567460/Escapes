@@ -83,6 +83,8 @@ public class StartGame : MonoSingleton<StartGame>
     public void OpenGame()
     {
         LoadScene(10000);
+        AudioClip clip = LoadResource.Instance.Load<AudioClip>("Sounds/PureWorld");
+        ZTAudio.Instance.PlayMusic(clip);
     }
 
     public void LoadScene(int sceneId)

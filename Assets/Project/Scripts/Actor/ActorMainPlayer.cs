@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,7 +20,7 @@ public class ActorMainPlayer : ActorPlayer
     {
         base.Init();
         JumpCD = mActorAction.GetAnimLength("Jump");
-        AttackCD = mActorAction.GetAnimLength("Knife");
+        AttackCD = 4;
     }
     void OnMainPlayerJump()
     {
@@ -32,7 +33,8 @@ public class ActorMainPlayer : ActorPlayer
     {
         if(Timmer>0) return;
         this.SendStateMessage(FSMState.FSM_Attack);
-        AtkCondition1(3, 30);
+
+        ZTCoroutinue.Instance.StartCoroutine(AtkCondition1(3, 30));
         Timmer = AttackCD;
     }
     void OnMainPlayerWalk(float arg1, float arg2)
@@ -92,6 +94,8 @@ public class ActorMainPlayer : ActorPlayer
     public override void OnDead()
     {
         base.OnDead();
+        AudioClip clip = LoadResource.Instance.Load<AudioClip>("Sounds/YiJianMei");
+        ZTAudio.Instance.PlayMusic(clip);
     }
 
     public override void Step()
@@ -107,8 +111,13 @@ public class ActorMainPlayer : ActorPlayer
         }
       
     }
-    private void AtkCondition1(float _range, float _angle)
+    IEnumerator AtkCondition1(float _range, float _angle)
     {
+        yield return new WaitForSeconds(1.5f);
+        AudioClip clip = LoadResource.Instance.Load<AudioClip>("Sounds/SWORD05");
+        ZTAudio.Instance.PlaySound(clip);
+        yield return new WaitForSeconds(0.5f);
+       
         // 搜索所有敌人列表（在动态创建敌人时生成的）
         // 列表存储的并非敌人的GameObject而是自定义的Enemy类
         // Enemy类的一个变量mGameObject则用来存储实例出来的敌人实例

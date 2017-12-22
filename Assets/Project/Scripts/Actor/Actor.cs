@@ -510,8 +510,6 @@ public class Actor : ICharacter
         talk.transform.localPosition = Vector3.zero;
         talk.transform.localEulerAngles = Vector3.zero;
         TalkSet talkSet = talk.GET<TalkSet>();
-        Debug.Log(murderer.Obj.name);
-        Debug.Log(murderer.mActorPart.TalkTransform.position);
         talkSet.murderer = murderer;
         talkSet.TalkText = talkSet.transform.GetComponent<Text>();
         talkSet.SetText(talkvalue);

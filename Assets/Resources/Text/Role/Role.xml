@@ -2,33 +2,195 @@
     <SceneGroups>
         <Item Type="SceneItem">
             <Id>10001</Id>
-            <Star>0</Star>
-            <IsOpen>0</IsOpen>
-			<PassTime>0</PassTime>
+            <Star>3</Star>
+            <IsOpen>true</IsOpen>
+		      	<PassTime>0</PassTime>
         </Item>
         <Item Type="SceneItem">
             <Id>10002</Id>
-			<Star>0</Star>
-			<IsOpen>0</IsOpen>
-			<PassTime>0</PassTime>
+		      	<Star>2</Star>
+		      	<IsOpen>true</IsOpen>
+		      	<PassTime>0</PassTime>
         </Item>
         <Item Type="SceneItem">
             <Id>10003</Id>
-			<Star>0</Star>
-			<IsOpen>0</IsOpen>
-			<PassTime>0</PassTime>
+		      	<Star>1</Star>
+		      	<IsOpen>true</IsOpen>
+			      <PassTime>0</PassTime>
         </Item>
         <Item Type="SceneItem">
             <Id>10004</Id>
-			<Star>0</Star>
-			<IsOpen>0</IsOpen>
-			<PassTime>0</PassTime>
+		      	<Star>2</Star>
+		      	<IsOpen>true</IsOpen>
+		      	<PassTime>0</PassTime>
         </Item>
         <Item Type="SceneItem">
             <Id>10005</Id>
-			<Star>0</Star>
-			<IsOpen>0</IsOpen>
-			<PassTime>0</PassTime>
+			      <Star>2</Star>
+		      	<IsOpen>true</IsOpen>
+		      	<PassTime>0</PassTime>
         </Item>
+      <Item Type="SceneItem">
+        <Id>10006</Id>
+        <Star>2</Star>
+        <IsOpen>true</IsOpen>
+        <PassTime>0</PassTime>
+      </Item>
+      <Item Type="SceneItem">
+        <Id>10007</Id>
+        <Star>2</Star>
+        <IsOpen>true</IsOpen>
+        <PassTime>0</PassTime>
+      </Item>
+      <Item Type="SceneItem">
+        <Id>10008</Id>
+        <Star>1</Star>
+        <IsOpen>true</IsOpen>
+        <PassTime>0</PassTime>
+      </Item>
+      <Item Type="SceneItem">
+        <Id>10009</Id>
+        <Star>2</Star>
+        <IsOpen>true</IsOpen>
+        <PassTime>0</PassTime>
+      </Item>
+      <Item Type="SceneItem">
+        <Id>10010</Id>
+        <Star>1</Star>
+        <IsOpen>true</IsOpen>
+        <PassTime>0</PassTime>
+      </Item>
+      <Item Type="SceneItem">
+        <Id>10011</Id>
+        <Star>2</Star>
+        <IsOpen>true</IsOpen>
+        <PassTime>0</PassTime>
+      </Item>
+      <Item Type="SceneItem">
+        <Id>10012</Id>
+        <Star>2</Star>
+        <IsOpen>true</IsOpen>
+        <PassTime>0</PassTime>
+      </Item>
+      <Item Type="SceneItem">
+        <Id>10013</Id>
+        <Star>0</Star>
+        <IsOpen>false</IsOpen>
+        <PassTime>0</PassTime>
+      </Item>
+      <Item Type="SceneItem">
+        <Id>10014</Id>
+        <Star>0</Star>
+        <IsOpen>false</IsOpen>
+        <PassTime>0</PassTime>
+      </Item>
+      <Item Type="SceneItem">
+        <Id>10015</Id>
+        <Star>0</Star>
+        <IsOpen>false</IsOpen>
+        <PassTime>0</PassTime>
+      </Item>
+      <Item Type="SceneItem">
+        <Id>10016</Id>
+        <Star>0</Star>
+        <IsOpen>false</IsOpen>
+        <PassTime>0</PassTime>
+      </Item>
+      <Item Type="SceneItem">
+        <Id>10017</Id>
+        <Star>0</Star>
+        <IsOpen>false</IsOpen>
+        <PassTime>0</PassTime>
+      </Item>
+      <Item Type="SceneItem">
+        <Id>10018</Id>
+        <Star>0</Star>
+        <IsOpen>false</IsOpen>
+        <PassTime>0</PassTime>
+      </Item>
+      <Item Type="SceneItem">
+        <Id>10019</Id>
+        <Star>0</Star>
+        <IsOpen>false</IsOpen>
+        <PassTime>0</PassTime>
+      </Item>
+      <Item Type="SceneItem">
+        <Id>10020</Id>
+        <Star>0</Star>
+        <IsOpen>false</IsOpen>
+        <PassTime>0</PassTime>
+      </Item>
+      <Item Type="SceneItem">
+        <Id>10021</Id>
+        <Star>0</Star>
+        <IsOpen>false</IsOpen>
+        <PassTime>0</PassTime>
+      </Item>
+      <Item Type="SceneItem">
+        <Id>10022</Id>
+        <Star>0</Star>
+        <IsOpen>false</IsOpen>
+        <PassTime>0</PassTime>
+      </Item>
+      <Item Type="SceneItem">
+        <Id>10023</Id>
+        <Star>0</Star>
+        <IsOpen>false</IsOpen>
+        <PassTime>0</PassTime>
+      </Item>
+      <Item Type="SceneItem">
+        <Id>10024</Id>
+        <Star>0</Star>
+        <IsOpen>false</IsOpen>
+        <PassTime>0</PassTime>
+      </Item>
+      <Item Type="SceneItem">
+        <Id>10025</Id>
+        <Star>0</Star>
+        <IsOpen>false</IsOpen>
+        <PassTime>0</PassTime>
+      </Item>
+      <Item Type="SceneItem">
+        <Id>10026</Id>
+        <Star>0</Star>
+        <IsOpen>false</IsOpen>
+        <PassTime>0</PassTime>
+      </Item>
+      <Item Type="SceneItem">
+        <Id>10027</Id>
+        <Star>0</Star>
+        <IsOpen>false</IsOpen>
+        <PassTime>0</PassTime>
+      </Item>
+      <Item Type="SceneItem">
+        <Id>10028</Id>
+        <Star>0</Star>
+        <IsOpen>false</IsOpen>
+        <PassTime>0</PassTime>
+      </Item>
+      <Item Type="SceneItem">
+        <Id>10029</Id>
+        <Star>0</Star>
+        <IsOpen>false</IsOpen>
+        <PassTime>0</PassTime>
+      </Item>
+      <Item Type="SceneItem">
+        <Id>10030</Id>
+        <Star>0</Star>
+        <IsOpen>false</IsOpen>
+        <PassTime>0</PassTime>
+      </Item>
+      <Item Type="SceneItem">
+        <Id>10031</Id>
+        <Star>0</Star>
+        <IsOpen>false</IsOpen>
+        <PassTime>0</PassTime>
+      </Item>
+      <Item Type="SceneItem">
+        <Id>10032</Id>
+        <Star>0</Star>
+        <IsOpen>false</IsOpen>
+        <PassTime>0</PassTime>
+      </Item>
     </SceneGroups>
 </Root>

@@ -16,6 +16,11 @@ public class UILogin : BaseWindow
     private Button[] LevelSelectBtn;
     private GameObject ScrollPanel;
     private Toggle[] toggleArray;
+    private Image[] IsLook = new Image[32];
+    private Image[] LeftStar = new Image[32];
+    private Image[] RightStar = new Image[32];
+    private Image[] CenterStar = new Image[32];
+    public Text[] LevelNum = new Text[32];
     public UILogin()
     {
 
@@ -29,11 +34,90 @@ public class UILogin : BaseWindow
         LevelSelectBtn = transform.Find("P_Player/BGFram/ScrollPanel/GridContent").GetComponentsInChildren<Button>();
         ScrollPanel = transform.Find("P_Player/BGFram/ScrollPanel").gameObject;
         toggleArray = transform.Find("P_Player/BGFram/ToggleGroup").GetComponentsInChildren<Toggle>();
-
         LevelButtonScrollRect levelButtonScrollRect = ScrollPanel.GET<LevelButtonScrollRect>();
         levelButtonScrollRect.toggleArray = toggleArray;
     }
 
+    void InitLevel()
+    {
+        for (int i = 0; i < LevelSelectBtn.Length; i++)
+        {
+            IsLook[i] = LevelSelectBtn[CulPos(i)].transform.Find("Lock").gameObject.GetComponent<Image>();
+            LeftStar[i] = LevelSelectBtn[CulPos(i)].transform.Find("StarLeft").gameObject.GetComponent<Image>();
+            RightStar[i] = LevelSelectBtn[CulPos(i)].transform.Find("StarRight").gameObject.GetComponent<Image>();
+            CenterStar[i] = LevelSelectBtn[CulPos(i)].transform.Find("StarCenter").gameObject.GetComponent<Image>();
+            LevelNum[i] = LevelSelectBtn[CulPos(i)].transform.Find("Text").gameObject.GetComponent<Text>();
+        }
+        for (int i = 0; i < GameDataManage.Instance.LevelDatas.Count; i++)
+        {
+            LevelItem levelItem = GameDataManage.Instance.GetLevelItemData(10001 + i);
+            if (levelItem.isopen)
+            {
+                IsLook[i].gameObject.SetActive(false);
+                LevelNum[i].gameObject.SetActive(true);
+                LevelNum[i].text = (i + 1).ToString();
+            }
+            else
+            {
+                IsLook[i].gameObject.SetActive(true);
+                LevelNum[i].text = (i + 1).ToString();
+                LevelNum[i].gameObject.SetActive(false);
+            }
+            if (levelItem.star == 1)
+            {
+                LeftStar[i].gameObject.SetActive(true);
+                CenterStar[i].gameObject.SetActive(false);
+                RightStar[i].gameObject.SetActive(false);
+            }
+            else if (levelItem.star == 2)
+            {
+                LeftStar[i].gameObject.SetActive(true);
+                CenterStar[i].gameObject.SetActive(true);
+                RightStar[i].gameObject.SetActive(false);
+            }
+            else if (levelItem.star == 3)
+            {
+                LeftStar[i].gameObject.SetActive(true);
+                CenterStar[i].gameObject.SetActive(true);
+                RightStar[i].gameObject.SetActive(true);
+            }
+            else
+            {
+                LeftStar[i].gameObject.SetActive(false);
+                CenterStar[i].gameObject.SetActive(false);
+                RightStar[i].gameObject.SetActive(false);
+            }
+        }
+    }
+
+    int CulPos(int pos)
+    {
+        int j = pos / 8;
+        int c = pos % 8;
+        switch (c)
+        {
+            case 0:
+                return 8 * j;
+            case 1:
+                return 2 + 8 * j;
+            case 2:
+                return 4 + 8 * j;
+            case 3:
+                return 6 + 8 * j;
+            case 4:
+                return 1 + 8 * j;
+            case 5:
+                return 3 + 8 * j;
+            case 6:
+                return 5 + 8 * j;
+            case 7:
+                return 7 + 8 * j;
+            default:
+                return 0;
+
+        }
+
+    }
     public void SelectLevel(GameObject go)
     {
         int LevelNum = Int32.Parse(go.transform.GetComponentInChildren<Text>().text);
@@ -69,6 +153,7 @@ public class UILogin : BaseWindow
     public void OnButtonClick(GameObject go)
     {
         ShowPanel(go.name.Substring(3));
+        InitLevel();
     }
     protected override void OnAddButtonListener()
     {
