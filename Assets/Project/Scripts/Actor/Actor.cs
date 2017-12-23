@@ -515,5 +515,6 @@ public class Actor : ICharacter
         talkSet.SetText(talkvalue);
 
     }
+ 
 }
 

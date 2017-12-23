@@ -10,13 +10,14 @@ public class InputManage : MonoSingleton<InputManage>
     public KeyCode jump { get; set; }
     public KeyCode attack { get; set; }
     public KeyCode changemainplayer { get; set; }
-    public KeyCode dragenemy { get; set; }
+    public KeyCode throwingstone { get; set; }
+    RaycastHit hit;
     void Start()
     {
         jump = KeyCode.Space;
         attack = KeyCode.E;
         changemainplayer=KeyCode.Q;
-        dragenemy = KeyCode.R;
+        throwingstone = KeyCode.R;
     
     }
     public override void SetDontDestroyOnLoad(Transform parent)
@@ -41,9 +42,24 @@ public class InputManage : MonoSingleton<InputManage>
         {
             ZTEvent.FireEvent(EventID.REQ_PLAYER_Change);
         }
-        if (Input.GetKey(dragenemy))
+        if (Input.GetKeyDown(throwingstone))
         {
-            ZTEvent.FireEvent(EventID.REQ_PLAYER_DragEnemy);
+            ZTEvent.FireEvent(EventID.REQ_PLAYER_ThrowingStone);
+        }
+        if (Input.GetButtonDown("Fire1"))
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out hit))
+            {
+                if (hit.collider.tag == "enemy")
+                {
+                    ZTEvent.FireEvent(EventID.REQ_PLAYER_EnemyArea, hit.collider.gameObject.GetComponent<ActorBehavior>().Owner);
+                }
+                if (hit.collider.tag == "Player")
+                {
+                    ZTEvent.FireEvent(EventID.REQ_PLAYER_Change);
+                }
+            }
         }
         if (Input.GetAxis("Mouse ScrollWheel") < 0)
         {

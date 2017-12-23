@@ -9,5 +9,6 @@ public enum EventID : ushort
     REQ_PLAYER_Attack,  //请求玩家攻击
     REQ_PLAYER_Change, //请求玩家切换角色
     REQ_PLAYER_Attr,    //请求玩家属性改变
-    REQ_PLAYER_DragEnemy    //请求玩家拖拽尸体
+    REQ_PLAYER_ThrowingStone,   //请求玩家扔石头
+    REQ_PLAYER_EnemyArea   //请求玩家视野范围
 }

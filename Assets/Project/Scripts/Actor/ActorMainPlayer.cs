@@ -61,9 +61,10 @@ public class ActorMainPlayer : ActorPlayer
         }
         ZTEvent.FireEvent(EventID.REQ_PLAYER_Attr);
     }
-    void DragEnemy()
+    void ThrowingStone()
     {
-        DragCondition1(3);
+        GameObject Bottle = ZTPool.Instance.GetGo("Model/Weapons/Bottle");
+     //   Bottle.transform.position = Input.mousePosition;
     }
     public void addMainPlayer()
     {
@@ -73,7 +74,8 @@ public class ActorMainPlayer : ActorPlayer
         ZTEvent.AddHandler(EventID.REQ_PLAYER_Idle, OnMainPlayerIdle);
         ZTEvent.AddHandler(EventID.REQ_PLAYER_Attack, OnMainPlayerAttack);
         ZTEvent.AddHandler(EventID.REQ_PLAYER_Change, SetMainPlayer);
-        ZTEvent.AddHandler(EventID.REQ_PLAYER_DragEnemy, DragEnemy);
+        ZTEvent.AddHandler(EventID.REQ_PLAYER_ThrowingStone, ThrowingStone);
+        ZTEvent.AddHandler<Actor>(EventID.REQ_PLAYER_EnemyArea, EnemyArea);
     }
     public void RemoveMainPlayer()
     {
@@ -82,7 +84,8 @@ public class ActorMainPlayer : ActorPlayer
         ZTEvent.RemoveHandler(EventID.REQ_PLAYER_Idle, OnMainPlayerIdle);
         ZTEvent.RemoveHandler(EventID.REQ_PLAYER_Attack, OnMainPlayerAttack);
         ZTEvent.RemoveHandler(EventID.REQ_PLAYER_Change, SetMainPlayer);
-        ZTEvent.RemoveHandler(EventID.REQ_PLAYER_DragEnemy, DragEnemy);
+        ZTEvent.RemoveHandler(EventID.REQ_PLAYER_ThrowingStone, ThrowingStone);
+        ZTEvent.RemoveHandler<Actor>(EventID.REQ_PLAYER_EnemyArea, EnemyArea);
     }
     public override void Destroy()
     {
@@ -154,6 +157,14 @@ public class ActorMainPlayer : ActorPlayer
 
             }
         }
+    }
+    void EnemyArea(Actor actor)
+    {
+        for (int i = 0; i < GetAllEnemy().Count; i++)
+        {
+            GetAllEnemy()[i].AiConeDetection.GroundMesh.gameObject.SetActive(false);
+        }
+        actor.AiConeDetection.GroundMesh .gameObject.SetActive(true);
     }
 }
 

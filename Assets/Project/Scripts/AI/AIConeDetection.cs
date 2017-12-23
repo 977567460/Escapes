@@ -51,7 +51,7 @@ public class AIConeDetection : MonoBehaviour
 
     private ArrayList[] m_goGameObjectIntoCone = new ArrayList[SectorCount];
     private List<GameObject> FindObjList = new List<GameObject>();
-    private GameObject GroundMesh;
+    public GameObject GroundMesh;
     private Material GroundMat;
     Vector3[] OutVertices;
     Vector3[] InnerVertices;
@@ -62,6 +62,7 @@ public class AIConeDetection : MonoBehaviour
     private float IntervalRadians;
     private float EndRadians;
     public bool IsEnter = false;
+   // public bool IsDrawMesh = false;
     public ArrayList[] GameObjectIntoCone
     {
         get { return m_goGameObjectIntoCone; }
@@ -335,9 +336,9 @@ public class AIConeDetection : MonoBehaviour
             }
 
 
-        }
-        // DrawLine();
-        DrawMesh();
+        }      
+            DrawMesh();
+            
     }
     void DrawLine()
     {
