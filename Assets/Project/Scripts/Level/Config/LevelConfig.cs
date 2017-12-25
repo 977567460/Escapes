@@ -13,7 +13,6 @@ using System.Xml;
 
 public class LevelConfig : LoadXML
 {
-    public Dictionary<int,LevelItem> LevelItemDic=new Dictionary<int, LevelItem>();
     public  List<LevelItem> SceneGroups=new List<LevelItem>();
 
     public override void Read(XmlNode os)
@@ -28,7 +27,6 @@ public class LevelConfig : LoadXML
                         LevelItem data = new LevelItem();
                         data.Read(pNode);
                         this.SceneGroups.Add(data);
-                        this.LevelItemDic.Add(data.sceneid,data);
                     });
                     break;         
          

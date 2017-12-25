@@ -48,7 +48,7 @@ public class UILogin : BaseWindow
             CenterStar[i] = LevelSelectBtn[CulPos(i)].transform.Find("StarCenter").gameObject.GetComponent<Image>();
             LevelNum[i] = LevelSelectBtn[CulPos(i)].transform.Find("Text").gameObject.GetComponent<Text>();
         }
-        for (int i = 0; i < GameDataManage.Instance.LevelDatas.Count; i++)
+        for (int i = 0; i < GameDataManage.Instance.LevelListDatas.Count; i++)
         {
             LevelItem levelItem = GameDataManage.Instance.GetLevelItemData(10001 + i);
             if (levelItem.isopen)
@@ -122,8 +122,8 @@ public class UILogin : BaseWindow
     {
         int LevelNum = Int32.Parse(go.transform.GetComponentInChildren<Text>().text);
         string ScenesName = "Level" + LevelNum;
-        LevelData.SceneID = LevelNum;
-        StartGame.Instance.LoadScene(10000 + LevelNum);
+        LevelData.SceneID =10000+ LevelNum;
+        StartGame.Instance.LoadScene(LevelData.SceneID);
         UIManage.Instance.CloseWindow(WindowID.UI_LOGIN);
         // Application.LoadLevel(ScenesName);
     }

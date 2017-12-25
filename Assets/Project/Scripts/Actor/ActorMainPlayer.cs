@@ -13,6 +13,7 @@ public class ActorMainPlayer : ActorPlayer
     private float Timmer=0;
     private bool IsStone = false;
     private BottleScript bottlescript;
+    private GameObject Bottle;
     public ActorMainPlayer(int id, int guid, EActorType type, EBattleCamp camp, List<Vector3> PatrolGroups)
         : base(id, guid, type, camp, PatrolGroups)
     {
@@ -51,26 +52,36 @@ public class ActorMainPlayer : ActorPlayer
         this.SendStateMessage(FSMState.FSM_IDLE);
     }
 
-    void SetMainPlayer()
-    {
-        if (LevelData.MainPlayer.Id == 1)
-        {
-            LevelManage.Instance.SetMainPlayer(2);
-        }       
-        else
-        {
-            LevelManage.Instance.SetMainPlayer(1);
-        }
+    void SetMainPlayer(int id)
+    {    
+        LevelManage.Instance.SetMainPlayer(id);            
         ZTEvent.FireEvent(EventID.REQ_PLAYER_Attr);
     }
     void TakeStone()
     {
-        if (IsStone) return;
-        GameObject Bottle = ZTPool.Instance.GetGo("Model/Weapons/Bottle");
-        bottlescript = Bottle.GET<BottleScript>();
-        bottlescript.isDrag = true;
-        bottlescript.actor = this;
-        IsStone = true;
+      
+        if (IsStone)
+        {
+            bottlescript.isDrag = false;
+            IsStone = false;
+            AiConeDetection.GroundMesh.SetActive(false);
+            if (Bottle != null)
+            {
+                ZTPool.Instance.ReleaseGo("Model/Weapons/Bottle", Bottle,EPoolObjectType.PEntity);
+            }
+        
+
+        }
+        else
+        {
+            Bottle = ZTPool.Instance.GetGo("Model/Weapons/Bottle");
+            bottlescript = Bottle.GET<BottleScript>();
+            bottlescript.isDrag = true;
+            bottlescript.actor = this;
+            IsStone = true;
+            AiConeDetection.GroundMesh.SetActive(true);
+        }
+   
     }
     void ThrowingStone()
     {
@@ -78,6 +89,7 @@ public class ActorMainPlayer : ActorPlayer
         {
             bottlescript.isDrag = false;
             IsStone = false;
+            AiConeDetection.GroundMesh.SetActive(false);
             for (int i = 0; i < GetAllEnemy().Count; i++)
             {
                 if (Vector3.Distance(GetAllEnemy()[i].CacheTransform.position, bottlescript.gameObject.transform.position)<=10)
@@ -93,7 +105,7 @@ public class ActorMainPlayer : ActorPlayer
         ZTEvent.AddHandler<float, float>(EventID.REQ_PLAYER_Walk, OnMainPlayerWalk);
         ZTEvent.AddHandler(EventID.REQ_PLAYER_Idle, OnMainPlayerIdle);
         ZTEvent.AddHandler(EventID.REQ_PLAYER_Attack, OnMainPlayerAttack);
-        ZTEvent.AddHandler(EventID.REQ_PLAYER_Change, SetMainPlayer);
+        ZTEvent.AddHandler<int>(EventID.REQ_PLAYER_Change, SetMainPlayer);
         ZTEvent.AddHandler(EventID.REQ_PLAYER_TakeStone, TakeStone);
         ZTEvent.AddHandler(EventID.REQ_PLAYER_ThrowingStone, ThrowingStone);
         ZTEvent.AddHandler<Actor>(EventID.REQ_PLAYER_EnemyArea, EnemyArea);
@@ -104,7 +116,7 @@ public class ActorMainPlayer : ActorPlayer
         ZTEvent.RemoveHandler<float, float>(EventID.REQ_PLAYER_Walk, OnMainPlayerWalk);
         ZTEvent.RemoveHandler(EventID.REQ_PLAYER_Idle, OnMainPlayerIdle);
         ZTEvent.RemoveHandler(EventID.REQ_PLAYER_Attack, OnMainPlayerAttack);
-        ZTEvent.RemoveHandler(EventID.REQ_PLAYER_Change, SetMainPlayer);
+        ZTEvent.RemoveHandler<int>(EventID.REQ_PLAYER_Change, SetMainPlayer);
         ZTEvent.RemoveHandler(EventID.REQ_PLAYER_TakeStone, TakeStone);
         ZTEvent.RemoveHandler(EventID.REQ_PLAYER_ThrowingStone, ThrowingStone);
         ZTEvent.RemoveHandler<Actor>(EventID.REQ_PLAYER_EnemyArea, EnemyArea);
@@ -121,6 +133,7 @@ public class ActorMainPlayer : ActorPlayer
         base.OnDead();
         AudioClip clip = LoadResource.Instance.Load<AudioClip>("Sounds/YiJianMei");
         ZTAudio.Instance.PlayMusic(clip);
+        
     }
 
     public override void Step()

@@ -40,7 +40,10 @@ public class InputManage : MonoSingleton<InputManage>
         }
         if (Input.GetKeyDown(changemainplayer))
         {
-            ZTEvent.FireEvent(EventID.REQ_PLAYER_Change);
+            if(LevelData.MainPlayer.Id==1)
+            ZTEvent.FireEvent(EventID.REQ_PLAYER_Change,2);
+            else
+            ZTEvent.FireEvent(EventID.REQ_PLAYER_Change, 1);
         }
         if (Input.GetKeyDown(takestone))
         {
@@ -57,7 +60,8 @@ public class InputManage : MonoSingleton<InputManage>
                 }
                 else  if (hit.collider.tag == "Player")
                 {
-                    ZTEvent.FireEvent(EventID.REQ_PLAYER_Change);
+                    if (hit.collider.gameObject.GetComponent<ActorBehavior>().Owner.Id == LevelData.MainPlayer.Id) return;
+                    ZTEvent.FireEvent(EventID.REQ_PLAYER_Change, hit.collider.gameObject.GetComponent<ActorBehavior>().Owner.Id);
                 }
                 else
                 {

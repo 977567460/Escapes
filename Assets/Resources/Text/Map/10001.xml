@@ -11,8 +11,8 @@
     <MonsterGroups>
         <Item Type="MapMonster">
             <Id>90001</Id>
-            <Position>(130,0,-80)</Position>
-            <EulerAngles>(0.00,0.00,0.00)</EulerAngles>
+            <Position>(130,6,-78.57)</Position>
+            <EulerAngles>(0.00,-90.00,0.00)</EulerAngles>
             <Scale>(1.00,1.00,1.00)</Scale>
             <PatrolGroups>
               <Patrol>(130,0,-70)</Patrol>

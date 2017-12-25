@@ -32,7 +32,7 @@ public class ActorPathFinding : IGame
             mOwner.AiConeDetection = mOwner.mActorPart.AIConeDetection.gameObject.GET<AIConeDetection>();
             mOwner.AiConeDetection.StartAngle = owner.GetAttr(EAttr.StartAngle);
             mOwner.AiConeDetection.EndAngle = owner.GetAttr(EAttr.EndAngle);
-            mOwner.AiConeDetection.m_fConeLenght = owner.GetAttr(EAttr.ViewLength);     
+            mOwner.AiConeDetection.m_fConeLenght = owner.GetAttr(EAttr.ViewLength);
 
         }
         if (owner.ActorType == EActorType.PLAYER)
@@ -41,7 +41,7 @@ public class ActorPathFinding : IGame
             mOwner.AiConeDetection.StartAngle = 0;
             mOwner.AiConeDetection.EndAngle = -90;
             mOwner.AiConeDetection.m_fAngleOfView = 180;
-            mOwner.AiConeDetection.m_fConeLenght = owner.GetAttr(EAttr.ViewLength);
+            mOwner.AiConeDetection.m_fConeLenght = owner.GetAttr(EAttr.ViewLength);    
         }
         mNavMeshAgent.enabled = false;
         mNavMeshAgent.radius = mOwner.Radius;

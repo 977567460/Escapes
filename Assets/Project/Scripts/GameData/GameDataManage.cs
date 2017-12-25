@@ -8,7 +8,7 @@ public class GameDataManage : Singleton<GameDataManage>
 
     public Dictionary<int, SceneData> DictScene;
     public Dictionary<int, DBEntiny> DictDBEntiny;
-    public Dictionary<int, LevelItem> LevelDatas;
+    public List<LevelItem> LevelListDatas;
     private int mCurRoleID = 1;
     private LevelConfig Config;
     public int CurRoleID
@@ -23,7 +23,7 @@ public class GameDataManage : Singleton<GameDataManage>
         new ReadSceneData().Load(DictScene);
         DictDBEntiny = new Dictionary<int, DBEntiny>();
         new ReadDBEntiny().Load(DictDBEntiny);
-        LevelDatas = new Dictionary<int, LevelItem>();
+        LevelListDatas = new List<LevelItem>();
         InitXmlScene();
 
     }
@@ -44,15 +44,35 @@ public class GameDataManage : Singleton<GameDataManage>
     public LevelItem GetLevelItemData(int id)
     {
         LevelItem db = null;
-        LevelDatas.TryGetValue(id, out db);
-        return db;
+        for (int i = 0; i < LevelListDatas.Count; i++)
+        {
+            if (LevelListDatas[i].sceneid == id)
+            {
+                db = LevelListDatas[i];
+                return db;
+            }
+        }
+        return null;
+       
     }
+    public void SetLevelItemData(int id, int star, bool isopen, float passtime)
+    {
+        for (int i = 0; i < LevelListDatas.Count; i++)
+        {
+            if (LevelListDatas[i].sceneid == id)
+            {          
+                LevelListDatas[i].star = star;
+                LevelListDatas[i+1].isopen = isopen;
+                LevelListDatas[i].passtime = passtime;
+            }
+        }
 
+    }
     void InitXmlScene()
     {
         string fsPath = ("Text/Role/role");
         Config = new LevelConfig();
         Config.Load(fsPath);
-        LevelDatas = Config.LevelItemDic;
+        LevelListDatas = Config.SceneGroups;
     }
 }

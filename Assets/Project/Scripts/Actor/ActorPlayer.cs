@@ -21,5 +21,10 @@ public class ActorPlayer : Actor
     {
    
     }
+    public override void OnDead()
+    {
+        base.OnDead();
+        LevelManage.Instance.OnBattleEnd();
+    }
     
 }

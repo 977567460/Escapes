@@ -27,7 +27,7 @@ namespace Cfg.Map
                     case "Position":
                         this.Position = ReadVector3(current);
                         break;
-                    case "Euler":
+                    case "EulerAngles":
                         this.Euler = ReadVector3(current);
                         break;
                     case "Scale":
@@ -61,7 +61,7 @@ namespace Cfg.Map
         {
             LoadXML.Write(os, "Id", this.Id);
             LoadXML.Write(os, "Position", this.Position);
-            LoadXML.Write(os, "Euler", this.Euler);
+            LoadXML.Write(os, "EulerAngles", this.Euler);
             LoadXML.Write(os, "Scale", this.Scale);
             LoadXML.Write(os, "Talks", this.Talks);
         }

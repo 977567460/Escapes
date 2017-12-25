@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 
 public class LevelData
 {
@@ -58,16 +59,42 @@ public class LevelData
 
     public static void CalcResult()
     {
+        Star = CalcStar();
+        GameDataManage.Instance.SetLevelItemData(SceneID, Star, true, EndTime);
+        string fsPath = Application.dataPath + "/Resources/Text/Role";
+        if (!Directory.Exists(fsPath))
+        {
+            Directory.CreateDirectory(fsPath);
+        }
+        string path = GTTools.Format("{0}/{1}.xml", fsPath, "Role");
+        LevelConfig data = Export();
+        if (!File.Exists(path))
+        {
+            FileStream fs = File.Create(path);
+            fs.Close();
+            fs.Dispose();
+        }
+        data.Save(path);
+    }
+    static LevelConfig Export()
+    {
+        LevelConfig level = new LevelConfig();       
+        List<LevelItem> levellist = new List<LevelItem>();
+        levellist = GameDataManage.Instance.LevelListDatas;
+        level.SceneGroups = levellist;
+        return level;
    
     }
-
     public static void Reset()
     {  
         Win = false;
         Call = null;
     }
 
- 
+    static int CalcStar()
+    {
+        return 3;
+    }
 
   
 }

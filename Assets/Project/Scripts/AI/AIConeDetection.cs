@@ -21,8 +21,8 @@ public class AIConeDetection : MonoBehaviour
     public float m_vStartDistanceCone = 2.0f;
     private Material m_matVisibilityCone = null;
     public bool m_bHasStartDistance = true;
-    public int m_LayerMaskToIgnoreBegin = 0;
-    public int m_LayerMaskToIgnoreEnd = 0;
+    public int m_LayerMaskToIgnoreBegin = 1;
+    public int m_LayerMaskToIgnoreEnd = 10;
     private int m_LayerMaskToIgnore = ~(1 << 8);
     //public  float       m_fFixedCheckInterval       = 0.5f;
     private float m_fFixedCheckNextTime;
@@ -121,6 +121,7 @@ public class AIConeDetection : MonoBehaviour
         StartRadians = StartAngle * Mathf.Deg2Rad;
         EndRadians = EndAngle * Mathf.Deg2Rad;
         IntervalRadians = IntervalAngle * Mathf.Deg2Rad;
+        GroundMesh.SetActive(false);       
     }
 
     private void UpdateAIConeDetection()
@@ -131,7 +132,6 @@ public class AIConeDetection : MonoBehaviour
             if (!IsEnter)
             {
                 IsEnter = true;
-                Debug.LogError("jin");
             }
 
 
@@ -141,7 +141,6 @@ public class AIConeDetection : MonoBehaviour
             if (IsEnter)
             {
                 IsEnter = false;
-                Debug.LogError("chu");
             }
 
         }

@@ -494,13 +494,15 @@ public class Actor : ICharacter
     {
         get { return mBehavior; }
     }
-    public  void TalkOther()
+    public  void TalkOther(float dis)
     {
         List<Actor> Moster = LevelData.GetActorsByActorType(EActorType.MONSTER);
         for (int i = 0; i < Moster.Count; i++)
         {
-            if (Moster[i].GetTarget() == null) return;
-            Moster[i].GetActorAI().ChangeAIState(EAIState.AI_CHASE);
+            if(Vector3.Distance(LevelData.MainPlayer.CacheTransform.position,Moster[i].CacheTransform.position)<=dis){
+                    Moster[i].SetTarget(LevelData.MainPlayer);
+                    Moster[i].GetActorAI().ChangeAIState(EAIState.AI_CHASE);
+            }        
         }
     }
     public void Talk(string talkvalue)

@@ -67,10 +67,22 @@ public class LevelManage : MonoSingleton<LevelManage>
             MapMonster data = Config.Monsters[i];
             AddActor(data.Id, EActorType.MONSTER, EBattleCamp.B, data.Position, data.Euler, data.Scale,data.PatrolGroups);
         }
-
+        if (pType == ESceneType.Battle)
+        {
+            OnBattleStart();
+        }
         LevelManage.Instance.SetMainPlayer(1);       
     }
-
+    public void OnBattleStart()
+    { 
+        LevelData.StrTime = Time.realtimeSinceStartup;
+    }
+    public void OnBattleEnd()
+    {
+        LevelData.EndTime = Time.realtimeSinceStartup - LevelData.StrTime;
+        LevelData.Win = !LevelData.MainPlayer.IsDead();
+        LevelData.CalcResult();
+    }
     public ActorMainPlayer AddMainPlayer(int id, XTransform param)
     {      
         pMainActor = (ActorMainPlayer)AddActor(id, EActorType.PLAYER, EBattleCamp.A, param, null, true);

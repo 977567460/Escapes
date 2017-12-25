@@ -6,7 +6,7 @@ public class AIChaseState : AIBaseState
 {
     public override void Enter()
     {
-        Owner.TalkOther();
+        Owner.TalkOther(50f);
     }
 
     public override void Execute()
