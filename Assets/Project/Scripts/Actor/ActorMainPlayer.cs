@@ -11,6 +11,8 @@ public class ActorMainPlayer : ActorPlayer
     private float JumpCD;
     private float AttackCD;
     private float Timmer=0;
+    private bool IsStone = false;
+    private BottleScript bottlescript;
     public ActorMainPlayer(int id, int guid, EActorType type, EBattleCamp camp, List<Vector3> PatrolGroups)
         : base(id, guid, type, camp, PatrolGroups)
     {
@@ -61,10 +63,28 @@ public class ActorMainPlayer : ActorPlayer
         }
         ZTEvent.FireEvent(EventID.REQ_PLAYER_Attr);
     }
+    void TakeStone()
+    {
+        if (IsStone) return;
+        GameObject Bottle = ZTPool.Instance.GetGo("Model/Weapons/Bottle");
+        bottlescript = Bottle.GET<BottleScript>();
+        bottlescript.isDrag = true;
+        bottlescript.actor = this;
+        IsStone = true;
+    }
     void ThrowingStone()
     {
-        GameObject Bottle = ZTPool.Instance.GetGo("Model/Weapons/Bottle");
-     //   Bottle.transform.position = Input.mousePosition;
+        if (bottlescript != null && IsStone)
+        {
+            bottlescript.isDrag = false;
+            IsStone = false;
+            for (int i = 0; i < GetAllEnemy().Count; i++)
+            {
+                if (Vector3.Distance(GetAllEnemy()[i].CacheTransform.position, bottlescript.gameObject.transform.position)<=10)
+                GetAllEnemy()[i].mActorPathFinding.SetDestPosition(bottlescript.gameObject.transform.position);
+            }
+        }
+       
     }
     public void addMainPlayer()
     {
@@ -74,6 +94,7 @@ public class ActorMainPlayer : ActorPlayer
         ZTEvent.AddHandler(EventID.REQ_PLAYER_Idle, OnMainPlayerIdle);
         ZTEvent.AddHandler(EventID.REQ_PLAYER_Attack, OnMainPlayerAttack);
         ZTEvent.AddHandler(EventID.REQ_PLAYER_Change, SetMainPlayer);
+        ZTEvent.AddHandler(EventID.REQ_PLAYER_TakeStone, TakeStone);
         ZTEvent.AddHandler(EventID.REQ_PLAYER_ThrowingStone, ThrowingStone);
         ZTEvent.AddHandler<Actor>(EventID.REQ_PLAYER_EnemyArea, EnemyArea);
     }
@@ -84,6 +105,7 @@ public class ActorMainPlayer : ActorPlayer
         ZTEvent.RemoveHandler(EventID.REQ_PLAYER_Idle, OnMainPlayerIdle);
         ZTEvent.RemoveHandler(EventID.REQ_PLAYER_Attack, OnMainPlayerAttack);
         ZTEvent.RemoveHandler(EventID.REQ_PLAYER_Change, SetMainPlayer);
+        ZTEvent.RemoveHandler(EventID.REQ_PLAYER_TakeStone, TakeStone);
         ZTEvent.RemoveHandler(EventID.REQ_PLAYER_ThrowingStone, ThrowingStone);
         ZTEvent.RemoveHandler<Actor>(EventID.REQ_PLAYER_EnemyArea, EnemyArea);
     }

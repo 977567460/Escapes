@@ -10,14 +10,14 @@ public class InputManage : MonoSingleton<InputManage>
     public KeyCode jump { get; set; }
     public KeyCode attack { get; set; }
     public KeyCode changemainplayer { get; set; }
-    public KeyCode throwingstone { get; set; }
+    public KeyCode takestone { get; set; }
     RaycastHit hit;
     void Start()
     {
         jump = KeyCode.Space;
         attack = KeyCode.E;
         changemainplayer=KeyCode.Q;
-        throwingstone = KeyCode.R;
+        takestone = KeyCode.R;
     
     }
     public override void SetDontDestroyOnLoad(Transform parent)
@@ -42,9 +42,9 @@ public class InputManage : MonoSingleton<InputManage>
         {
             ZTEvent.FireEvent(EventID.REQ_PLAYER_Change);
         }
-        if (Input.GetKeyDown(throwingstone))
+        if (Input.GetKeyDown(takestone))
         {
-            ZTEvent.FireEvent(EventID.REQ_PLAYER_ThrowingStone);
+            ZTEvent.FireEvent(EventID.REQ_PLAYER_TakeStone);
         }
         if (Input.GetButtonDown("Fire1"))
         {
@@ -55,9 +55,13 @@ public class InputManage : MonoSingleton<InputManage>
                 {
                     ZTEvent.FireEvent(EventID.REQ_PLAYER_EnemyArea, hit.collider.gameObject.GetComponent<ActorBehavior>().Owner);
                 }
-                if (hit.collider.tag == "Player")
+                else  if (hit.collider.tag == "Player")
                 {
                     ZTEvent.FireEvent(EventID.REQ_PLAYER_Change);
+                }
+                else
+                {
+                    ZTEvent.FireEvent(EventID.REQ_PLAYER_ThrowingStone);
                 }
             }
         }

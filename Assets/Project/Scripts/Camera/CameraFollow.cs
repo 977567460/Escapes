@@ -23,7 +23,7 @@ public class CameraFollow :CameraEffectBase
         Vector3 pos = Follow.position + new Vector3(0, height, distance);
         transform.position = Vector3.Lerp(transform.position, pos, Time.deltaTime * 5);
         transform.LookAt(Follow);
-        SetObjDisable(Follow);
+      //  SetObjDisable(Follow);
     }
 
     public override void Init(int id, Camera cam, CameraEvent callback, params object[] args)

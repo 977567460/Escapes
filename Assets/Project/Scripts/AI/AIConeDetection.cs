@@ -30,9 +30,6 @@ public class AIConeDetection : MonoBehaviour
     /* Render Properties */
     public bool m_bShowCone = true;
     public int m_iConeVisibilityPrecision = 60;
-    //public  float       m_fDistanceForRender        = 600.0f;
-
-
     private Vector3[] m_vVertices;
     private Vector2[] m_vUV;
     private Vector3[] m_vNormals;
@@ -45,7 +42,6 @@ public class AIConeDetection : MonoBehaviour
     private float[] m_fStartRadians = new float[SectorCount];
     private float[] m_fCurrentRadians = new float[SectorCount];
     public static int SectorCount = 10;
-
     //private float 		m_fConeLenghtFixed;
     private List<Vector3> SevtorVertexCount = new List<Vector3>();
 
@@ -75,7 +71,6 @@ public class AIConeDetection : MonoBehaviour
 
     void Start()
     {
-        // GroundMat = new Material(Shader.Find("Mobile/Particles/VertexLit Blended"));
         GroundMat = new Material(Shader.Find("Legacy Shaders/Transparent/Cutout/Soft Edge Unlit"));
         players = LevelData.MainPlayerlist;
         GroundMat.SetColor("_Color", new Color(0, 1, 0, 0.3f));
@@ -126,7 +121,6 @@ public class AIConeDetection : MonoBehaviour
         StartRadians = StartAngle * Mathf.Deg2Rad;
         EndRadians = EndAngle * Mathf.Deg2Rad;
         IntervalRadians = IntervalAngle * Mathf.Deg2Rad;
-        //m_fConeLenghtFixed  = m_fConeLenght * m_fConeLenght;
     }
 
     private void UpdateAIConeDetection()
@@ -137,6 +131,7 @@ public class AIConeDetection : MonoBehaviour
             if (!IsEnter)
             {
                 IsEnter = true;
+                Debug.LogError("jin");
             }
 
 
@@ -146,6 +141,7 @@ public class AIConeDetection : MonoBehaviour
             if (IsEnter)
             {
                 IsEnter = false;
+                Debug.LogError("chu");
             }
 
         }
@@ -176,26 +172,19 @@ public class AIConeDetection : MonoBehaviour
     }
     private RaycastHit m_rcInfo;
     private Ray m_rayDir = new Ray();
-    // Vector3 EnemyBeginPos;
 
     private void DrawVisibilityCone2()
     {
         SevtorVertexCount.Clear();
         for (int Sector = 0; Sector < SectorCount; Sector++)
         {
-
             m_goGameObjectIntoCone[Sector].Clear();
-
-
             m_fCurrentRadians[Sector] = m_fStartRadians[Sector];
             Vector3 CurrentVector = this.transform.forward;
             Vector3 DrawVectorCurrent = this.transform.forward;
-
             int index = 0;
             int My_index = 0;
             int My_index2 = 0;
-            // EnemyBeginPos = new Vector3(transform.position.x, 0, transform.position.z);
-            // SevtorVertexCount.Add(EnemyBeginPos);
             for (int i = 0; i < m_iConeVisibilityPrecision + 1; ++i)
             {
 
@@ -312,7 +301,7 @@ public class AIConeDetection : MonoBehaviour
                 {
                     color = Color.yellow;
                 }
-
+                Debug.DrawLine(m_vVertices[index], m_vVertices[index + 1], color);
                 tempvertex = this.transform.position + DrawVectorCurrent.normalized * FixedLenght;
                 tempvertex = new Vector3(tempvertex.x, 0.01f, tempvertex.z);
                 if (Sector == 0)
@@ -369,9 +358,6 @@ public class AIConeDetection : MonoBehaviour
     }
     void DrawMesh()
     {
-        //  GroundMesh.transform.position = this.transform.position;
-        // GroundMesh.transform.eulerAngles = this.transform.eulerAngles;
-
         GroundMesh.GetComponent<MeshFilter>().mesh = CreateMesh(m_fConeLenght, 2, (180 - m_fAngleOfView) / 2, m_fAngleOfView, m_iConeVisibilityPrecision / 2);
     }
     Mesh CreateMesh(float radius, float innerradius, float startangle, float angledegree, int segments)

@@ -324,6 +324,7 @@ public class Actor : ICharacter
         if (mCharacter != null)
         {
             mCharacter.enabled = enabled;
+            this.Obj.GET<BoxCollider>().enabled = enabled;
         }
     }
     public virtual void OnForceToMove(MVCommand ev)
