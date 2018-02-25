@@ -30,10 +30,7 @@ namespace ParagonAI
         public float timeToDestroyAfterHitting = 0.2f;
         private RaycastHit hit;
         private Transform myTransform;
-
-        //Rotation
         private Quaternion targetRotation;
-
         private Transform target = null;
         public float homingTrackingSpeed = 5;
 
@@ -44,40 +41,30 @@ namespace ParagonAI
         void Awake()
         {
             layerMask = LayerMask.GetMask("Default");
-            hitEffect = ZTPool.Instance.GetGo("Model/Weapons/Explosion Missile 2");
+            hitEffect = LoadResource.Instance.Load<GameObject>("Model/Weapons/Explosion Missile 2"); 
             missEffect = hitEffect;
             myTransform = transform;
             Move();
             StartCoroutine(SetTimeToDestroy());
         }
 
-        //Automatically destroy the bullet after a certain amount of time
-        //Especially useful for missiles, which may end up flying endless circles around their target,
-        //long after the appropriate sound effects have ended.
         IEnumerator SetTimeToDestroy()
         {
             yield return new WaitForSeconds(maxLifeTime);
-
             if (target)
             {
                 Instantiate(hitEffect, myTransform.position, myTransform.rotation);
             }
-
             Destroy(gameObject);
         }
 
         IEnumerator ApplyDamage()
         {
-            //Reduce the enemy's health
-            //Does NOT travel up the heirarchy.  
             if (hit.collider.gameObject.GetComponent<ActorBehavior>() != null)
             {
                 TargetActor = hit.collider.gameObject.GetComponent<ActorBehavior>().Owner;
                 TargetActor.BeDamage(AttackActor, damage);
             }
-            //hit.collider.SendMessage("BeDamage", damage, SendMessageOptions.DontRequireReceiver);
-
-            //Produce the appropriate special effect
             if (hit.transform.tag == hitEffectTag && hitEffect)
             {
                 GameObject currentHitEffect = (GameObject)(Instantiate(hitEffect, hit.point, myTransform.rotation));
@@ -90,12 +77,6 @@ namespace ParagonAI
             }
             this.enabled = false;
             yield return null;
-
-            //Wait a fram to apply forces as we need to make sure the thing is dead
-            //if (hit.rigidbody)
-            //    hit.rigidbody.AddForceAtPosition(myTransform.forward * bulletForce, hit.point, ForceMode.Impulse);
-
-            //Linger around for a while to let the trail renderer dissipate (if the bullet has one.)
             Destroy(gameObject, timeToDestroyAfterHitting);
         }
 
@@ -105,10 +86,6 @@ namespace ParagonAI
             Move();
         }
 
-        //Move is a seperate method as the bullet must move IMMEDIATELY.
-        //If it does not, the shooter may literally outrun the bullet-momentarily.
-        //If the shooter passes the bullet, the bullet will then start moving and hit the shooter in the back.
-        //That would not be good.
         void Move()
         {
             //Check to see if we're going to hit anything.  If so, move right to it and deal damage
@@ -142,17 +119,5 @@ namespace ParagonAI
             }
         }
 
-        //To avoid costly SqrRoot in Vector3.Distance
-        public void SetDistToDetonate(float x)
-        {
-            minDistToDetonateSqr = x * x;
-        }
-
-        //Call this method upon instantating the bullet in order to make it home in on a target.
-        public void SetAsHoming(Transform t)
-        {
-            target = t;
-            SetDistToDetonate(minDistToDetonate);
-        }
     }
 }

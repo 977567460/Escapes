@@ -23,6 +23,11 @@ public class AIFightState : AIBaseState
                         AI.ChangeAIState(EAIState.AI_BACK);
                         return;
                     }
+                    if (!Owner.AiConeDetection.IsEnter)
+                    {
+                        AI.ChangeAIState(EAIState.AI_CHASE);
+                        return;
+                    }
                     Fight();
                 }
                 break;        
