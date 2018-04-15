@@ -56,13 +56,15 @@ public class ZTPool : MonoSingleton<ZTPool>
                 return obj.gameObject;
             }
         }
-        return LoadResource.Instance.Instantiate(path);
+        GameObject go = LoadResource.Instance.Instantiate(path);
+        go.transform.parent = this.gameObject.transform;
+        return go;
     }
 
     public void EnablePoolGameObject(GameObject go, XPoolObj obj)
     {
         go.SetActive(true);
-        go.transform.parent = null;
+        go.transform.parent = this.gameObject.transform;
     }
 
     public void DisablePoolGameObject(GameObject go, XPoolObj info)

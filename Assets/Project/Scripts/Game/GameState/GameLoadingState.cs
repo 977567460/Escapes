@@ -62,7 +62,7 @@ public class GameLoadingState : GameBaseState
     }
     public void OnSceneWasLoaded()
     {
-        SceneData db = GameDataManage.Instance.GetDBScene(mLoadingSceneId);
+       // SceneData db = GameDataManage.Instance.GetDBScene(mLoadingSceneId);
         // AudioClip music = GameDataManage.Instance.Load<AudioClip>(db.SceneMusic);
         //ZTAudio.Instance.PlayMusic(music);
         LevelManage.Instance.EnterWorld(mLoadingSceneId);

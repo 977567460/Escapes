@@ -22,9 +22,9 @@ namespace ParagonAI
         public float bulletForce = 4;
 
         //Hit Effects
-        public GameObject hitEffect;
-        public float hitEffectDestroyTime = 1;
-        public string hitEffectTag = "HitBox";
+     //   public GameObject hitEffect;
+      //  public float hitEffectDestroyTime = 1;
+    //    public string hitEffectTag = "HitBox";
         public GameObject missEffect;
         public float missEffectDestroyTime = 6;
         public float timeToDestroyAfterHitting = 0.2f;
@@ -41,8 +41,8 @@ namespace ParagonAI
         void Awake()
         {
             layerMask = LayerMask.GetMask("Default");
-            hitEffect = LoadResource.Instance.Load<GameObject>("Model/Weapons/Explosion Missile 2"); 
-            missEffect = hitEffect;
+           // hitEffect = LoadResource.Instance.Load<GameObject>("Model/Weapons/Explosion Missile 2"); 
+            //missEffect = hitEffect;
             myTransform = transform;
             Move();
             StartCoroutine(SetTimeToDestroy());
@@ -51,10 +51,10 @@ namespace ParagonAI
         IEnumerator SetTimeToDestroy()
         {
             yield return new WaitForSeconds(maxLifeTime);
-            if (target)
-            {
-                Instantiate(hitEffect, myTransform.position, myTransform.rotation);
-            }
+           // if (target)
+           // {
+          //      Instantiate(hitEffect, myTransform.position, myTransform.rotation);
+         //   }
             Destroy(gameObject);
         }
 
@@ -65,16 +65,16 @@ namespace ParagonAI
                 TargetActor = hit.collider.gameObject.GetComponent<ActorBehavior>().Owner;
                 TargetActor.BeDamage(AttackActor, damage);
             }
-            if (hit.transform.tag == hitEffectTag && hitEffect)
-            {
-                GameObject currentHitEffect = (GameObject)(Instantiate(hitEffect, hit.point, myTransform.rotation));
-                GameObject.Destroy(currentHitEffect, hitEffectDestroyTime);
-            }
-            else if (missEffect)
-            {
-                GameObject currentMissEffect = (GameObject)(Instantiate(missEffect, hit.point + hit.normal * 0.01f, Quaternion.LookRotation(hit.normal)));
-                GameObject.Destroy(currentMissEffect, missEffectDestroyTime);
-            }
+            //if (hit.transform.tag == hitEffectTag && hitEffect)
+            //{
+            //    GameObject currentHitEffect = (GameObject)(Instantiate(hitEffect, hit.point, myTransform.rotation));
+            //    GameObject.Destroy(currentHitEffect, hitEffectDestroyTime);
+            //}
+            //else if (missEffect)
+            //{
+            //    GameObject currentMissEffect = (GameObject)(Instantiate(missEffect, hit.point + hit.normal * 0.01f, Quaternion.LookRotation(hit.normal)));
+            //    GameObject.Destroy(currentMissEffect, missEffectDestroyTime);
+            //}
             this.enabled = false;
             yield return null;
             Destroy(gameObject, timeToDestroyAfterHitting);
@@ -113,7 +113,7 @@ namespace ParagonAI
                 if (Vector3.SqrMagnitude(target.position - transform.position) < minDistToDetonateSqr)
                 {
                     //The hitEffect should be your explosion.
-                    Instantiate(hitEffect, myTransform.position, myTransform.rotation);
+                   // Instantiate(hitEffect, myTransform.position, myTransform.rotation);
                     GameObject.Destroy(gameObject);
                 }
             }

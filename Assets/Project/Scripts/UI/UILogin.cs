@@ -121,7 +121,7 @@ public class UILogin : BaseWindow
     public void SelectLevel(GameObject go)
     {
         int LevelNum = Int32.Parse(go.transform.GetComponentInChildren<Text>().text);
-        string ScenesName = "Level" + LevelNum;
+       // string ScenesName = "Level" + LevelNum;
         LevelData.SceneID =10000+ LevelNum;
         StartGame.Instance.LoadScene(LevelData.SceneID);
         UIManage.Instance.CloseWindow(WindowID.UI_LOGIN);

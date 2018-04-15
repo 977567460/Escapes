@@ -59,7 +59,7 @@ public class LoadResource : Singleton<LoadResource>
         GameObject go = null;
         if (asset != null)
         {
-            go = (GameObject)GameObject.Instantiate(asset);
+            go = GameObject.Instantiate(asset);
         }
         return go;
     }

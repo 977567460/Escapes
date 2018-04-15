@@ -15,7 +15,11 @@ public class UIHome : BaseWindow
     {
         HpSlider = transform.Find("HPBar").GetComponent<Slider>();
         HpValue = transform.Find("HPBar/HPValue").GetComponent<Text>();
-        HpSlider.value = LevelData.MainPlayer.GetAttr(EAttr.HP) / LevelData.MainPlayer.GetAttr(EAttr.MaxHP);
+        int Curhp = LevelData.MainPlayer.GetAttr(EAttr.HP);
+        int maxhp = LevelData.MainPlayer.GetAttr(EAttr.MaxHP);
+       
+        HpSlider.value =(float) Curhp/maxhp;
+
         HpValue.text = LevelData.MainPlayer.GetAttr(EAttr.HP).ToString();
     }
 

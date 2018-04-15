@@ -71,11 +71,12 @@ public class ZTAction : IGame
 
         mPlayTimer = Time.realtimeSinceStartup;
         mPlaySpeed = speed;
+        mAnimator.speed = mPlaySpeed;
         mAnimName = animName;
-        mCAnimator.onFinish = onFinish;
+        mCAnimator.onFinish = onFinish;        
         mCAnimator.name = animName;
         mCAnimator.isStart = false;
-        mCAnimator.isLoop = isLoop;
+        mCAnimator.isLoop = isLoop;   
         mCAnimator.length = lastTime > 0 ? lastTime : GetAnimLength(mAnimName);
     }
 

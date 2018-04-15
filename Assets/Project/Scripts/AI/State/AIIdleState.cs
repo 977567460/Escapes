@@ -17,7 +17,7 @@ public class AIIdleState : AIBaseState
                 {
                     if (pTarget != null)
                     {
-                        float dist = GTTools.GetHorizontalDistance(Owner.Pos, pTarget.Pos);
+                        //float dist = GTTools.GetHorizontalDistance(Owner.Pos, pTarget.Pos);
                         if (Owner.AiConeDetection.IsEnter)
                         {
                            
