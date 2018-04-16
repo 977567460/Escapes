@@ -12,6 +12,7 @@ public enum ECameraType
     DRAG_BACK,          //返回拉效果
     SPECIAL,            //BOSS镜头特写
     BULLET,             //子弹时间
+    MOVE,
 }
 
 public enum ECameraFollow

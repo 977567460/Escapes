@@ -11,5 +11,6 @@ public enum EventID : ushort
     REQ_PLAYER_Attr,    //请求玩家属性改变
     REQ_PLAYER_TakeStone,   //请求玩家拿石头
     REQ_PLAYER_ThrowingStone,   //请求玩家扔石头
-    REQ_PLAYER_EnemyArea   //请求玩家视野范围
+    REQ_PLAYER_EnemyArea,   //请求玩家视野范围
+    REQ_Camera_Move,  //请求相机移动
 }

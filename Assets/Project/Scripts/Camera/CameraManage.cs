@@ -33,7 +33,7 @@ public class CameraManage : MonoSingleton<CameraManage>
             GameObject c = new GameObject("MainCamera");
             MainCamera = c.AddComponent<Camera>();
             c.tag = "MainCamera";
-            MainCamera.gameObject.AddComponent<AudioListener>();
+            MainCamera.gameObject.AddComponent<AudioListener>();           
         }
         MainCamera.transform.parent = transform;
     }
@@ -74,6 +74,9 @@ public class CameraManage : MonoSingleton<CameraManage>
             case ECameraType.SHAKE:
                 effect = cam.gameObject.AddComponent<CameraShake>();
                 break;
+            case ECameraType.MOVE:
+                effect = cam.gameObject.AddComponent<CameraMove>();
+                break;
         }
     }
     public void RevertMainCamera()
@@ -113,5 +116,6 @@ public class CameraManage : MonoSingleton<CameraManage>
             if (MainCamera.GetComponent<CameraFollow>().height <= 10 && Height < 0) return;
             MainCamera.GetComponent<CameraFollow>().height += Height;
         }
-    }  
+    }
+   
 }

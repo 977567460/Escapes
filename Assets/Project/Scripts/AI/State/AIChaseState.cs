@@ -31,7 +31,7 @@ public class AIChaseState : AIBaseState
                         AI.ChangeAIState(EAIState.AI_BACK);                        
                     }
                     else if (dist < AI.ATKDIST && Owner.AiConeDetection.IsEnter)
-                    {
+                    {             
                         AI.ChangeAIState(EAIState.AI_FIGHT);
                         return;
                     }                
@@ -57,7 +57,6 @@ public class AIChaseState : AIBaseState
         
 
     }
-
     public override void Exit()
     {
 

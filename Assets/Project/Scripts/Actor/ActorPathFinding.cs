@@ -47,7 +47,7 @@ public class ActorPathFinding : IGame
         mNavMeshAgent.radius = mOwner.Radius;
         mNavMeshAgent.height = mOwner.Height;
         mNavMeshAgent.acceleration = 360;
-        mNavMeshAgent.angularSpeed = 360;      
+        mNavMeshAgent.angularSpeed = 360;   
         mNavMeshAgent.obstacleAvoidanceType = UnityEngine.AI.ObstacleAvoidanceType.HighQualityObstacleAvoidance;
     }
 
@@ -60,7 +60,7 @@ public class ActorPathFinding : IGame
     {
         mDestPosition = dest;
         SetAgentActive(true);
-        this.mNavMeshAgent.speed = mOwner.GetAttr(EAttr.Speed);
+        mNavMeshAgent.speed = mOwner.GetAttr(EAttr.Speed);
         mNavMeshAgent.SetDestination(mDestPosition);   
                
     }
@@ -120,6 +120,9 @@ public class ActorPathFinding : IGame
     {
         mOnFinished = pCallback;
     }
-
+    public void SetSpeed(float speed)
+    {
+        mNavMeshAgent.speed = speed;
+    }
 
 }

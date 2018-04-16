@@ -12,8 +12,7 @@ public class AIPatrolState : AIBaseState
     public override void Enter()
     {
         PatrolGroups = Owner.PatrolGroups;
-        ThinkingTime = Owner.GetAttr(EAttr.WaitPatrolTime);
-     
+        ThinkingTime = Owner.GetAttr(EAttr.WaitPatrolTime);   
     }
 
     public override void Execute()
@@ -65,6 +64,7 @@ public class AIPatrolState : AIBaseState
             Iswalking = true;
             Timerr = 0;
             Owner.mActorPathFinding.SetDestPosition(target);
+            Owner.mActorPathFinding.SetSpeed(Owner.GetAttr(EAttr.Speed) / 2);  
             Owner.mActorPathFinding.SetOnFinished(()=>{
                 Iswalking = false;
             });

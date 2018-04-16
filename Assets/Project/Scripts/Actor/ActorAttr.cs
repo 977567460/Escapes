@@ -79,16 +79,6 @@ public class ActorAttr
                 break;
         }
     }
-    public static ActorAttr operator +(ActorAttr a, ActorAttr b)
-    {
-        ActorAttr c = new ActorAttr();
-        c.HP = a.HP + b.HP;
-        c.MaxHP = a.MaxHP + b.MaxHP;
-        c.Atk = a.Atk + b.Atk;
-        c.Speed = a.Speed + b.Speed;
-
-        return c;
-    }
 
 
 }

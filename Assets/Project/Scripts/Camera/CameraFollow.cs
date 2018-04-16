@@ -31,8 +31,7 @@ public class CameraFollow :CameraEffectBase
         Follow = (Transform)args[0];
         Vector3 pos = Follow.position + Vector3.up * height + Follow.forward * distance;
         transform.position = pos;
-        transform.LookAt(Follow); 
+        transform.LookAt(Follow);
     }
-
 
 }

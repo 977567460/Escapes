@@ -4,8 +4,7 @@ using System.Collections;
 public class AIBackState : AIBaseState
 {
     public override void Enter()
-    {
-        Owner.mActorPathFinding.SetStopDis(0);
+    {        
         Owner.Command(new RTCommand(Owner.GetBornParam().Position, OnBackFinished));       
     }
 
@@ -23,5 +22,6 @@ public class AIBackState : AIBaseState
     private void OnBackFinished()
     {
         Owner.GetActorAI().ChangeAIState(EAIState.AI_IDLE);
+        Owner.mActorPathFinding.SetStopDis(0);
     }
 }
