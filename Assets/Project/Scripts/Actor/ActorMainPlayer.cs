@@ -14,6 +14,8 @@ public class ActorMainPlayer : ActorPlayer
     private bool IsStone = false;
     private BottleScript bottlescript;
     private GameObject Bottle;
+    private float _angle = 30;
+    private float _dis = 3;
     public ActorMainPlayer(int id, int guid, EActorType type, EBattleCamp camp, List<Vector3> PatrolGroups)
         : base(id, guid, type, camp, PatrolGroups)
     {
@@ -37,7 +39,7 @@ public class ActorMainPlayer : ActorPlayer
         if(Timmer>0) return;
         this.SendStateMessage(FSMState.FSM_Attack);
 
-        ZTCoroutinue.Instance.StartCoroutine(AtkCondition1(3, 30));
+        ZTCoroutinue.Instance.StartCoroutine(AtkCondition1());
         Timmer = AttackCD;
     }
     void OnMainPlayerWalk(float arg1, float arg2)
@@ -139,6 +141,7 @@ public class ActorMainPlayer : ActorPlayer
     public override void Step()
     {
         base.Step();
+        UpdateTarget();
         if (Timmer > 0)
         {
             Timmer -= Time.deltaTime;
@@ -149,7 +152,7 @@ public class ActorMainPlayer : ActorPlayer
         }
       
     }
-    IEnumerator AtkCondition1(float _range, float _angle)
+    IEnumerator AtkCondition1()
     {
         yield return new WaitForSeconds(1.5f);
         AudioClip clip = LoadResource.Instance.Load<AudioClip>("Sounds/SWORD05");
@@ -168,11 +171,28 @@ public class ActorMainPlayer : ActorPlayer
             // 求出Player指向敌人和Player指向正前方两向量的夹角，其实就是Player和敌人的夹角(不分左右)
             float angle = Vector3.Angle(v3, this.CacheTransform.forward);
             // Debug.Log("tempDis1:" + tempDis1 + "_range:" + _range + "angle:" + angle + "_angle:" + _angle);
-            if (tempDis1 < _range && angle < _angle)
+            if (tempDis1 < _dis && angle < _angle)
             {
                 Debug.Log("damage");
                 // 距离和角度条件都满足了
                 go.BeDamage(this.GetAttr(EAttr.Atk));
+            }
+        }
+    }
+    void UpdateTarget()
+    {
+        foreach (Actor go in LevelData.GetActorsByActorType(EActorType.MONSTER))
+        {
+            // 敌人的坐标向量减去Player的坐标向量的长度（使用magnitude）
+            float tempDis1 = Vector3.Distance(go.Obj.transform.position, this.CacheTransform.position);
+            // 敌人向量减去Player向量就能得到Player指向敌人的一个向量
+            Vector3 v3 = go.Obj.transform.position - this.CacheTransform.position;
+            // 求出Player指向敌人和Player指向正前方两向量的夹角，其实就是Player和敌人的夹角(不分左右)
+            float angle = Vector3.Angle(v3, this.CacheTransform.forward);
+            // Debug.Log("tempDis1:" + tempDis1 + "_range:" + _range + "angle:" + angle + "_angle:" + _angle);
+            if (tempDis1 < _dis && angle < _angle)
+            {
+                go.setColor(Color.red);
             }
         }
     }

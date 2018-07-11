@@ -28,6 +28,7 @@ public class Actor : ICharacter
     public EMonsterType MonsterType { get; private set; }
     public ActorPart mActorPart{ get; private set; }
     public AIConeDetection AiConeDetection;
+   
     public Actor(int id, int guid, EActorType type, EBattleCamp camp, List<Vector3> PatrolGroups)
         : base(id, guid)
     {
@@ -205,6 +206,7 @@ public class Actor : ICharacter
     public override void Load(XTransform data)
     {
         this.Obj = LoadObject(data);
+        if(Camp!=EBattleCamp.A)
         if (this.Obj == null)
         {
             return;
@@ -214,6 +216,8 @@ public class Actor : ICharacter
         this.mActorPart=new ActorPart(this);        
         this.mCharacter = Obj.GetComponent<CharacterController>();
         this.Init();
+        if(Camp!=EBattleCamp.A)
+        AddHpUI();
     }
     public GameObject LoadObject(XTransform data)
     {   
@@ -283,6 +287,7 @@ public class Actor : ICharacter
         mMachine.Step();
         mActorPathFinding.Step();
         mActorAI.Step();
+       
     }
 
     public override void ChangeModel(int modelID)
@@ -355,7 +360,7 @@ public class Actor : ICharacter
             if (ActorType == EActorType.PLAYER)
             {
                 murderer = attacker;
-                Talk("55555555555555");
+                Talk("菜鸡！！！！");
             }
 
             SendStateMessage(FSMState.FSM_DEAD);
@@ -517,6 +522,21 @@ public class Actor : ICharacter
         talkSet.TalkText = talkSet.transform.GetComponent<Text>();
         talkSet.SetText(talkvalue);
 
+    }
+    public void AddHpUI(){
+        GameObject Hpslider = ZTPool.Instance.GetGo("UI/Game/Slider");
+        Transform _Canvas = GameObject.Find("Canvas").transform;
+        Hpslider.transform.SetParent(_Canvas);
+        Hpslider.transform.localPosition = Vector3.zero;
+        Hpslider.transform.localEulerAngles = Vector3.zero;
+        SetHp talkSet = Hpslider.GET<SetHp>();
+        talkSet.owner = this;
+    }
+    public void setColor(Color color)
+    {
+        //Debug.LogError(this.GUID + "hong");
+     //  SkinnedMeshRenderer skin= this.Obj.GetComponentInChildren<SkinnedMeshRenderer>();
+     //  skin.material.SetColor("_MainTex", color);
     }
  
 }

@@ -99,7 +99,7 @@ public class UIManage : Singleton<UIManage>, IGame
         RegisterWindow(WindowID.UI_LOADING, new UILoading());
         RegisterWindow(WindowID.UI_HOME, new UIHome());
         RegisterWindow(WindowID.UI_INTRODUCE, new UIIntroduce());
-       
+        RegisterWindow(WindowID.UI_PLOTCUTSCENE, new UIDialog());
     }
     public Dictionary<WindowID, BaseWindow> mAllWindows = new Dictionary<WindowID, BaseWindow>();
     public Dictionary<WindowType, List<BaseWindow>> mOpenWindows = new Dictionary<WindowType, List<BaseWindow>>();
