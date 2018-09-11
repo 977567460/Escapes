@@ -54,9 +54,9 @@ public class StartGame : MonoSingleton<StartGame>
         CameraManage.Instance.SetDontDestroyOnLoad(transform);
         InputManage.Instance.SetDontDestroyOnLoad(transform);
         LevelManage.Instance.SetDontDestroyOnLoad(transform);
+        ZTPlot.Instance.SetDontDestroyOnLoad(transform);
         ZTPool.Instance.SetDontDestroyOnLoad(transform);
         ZTLanguage.Instance.SetDontDestroyOnLoad(transform);
-        ZTPlot.Instance.SetDontDestroyOnLoad(transform);
         ZTAudio.Instance.SetDontDestroyOnLoad(transform);
         UIManage.Instance.Init();
         GameDataManage.Instance.Init();

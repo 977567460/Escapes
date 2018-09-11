@@ -28,7 +28,7 @@ public class Actor : ICharacter
     public EMonsterType MonsterType { get; private set; }
     public ActorPart mActorPart{ get; private set; }
     public AIConeDetection AiConeDetection;
-   
+    public GameObject HpSlider;
     public Actor(int id, int guid, EActorType type, EBattleCamp camp, List<Vector3> PatrolGroups)
         : base(id, guid)
     {
@@ -524,19 +524,19 @@ public class Actor : ICharacter
 
     }
     public void AddHpUI(){
-        GameObject Hpslider = ZTPool.Instance.GetGo("UI/Game/Slider");
+        HpSlider = ZTPool.Instance.GetGo("UI/Game/HpSlider");
         Transform _Canvas = GameObject.Find("Canvas").transform;
-        Hpslider.transform.SetParent(_Canvas);
-        Hpslider.transform.localPosition = Vector3.zero;
-        Hpslider.transform.localEulerAngles = Vector3.zero;
-        SetHp talkSet = Hpslider.GET<SetHp>();
-        talkSet.owner = this;
+        HpSlider.transform.SetParent(_Canvas);
+        HpSlider.transform.localPosition = Vector3.zero;
+        HpSlider.transform.localEulerAngles = Vector3.zero;
+        SetHp setHp = HpSlider.GET<SetHp>();
+        setHp.owner = this;
+    
+
     }
-    public void setColor(Color color)
+    public void setDemage(bool demage)
     {
-        //Debug.LogError(this.GUID + "hong");
-     //  SkinnedMeshRenderer skin= this.Obj.GetComponentInChildren<SkinnedMeshRenderer>();
-     //  skin.material.SetColor("_MainTex", color);
+        HpSlider.transform.GetComponent<SetHp>().SetDeadUI(demage);
     }
  
 }

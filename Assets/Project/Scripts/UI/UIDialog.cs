@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine.UI;
 using DG.Tweening;
+using UnityEngine;
 
  public class UIDialog:BaseWindow
  {
@@ -25,10 +26,10 @@ using DG.Tweening;
 
      
     }
-    public void showText(string Name,Image header, string context)
+    public void showText(string Name, Sprite header, string context)
     {
         this.Name.text = Name;
-        this.Headr = header;
+        this.Headr.sprite = header;
         Content.DOText(context, texttime);
     }
     protected override void OnAddButtonListener()

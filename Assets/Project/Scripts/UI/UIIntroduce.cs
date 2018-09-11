@@ -50,7 +50,7 @@ public  class UIIntroduce:BaseWindow
         IntroduceText = this.transform.Find("Text").GetComponent<Text>();
         IntroduceText.DOText("5555555555555555555", 5).OnComplete(() =>
         {
-            Close();
+            Close();          
         });
     }
 }

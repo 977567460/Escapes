@@ -6,6 +6,7 @@ using UnityEditorInternal.VersionControl;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
+
 public class UILogin : BaseWindow
 {
     private Dictionary<string, GameObject> dic = new Dictionary<string, GameObject>();
@@ -21,6 +22,7 @@ public class UILogin : BaseWindow
     private Image[] RightStar = new Image[32];
     private Image[] CenterStar = new Image[32];
     public Text[] LevelNum = new Text[32];
+    private Slider Soundslider;
     public UILogin()
     {
 
@@ -34,6 +36,8 @@ public class UILogin : BaseWindow
         LevelSelectBtn = transform.Find("P_Player/BGFram/ScrollPanel/GridContent").GetComponentsInChildren<Button>();
         ScrollPanel = transform.Find("P_Player/BGFram/ScrollPanel").gameObject;
         toggleArray = transform.Find("P_Player/BGFram/ToggleGroup").GetComponentsInChildren<Toggle>();
+        Soundslider = transform.Find("P_Sound/Volume/Slider").GetComponent<Slider>();
+        Soundslider.onValueChanged.AddListener(SetSound);
         LevelButtonScrollRect levelButtonScrollRect = ScrollPanel.GET<LevelButtonScrollRect>();
         levelButtonScrollRect.toggleArray = toggleArray;
     }
@@ -125,6 +129,8 @@ public class UILogin : BaseWindow
         LevelData.SceneID =10000+ LevelNum;
         StartGame.Instance.LoadScene(LevelData.SceneID);
         UIManage.Instance.CloseWindow(WindowID.UI_LOGIN);
+        //PixelCrushers.DialogueSystem.DialogueDatabase Dialogdata = LoadResource.Instance.Load<PixelCrushers.DialogueSystem.DialogueDatabase>("Data/" + LevelNum);
+        //ZTPlot.Instance.SetDialogue(Dialogdata);
         // Application.LoadLevel(ScenesName);
     }
     public void ShowPanel(string panelName)
@@ -162,7 +168,10 @@ public class UILogin : BaseWindow
             EventTriggerListener.Get(item.gameObject).onClick += SelectLevel;
         }
     }
-
+    void SetSound(float sonndnum)
+    {
+        ZTAudio.Instance.SetMusicValue(sonndnum);
+    }
 
     protected override void OnAddHandler()
     {

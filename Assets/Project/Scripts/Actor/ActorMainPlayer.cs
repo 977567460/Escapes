@@ -56,7 +56,7 @@ public class ActorMainPlayer : ActorPlayer
 
     void SetMainPlayer(int id)
     {    
-        LevelManage.Instance.SetMainPlayer(id);            
+        LevelManage.Instance.SetMainPlayer(id);   
         ZTEvent.FireEvent(EventID.REQ_PLAYER_Attr);
     }
     void TakeStone()
@@ -140,8 +140,7 @@ public class ActorMainPlayer : ActorPlayer
 
     public override void Step()
     {
-        base.Step();
-        UpdateTarget();
+        base.Step();    
         if (Timmer > 0)
         {
             Timmer -= Time.deltaTime;
@@ -150,6 +149,8 @@ public class ActorMainPlayer : ActorPlayer
         {
             Timmer = 0;
         }
+        if (LevelData.MainPlayer == this)
+        UpdateTarget();
       
     }
     IEnumerator AtkCondition1()
@@ -192,9 +193,14 @@ public class ActorMainPlayer : ActorPlayer
             // Debug.Log("tempDis1:" + tempDis1 + "_range:" + _range + "angle:" + angle + "_angle:" + _angle);
             if (tempDis1 < _dis && angle < _angle)
             {
-                go.setColor(Color.red);
+                go.setDemage(true);
+            }
+            else
+            {
+                go.setDemage(false);
             }
         }
+
     }
     private void DragCondition1(float _range)
     {

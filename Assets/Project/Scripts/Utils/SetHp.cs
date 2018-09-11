@@ -7,15 +7,20 @@ using UnityEngine.UI;
 
     public class SetHp : MonoBehaviour
     {
-        public Text TalkText;
+     
         private Canvas _Canvas;
         public Actor owner;
+        public float Hpper;
         private float destroytime = 5f;
+        private Slider hpslider;
+        private GameObject Deadobj;
         void Start()
         {
 
             _Canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
- 
+            hpslider = this.transform.Find("Slider").gameObject.GetComponent<Slider>();
+            Deadobj = this.transform.Find("Dead").gameObject;
+            SetDeadUI(false);
         }
 
         void Update()
@@ -28,8 +33,13 @@ using UnityEngine.UI;
             {
                 this.GetComponent<RectTransform>().anchoredPosition = position;
             }
+            Hpper = owner.GetCurrAttr().HP / owner.GetCurrAttr().MaxHP;
+            hpslider.value = Hpper;
         }
-   
+        public void SetDeadUI(bool dead)
+        {
+            Deadobj.gameObject.SetActive(dead);
+        }
        
     }
 
